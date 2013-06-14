@@ -39,7 +39,17 @@
     <AssemblyOriginatorKeyFile>..\MorseCode.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CalculatedProperty.cs" />
+    <Compile Include="IObservable.cs" />
+    <Compile Include="IObservableProperty.cs" />
+    <Compile Include="IReadableObservableProperty.cs" />
+    <Compile Include="IReadableProperty.cs" />
+    <Compile Include="IWritableProperty.cs" />
+    <Compile Include="ObservableCollection.cs" />
+    <Compile Include="ObservableProperty.cs" />
+    <Compile Include="ObservablePropertyBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReadOnlyProperty.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\MorseCode.snk">
