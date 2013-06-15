@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>CsJs Markup Item</Name>
+    <Description>CsJs Markup Item</Description>
+    <Icon>MarkupItemTemplate.ico</Icon>
+    <TemplateID>3aaf4b6b-8165-498a-b106-830439dfad2e</TemplateID>
+    <ProjectType>CSharp</ProjectType>
+    <RequiredFrameworkVersion>2.0</RequiredFrameworkVersion>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <DefaultName>Control.mc</DefaultName>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectItem TargetFileName="$fileinputname$.mc" ReplaceParameters="true">Control.mc</ProjectItem>
+    <ProjectItem TargetFileName="$fileinputname$.cs" ReplaceParameters="true">Control.cs</ProjectItem>
+  </TemplateContent>
+  <WizardExtension>
+    <Assembly>MorseCode.CsJs.Tools.VSIXExtension.MarkupItemTemplateWizardExtension, Version=1.0.0.0, Culture=neutral, PublicKeyToken=4b95f88f1fed5cde</Assembly>
+    <FullClassName>MorseCode.CsJs.Tools.VSIXExtension.MarkupItemTemplateWizardExtension.MarkupItemTemplateWizardExtension</FullClassName>
+  </WizardExtension>
+</VSTemplate>

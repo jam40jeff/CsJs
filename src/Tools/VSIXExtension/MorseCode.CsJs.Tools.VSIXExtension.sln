@@ -1,0 +1,43 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkupGeneratorPackage", "MarkupGeneratorPackage\MarkupGeneratorPackage.csproj", "{21564BAD-B098-43FA-A3A1-C05F30DF374B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{149DE37C-301F-4FD5-AC04-31BC79E22BC5}"
+	ProjectSection(SolutionItems) = preProject
+		MorseCode.snk = MorseCode.snk
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkupItemTemplateWizardExtension", "MarkupItemTemplateWizardExtension\MarkupItemTemplateWizardExtension.csproj", "{6286A4CB-A548-4BD6-B556-A444879ADB71}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkupItemTemplate", "MarkupItemTemplate\MarkupItemTemplate.csproj", "{43B92D64-F60D-4283-865B-2F505EEDD676}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtensionPackage", "ExtensionPackage\ExtensionPackage.csproj", "{EA8F9E44-3B22-4B65-8DED-AD3E6C44220A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{21564BAD-B098-43FA-A3A1-C05F30DF374B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21564BAD-B098-43FA-A3A1-C05F30DF374B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21564BAD-B098-43FA-A3A1-C05F30DF374B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21564BAD-B098-43FA-A3A1-C05F30DF374B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6286A4CB-A548-4BD6-B556-A444879ADB71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6286A4CB-A548-4BD6-B556-A444879ADB71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6286A4CB-A548-4BD6-B556-A444879ADB71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6286A4CB-A548-4BD6-B556-A444879ADB71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43B92D64-F60D-4283-865B-2F505EEDD676}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43B92D64-F60D-4283-865B-2F505EEDD676}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43B92D64-F60D-4283-865B-2F505EEDD676}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43B92D64-F60D-4283-865B-2F505EEDD676}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA8F9E44-3B22-4B65-8DED-AD3E6C44220A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA8F9E44-3B22-4B65-8DED-AD3E6C44220A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA8F9E44-3B22-4B65-8DED-AD3E6C44220A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA8F9E44-3B22-4B65-8DED-AD3E6C44220A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
