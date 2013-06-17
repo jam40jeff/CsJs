@@ -4,7 +4,6 @@ using System.Html;
 using System.Linq;
 using System.Xml;
 using MorseCode.CsJs.Common.Observable;
-using MorseCode.CsJs.ViewModel;
 using jQueryApi;
 
 namespace MorseCode.CsJs.UI.Controls
@@ -12,7 +11,7 @@ namespace MorseCode.CsJs.UI.Controls
     // ReSharper disable RedundantNameQualifier
     [ControlParser(typeof(DropDown.Parser))]
     // ReSharper restore RedundantNameQualifier
-    public class DropDown : Control
+    public class DropDown : ControlBase
     {
         private readonly ObservableCollection<DropDownItem> _items;
 
@@ -27,7 +26,7 @@ namespace MorseCode.CsJs.UI.Controls
         protected override void CreateElements()
         {
             _select = (SelectElement)Document.CreateElement("select");
-            jQuery.FromElement(_select).Change(OnSelectedIndexChanged);
+            jQuery.FromElement(_select).Change(e => OnSelectedIndexChanged());
         }
 
         protected override IEnumerable<Element> GetRootElements()
@@ -66,13 +65,17 @@ namespace MorseCode.CsJs.UI.Controls
             set
             {
                 EnsureElementsCreated();
-                _select.SelectedIndex = value;
+                if (_select.SelectedIndex != value)
+                {
+                    _select.SelectedIndex = value;
+                    OnSelectedIndexChanged();
+                }
             }
         }
 
         public event EventHandler SelectedIndexChanged;
 
-        protected void OnSelectedIndexChanged(jQueryEvent e)
+        protected void OnSelectedIndexChanged()
         {
             if (SelectedIndexChanged != null)
             {
@@ -165,12 +168,12 @@ namespace MorseCode.CsJs.UI.Controls
 
         public class Parser : ControlParserBase<DropDown>
         {
-            protected override DropDown CreateControl(XmlNode node, Dictionary<string, Control> childControlsById)
+            protected override DropDown CreateControl(XmlNode node, Dictionary<string, ControlBase> childControlsById)
             {
                 return new DropDown();
             }
 
-            protected override void ParseAttribute(DropDown control, string name, string value, Dictionary<string, Control> childControlsById)
+            protected override void ParseAttribute(DropDown control, string name, string value, Dictionary<string, ControlBase> childControlsById)
             {
             }
         }

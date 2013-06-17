@@ -6,16 +6,16 @@ using MorseCode.CsJs.ViewModel;
 
 namespace MorseCode.CsJs.UI.Controls
 {
-    public class ControlCollection : ObservableCollection<Control>
+    public class ControlCollection : ObservableCollection<ControlBase>
     {
-        private readonly CompositeControl _owner;
+        private readonly CompositeControlBase _owner;
 
-        public ControlCollection(CompositeControl owner)
+        public ControlCollection(CompositeControlBase owner)
         {
             _owner = owner;
         }
 
-        protected override void OnItemAdded(Control item)
+        protected override void OnItemAdded(ControlBase item)
         {
             base.OnItemAdded(item);
 
@@ -34,7 +34,7 @@ namespace MorseCode.CsJs.UI.Controls
 
         public event EventHandler<ControlAddedEventArgs> ControlAdded;
 
-        protected override void OnItemRemoved(Control item)
+        protected override void OnItemRemoved(ControlBase item)
         {
             base.OnItemRemoved(item);
 
@@ -53,7 +53,7 @@ namespace MorseCode.CsJs.UI.Controls
 
         public event EventHandler<ControlRemovedEventArgs> ControlRemoved;
 
-        protected override void OnItemsReset(IEnumerable<Control> oldItems, IEnumerable<Control> newItems)
+        protected override void OnItemsReset(IEnumerable<ControlBase> oldItems, IEnumerable<ControlBase> newItems)
         {
             base.OnItemsReset(oldItems, newItems);
 
@@ -76,40 +76,40 @@ namespace MorseCode.CsJs.UI.Controls
 
     public class ControlAddedEventArgs : EventArgs
     {
-        private readonly Control _control;
+        private readonly ControlBase _control;
 
-        public ControlAddedEventArgs(Control control)
+        public ControlAddedEventArgs(ControlBase control)
         {
             _control = control;
         }
 
-        public Control Control { get { return _control; } }
+        public ControlBase Control { get { return _control; } }
     }
 
     public class ControlRemovedEventArgs : EventArgs
     {
-        private readonly Control _control;
+        private readonly ControlBase _control;
 
-        public ControlRemovedEventArgs(Control control)
+        public ControlRemovedEventArgs(ControlBase control)
         {
             _control = control;
         }
 
-        public Control Control { get { return _control; } }
+        public ControlBase Control { get { return _control; } }
     }
 
     public class ControlsResetEventArgs : EventArgs
     {
-        private readonly IEnumerable<Control> _oldControls;
-        private readonly IEnumerable<Control> _newControls;
+        private readonly IEnumerable<ControlBase> _oldControls;
+        private readonly IEnumerable<ControlBase> _newControls;
 
-        public ControlsResetEventArgs(IEnumerable<Control> oldControls, IEnumerable<Control> newControls)
+        public ControlsResetEventArgs(IEnumerable<ControlBase> oldControls, IEnumerable<ControlBase> newControls)
         {
             _oldControls = oldControls;
             _newControls = newControls;
         }
 
-        public IEnumerable<Control> OldControls { get { return _oldControls; } }
-        public IEnumerable<Control> NewControls { get { return _newControls; } }
+        public IEnumerable<ControlBase> OldControls { get { return _oldControls; } }
+        public IEnumerable<ControlBase> NewControls { get { return _newControls; } }
     }
 }

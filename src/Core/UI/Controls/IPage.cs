@@ -2,5 +2,6 @@
 {
     public interface IPage : ICompositeControl
     {
+        string Title { get; }
     }
 }

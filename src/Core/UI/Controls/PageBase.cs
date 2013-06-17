@@ -1,16 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Html;
 using MorseCode.CsJs.Common.Observable;
-using MorseCode.CsJs.ViewModel;
 
 namespace MorseCode.CsJs.UI.Controls
 {
-    public abstract class PageBase<T> : CompositeControl, IPage
+    public abstract class PageBase<T> : CompositeControlBase, IPage
     {
-        public void Initialize()
-        {
-            Bind(CreateViewModel());
-        }
+        public abstract string Title { get; }
 
         protected override IEnumerable<Element> GetRootElements()
         {
@@ -34,7 +30,5 @@ namespace MorseCode.CsJs.UI.Controls
         }
 
         protected abstract void BindControls(IReadableObservableProperty<T> dataContext);
-
-        protected abstract T CreateViewModel();
     }
 }

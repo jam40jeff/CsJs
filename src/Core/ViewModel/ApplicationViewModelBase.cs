@@ -5,11 +5,11 @@ namespace MorseCode.CsJs.ViewModel
 {
     public abstract class ApplicationViewModelBase
     {
-        private readonly ObservableProperty<object> _currentViewModel = new ObservableProperty<object>();
+        protected readonly ObservableProperty<object> CurrentViewModelInternal = new ObservableProperty<object>();
 
-        public ObservableProperty<object> CurrentViewModel
+        public IReadableObservableProperty<object> CurrentViewModel
         {
-            get { return _currentViewModel; }
+            get { return CurrentViewModelInternal; }
         }
 
         protected abstract object DefaultViewModel { get; }
@@ -23,7 +23,7 @@ namespace MorseCode.CsJs.ViewModel
 
         public void Initialize()
         {
-            _currentViewModel.Value = DefaultViewModel;
+            CurrentViewModelInternal.Value = DefaultViewModel;
         }
     }
 }

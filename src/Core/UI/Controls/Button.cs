@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Html;
 using System.Xml;
 using MorseCode.CsJs.Common.Observable;
-using MorseCode.CsJs.ViewModel;
 using jQueryApi;
 
 namespace MorseCode.CsJs.UI.Controls
@@ -11,7 +10,7 @@ namespace MorseCode.CsJs.UI.Controls
     // ReSharper disable RedundantNameQualifier
     [ControlParser(typeof(Button.Parser))]
     // ReSharper restore RedundantNameQualifier
-    public class Button : Control
+    public class Button : ControlBase
     {
         private Element _button;
         private jQueryObject _buttonJQuery;
@@ -20,7 +19,7 @@ namespace MorseCode.CsJs.UI.Controls
         {
             _button = Document.CreateElement("button");
             _buttonJQuery = jQuery.FromElement(_button);
-            _buttonJQuery.Click(OnButtonClicked);
+            _buttonJQuery.Click(e => OnButtonClicked());
         }
 
         protected override IEnumerable<Element> GetRootElements()
@@ -50,7 +49,7 @@ namespace MorseCode.CsJs.UI.Controls
 
         public event EventHandler ButtonClicked;
 
-        protected void OnButtonClicked(jQueryEvent e)
+        protected void OnButtonClicked()
         {
             if (ButtonClicked != null)
             {
@@ -88,12 +87,12 @@ namespace MorseCode.CsJs.UI.Controls
 
         public class Parser : ControlParserBase<Button>
         {
-            protected override Button CreateControl(XmlNode node, Dictionary<string, Control> childControlsById)
+            protected override Button CreateControl(XmlNode node, Dictionary<string, ControlBase> childControlsById)
             {
                 return new Button();
             }
 
-            protected override void ParseAttribute(Button control, string name, string value, Dictionary<string, Control> childControlsById)
+            protected override void ParseAttribute(Button control, string name, string value, Dictionary<string, ControlBase> childControlsById)
             {
                 if (name.ToLower() == "text")
                 {

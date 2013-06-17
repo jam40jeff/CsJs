@@ -13,7 +13,9 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
 
         protected override void RegisterPages(PageRegistrationHelper pageRegistrationHelper)
         {
-            pageRegistrationHelper.RegisterPage(() => new CalculatorsAndStopwatchPage()).WithBinding<CalculatorsAndStopwatchViewModel>((p, d) => p.Bind(d));
+            pageRegistrationHelper.RegisterPage(() => new CalculatorsAndStopwatchPage()).WithBinding<CalculatorsAndStopwatchPageViewModel>((p, d) => p.Bind(d));
+            pageRegistrationHelper.RegisterPage(() => new CalculatorPage()).WithBinding<CalculatorPageViewModel>((p, d) => p.Bind(d));
+            pageRegistrationHelper.RegisterPage(() => new StopwatchPage()).WithBinding<StopwatchPageViewModel>((p, d) => p.Bind(d));
         }
     }
 }

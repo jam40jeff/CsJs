@@ -88,6 +88,32 @@
 	};
 	ss.registerGenericClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.CalculatorControlBase$1', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorControlBase$1, 1);
 	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.CalculatorPage
+	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorPage = function() {
+		this.$_navigationControl = null;
+		this.$_calculatorControl = null;
+		ss.makeGenericType(MorseCode.CsJs.UI.Controls.PageBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorPageViewModel]).call(this);
+	};
+	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorPage.prototype = {
+		get_title: function() {
+			return 'Calculator';
+		},
+		createChildControls: function() {
+			this.$_navigationControl = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_NavigationControl();
+			this.get_controls().add(this.$_navigationControl);
+			this.$_calculatorControl = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorControl();
+			this.get_controls().add(this.$_calculatorControl);
+		},
+		bindControls: function(dataContext) {
+			this.$_navigationControl.bind(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorPageViewModel).call(this.$_navigationControl, dataContext, function(d) {
+				return d.get_navigationViewModel();
+			});
+			this.$_calculatorControl.bind$1(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorPageViewModel).call(this.$_calculatorControl, dataContext, function(d1) {
+				return d1.get_calculatorViewModel();
+			});
+		}
+	};
+	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.CalculatorsAndStopwatchApplication
 	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorsAndStopwatchApplication = function() {
 		MorseCode.CsJs.UI.ApplicationBase.call(this);
@@ -100,22 +126,40 @@
 			var $t1 = pageRegistrationHelper.registerPage($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorsAndStopwatchPage).call(pageRegistrationHelper, function() {
 				return new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorsAndStopwatchPage();
 			});
-			$t1.withBinding(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchViewModel).call($t1, function(p, d) {
+			$t1.withBinding(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchPageViewModel).call($t1, function(p, d) {
 				p.bind(d);
+			});
+			var $t2 = pageRegistrationHelper.registerPage($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorPage).call(pageRegistrationHelper, function() {
+				return new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorPage();
+			});
+			$t2.withBinding(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorPageViewModel).call($t2, function(p1, d1) {
+				p1.bind(d1);
+			});
+			var $t3 = pageRegistrationHelper.registerPage($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_StopwatchPage).call(pageRegistrationHelper, function() {
+				return new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_StopwatchPage();
+			});
+			$t3.withBinding(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchPageViewModel).call($t3, function(p2, d2) {
+				p2.bind(d2);
 			});
 		}
 	};
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.CalculatorsAndStopwatchPage
 	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorsAndStopwatchPage = function() {
+		this.$_navigationControl = null;
 		this.$_switchCalculators = null;
 		this.$_calculatorLabel = null;
 		this.$_calculatorControl = null;
 		this.$_stopwatchControl = null;
-		ss.makeGenericType(MorseCode.CsJs.UI.Controls.PageBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchViewModel]).call(this);
+		ss.makeGenericType(MorseCode.CsJs.UI.Controls.PageBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchPageViewModel]).call(this);
 	};
 	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorsAndStopwatchPage.prototype = {
+		get_title: function() {
+			return 'Calculators and Stopwatch';
+		},
 		createChildControls: function() {
+			this.$_navigationControl = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_NavigationControl();
+			this.get_controls().add(this.$_navigationControl);
 			var div = new MorseCode.CsJs.UI.Controls.HtmlControl('div', ss.mkdel(this, function(controls) {
 				this.$_switchCalculators = new MorseCode.CsJs.UI.Controls.Button();
 				this.$_switchCalculators.set_text('Switch Calculators');
@@ -131,21 +175,41 @@
 			this.get_controls().add(this.$_stopwatchControl);
 		},
 		bindControls: function(dataContext) {
-			this.$_switchCalculators.bind(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchViewModel).call(this.$_switchCalculators, dataContext, function(d) {
-				return ss.mkdel(d, d.switchCalculators);
+			this.$_navigationControl.bind(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchPageViewModel).call(this.$_navigationControl, dataContext, function(d) {
+				return d.get_navigationViewModel();
 			});
-			this.$_calculatorLabel.bind(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchViewModel).call(this.$_calculatorLabel, dataContext, function(d1) {
-				return d1.get_calculatorText();
+			this.$_switchCalculators.bind(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchPageViewModel).call(this.$_switchCalculators, dataContext, function(d1) {
+				return ss.mkdel(d1, d1.switchCalculators);
 			});
-			this.$_calculatorControl.bind$1(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchViewModel).call(this.$_calculatorControl, dataContext, function(d2) {
-				return d2.get_calculatorViewModel();
+			this.$_calculatorLabel.bind(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchPageViewModel).call(this.$_calculatorLabel, dataContext, function(d2) {
+				return d2.get_calculatorText();
 			});
-			this.$_stopwatchControl.bind(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchViewModel).call(this.$_stopwatchControl, dataContext, function(d3) {
-				return d3.get_stopwatchViewModel();
+			this.$_calculatorControl.bind$1(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchPageViewModel).call(this.$_calculatorControl, dataContext, function(d3) {
+				return d3.get_calculatorViewModel();
 			});
+			this.$_stopwatchControl.bind(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchPageViewModel).call(this.$_stopwatchControl, dataContext, function(d4) {
+				return d4.get_stopwatchViewModel();
+			});
+		}
+	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.NavigationControl
+	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_NavigationControl = function() {
+		this.$_switchButton = null;
+		ss.makeGenericType(MorseCode.CsJs.UI.Controls.PlaceHolderCompositeControlBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.NavigationViewModel]).call(this);
+	};
+	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_NavigationControl.prototype = {
+		createChildControls: function() {
+			this.$_switchButton = new MorseCode.CsJs.UI.Controls.Button();
+			this.$_switchButton.set_text('Switch Pages');
+			this.get_controls().add(new MorseCode.CsJs.UI.Controls.HtmlControl('div', ss.mkdel(this, function(controls) {
+				controls.add(this.$_switchButton);
+			})));
 		},
-		createViewModel: function() {
-			return new MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchViewModel();
+		bindControls: function(dataContext) {
+			this.$_switchButton.bind(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.NavigationViewModel).call(this.$_switchButton, dataContext, function(d) {
+				return ss.mkdel(d, d.switchPages);
+			});
 		}
 	};
 	////////////////////////////////////////////////////////////////////////////////
@@ -227,8 +291,37 @@
 		return $type;
 	};
 	ss.registerGenericClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.StopwatchControlBase$1', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_StopwatchControlBase$1, 1);
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.StopwatchPage
+	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_StopwatchPage = function() {
+		this.$_navigationControl = null;
+		this.$_stopwatchControl = null;
+		ss.makeGenericType(MorseCode.CsJs.UI.Controls.PageBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchPageViewModel]).call(this);
+	};
+	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_StopwatchPage.prototype = {
+		get_title: function() {
+			return 'Stopwatch';
+		},
+		createChildControls: function() {
+			this.$_navigationControl = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_NavigationControl();
+			this.get_controls().add(this.$_navigationControl);
+			this.$_stopwatchControl = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_StopwatchControl();
+			this.get_controls().add(this.$_stopwatchControl);
+		},
+		bindControls: function(dataContext) {
+			this.$_navigationControl.bind(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchPageViewModel).call(this.$_navigationControl, dataContext, function(d) {
+				return d.get_navigationViewModel();
+			});
+			this.$_stopwatchControl.bind(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchPageViewModel).call(this.$_stopwatchControl, dataContext, function(d1) {
+				return d1.get_stopwatchViewModel();
+			});
+		}
+	};
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.CalculatorControl', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorControl, ss.makeGenericType($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorControlBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorViewModel]), [ss.IDisposable, MorseCode.CsJs.UI.Controls.IControl, MorseCode.CsJs.UI.Controls.ICompositeControl]);
+	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.CalculatorPage', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorPage, ss.makeGenericType(MorseCode.CsJs.UI.Controls.PageBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorPageViewModel]), [ss.IDisposable, MorseCode.CsJs.UI.Controls.IControl, MorseCode.CsJs.UI.Controls.ICompositeControl, MorseCode.CsJs.UI.Controls.IPage]);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.CalculatorsAndStopwatchApplication', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorsAndStopwatchApplication, MorseCode.CsJs.UI.ApplicationBase);
-	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.CalculatorsAndStopwatchPage', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorsAndStopwatchPage, ss.makeGenericType(MorseCode.CsJs.UI.Controls.PageBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchViewModel]), [ss.IDisposable, MorseCode.CsJs.UI.Controls.IControl, MorseCode.CsJs.UI.Controls.ICompositeControl, MorseCode.CsJs.UI.Controls.IPage]);
+	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.CalculatorsAndStopwatchPage', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorsAndStopwatchPage, ss.makeGenericType(MorseCode.CsJs.UI.Controls.PageBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchPageViewModel]), [ss.IDisposable, MorseCode.CsJs.UI.Controls.IControl, MorseCode.CsJs.UI.Controls.ICompositeControl, MorseCode.CsJs.UI.Controls.IPage]);
+	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.NavigationControl', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_NavigationControl, ss.makeGenericType(MorseCode.CsJs.UI.Controls.PlaceHolderCompositeControlBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.NavigationViewModel]), [ss.IDisposable, MorseCode.CsJs.UI.Controls.IControl, MorseCode.CsJs.UI.Controls.ICompositeControl]);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.StopwatchControl', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_StopwatchControl, ss.makeGenericType($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_StopwatchControlBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchViewModel]), [ss.IDisposable, MorseCode.CsJs.UI.Controls.IControl, MorseCode.CsJs.UI.Controls.ICompositeControl]);
+	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.StopwatchPage', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_StopwatchPage, ss.makeGenericType(MorseCode.CsJs.UI.Controls.PageBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchPageViewModel]), [ss.IDisposable, MorseCode.CsJs.UI.Controls.IControl, MorseCode.CsJs.UI.Controls.ICompositeControl, MorseCode.CsJs.UI.Controls.IPage]);
 })();

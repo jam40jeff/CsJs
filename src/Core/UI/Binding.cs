@@ -1,6 +1,5 @@
 ﻿using System;
 using MorseCode.CsJs.Common.Observable;
-using MorseCode.CsJs.ViewModel;
 
 namespace MorseCode.CsJs.UI
 {
@@ -23,17 +22,17 @@ namespace MorseCode.CsJs.UI
             _bindToDataContext(_dataContext.Value);
             _bindToControl(_dataContext.Value);
 
-            _dataContext.Changing += DataContextChanging;
-            _dataContext.Changed += DataContextChanged;
+            _dataContext.BeforeChanged += OnBeforeDataContextChanged;
+            _dataContext.Changed += OnDataContextChanged;
         }
 
-        private void DataContextChanging(object sender, EventArgs e)
+        private void OnBeforeDataContextChanged(object sender, EventArgs e)
         {
             _unbindFromDataContext(_dataContext.Value);
             _unbindFromControl(_dataContext.Value);
         }
 
-        private void DataContextChanged(object sender, EventArgs e)
+        private void OnDataContextChanged(object sender, EventArgs e)
         {
             _bindToDataContext(_dataContext.Value);
             _bindToControl(_dataContext.Value);
@@ -41,15 +40,11 @@ namespace MorseCode.CsJs.UI
 
         public void Dispose()
         {
-            _dataContext.Changing -= DataContextChanging;
-            _dataContext.Changed -= DataContextChanged;
+            _dataContext.BeforeChanged -= OnBeforeDataContextChanged;
+            _dataContext.Changed -= OnDataContextChanged;
 
             _unbindFromDataContext(_dataContext.Value);
             _unbindFromControl(_dataContext.Value);
         }
-    }
-
-    public interface IBinding : IDisposable
-    {
     }
 }

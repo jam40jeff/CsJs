@@ -182,7 +182,7 @@
 	// MorseCode.CsJs.Common.Observable.IObservable
 	var $MorseCode_CsJs_Common_Observable_IObservable = function() {
 	};
-	$MorseCode_CsJs_Common_Observable_IObservable.prototype = { add_changing: null, remove_changing: null, add_changed: null, remove_changed: null };
+	$MorseCode_CsJs_Common_Observable_IObservable.prototype = { add_beforeChanged: null, remove_beforeChanged: null, add_changed: null, remove_changed: null };
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Common.Observable.IObservableProperty
 	var $MorseCode_CsJs_Common_Observable_IObservableProperty$1 = function(T) {
@@ -235,7 +235,7 @@
 	var $MorseCode_CsJs_Common_Observable_ObservableCollection$1 = function(T) {
 		var $type = function() {
 			this.$_items = null;
-			this.$1$ChangingField = null;
+			this.$1$BeforeChangedField = null;
 			this.$1$ChangedField = null;
 			this.$_items = [];
 		};
@@ -244,14 +244,14 @@
 				return ss.indexOf(this.$_items, item);
 			},
 			insert: function(index, item) {
-				this.onChanging();
+				this.onBeforeChanged();
 				ss.insert(this.$_items, index, item);
 				this.onItemAdded(item);
 				this.onChanged();
 			},
 			removeAt: function(index) {
 				var item = this.$_items[index];
-				this.onChanging();
+				this.onBeforeChanged();
 				ss.removeAt(this.$_items, index);
 				this.onItemRemoved(item);
 				this.onChanged();
@@ -261,27 +261,27 @@
 			},
 			set_item: function(index, value) {
 				if (!ss.referenceEquals(value, this.$_items[index])) {
-					this.onChanging();
+					this.onBeforeChanged();
 					this.$_items[index] = value;
 					this.onChanged();
 				}
 			},
 			add: function(item) {
-				this.onChanging();
+				this.onBeforeChanged();
 				ss.add(this.$_items, item);
 				this.onItemAdded(item);
 				this.onChanged();
 			},
 			addRange: function(items) {
 				var itemsToAdd = Enumerable.from(items).toArray();
-				this.onChanging();
+				this.onBeforeChanged();
 				ss.arrayAddRange(this.$_items, itemsToAdd);
 				itemsToAdd.forEach(ss.mkdel(this, this.onItemAdded));
 				this.onChanged();
 			},
 			clear: function() {
 				var oldItems = Enumerable.from(this.$_items).toArray();
-				this.onChanging();
+				this.onBeforeChanged();
 				ss.clear(this.$_items);
 				this.onItemsReset(oldItems, this.$_items);
 				this.onChanged();
@@ -293,7 +293,7 @@
 				return this.$_items.length;
 			},
 			remove: function(item) {
-				this.onChanging();
+				this.onBeforeChanged();
 				var removed = ss.remove(this.$_items, item);
 				this.onItemRemoved(item);
 				this.onChanged();
@@ -308,15 +308,15 @@
 			},
 			onItemsReset: function(oldItems, newItems) {
 			},
-			add_changing: function(value) {
-				this.$1$ChangingField = ss.delegateCombine(this.$1$ChangingField, value);
+			add_beforeChanged: function(value) {
+				this.$1$BeforeChangedField = ss.delegateCombine(this.$1$BeforeChangedField, value);
 			},
-			remove_changing: function(value) {
-				this.$1$ChangingField = ss.delegateRemove(this.$1$ChangingField, value);
+			remove_beforeChanged: function(value) {
+				this.$1$BeforeChangedField = ss.delegateRemove(this.$1$BeforeChangedField, value);
 			},
-			onChanging: function() {
-				if (!ss.staticEquals(this.$1$ChangingField, null)) {
-					this.$1$ChangingField(this, ss.EventArgs.Empty);
+			onBeforeChanged: function() {
+				if (!ss.staticEquals(this.$1$BeforeChangedField, null)) {
+					this.$1$BeforeChangedField(this, ss.EventArgs.Empty);
 				}
 			},
 			onChanged: function() {
@@ -333,7 +333,7 @@
 		};
 		$type.$ctor1 = function(items) {
 			this.$_items = null;
-			this.$1$ChangingField = null;
+			this.$1$BeforeChangedField = null;
 			this.$1$ChangedField = null;
 			this.$_items = ss.arrayFromEnumerable(items);
 		};
@@ -387,7 +387,7 @@
 	var $MorseCode_CsJs_Common_Observable_ObservablePropertyBase$1 = function(T) {
 		var $type = function() {
 			this.$_value = ss.getDefaultValue(T);
-			this.$1$ChangingField = null;
+			this.$1$BeforeChangedField = null;
 			this.$1$ChangedField = null;
 		};
 		$type.prototype = {
@@ -402,20 +402,20 @@
 			},
 			setValue: function(value) {
 				if (!ss.referenceEquals(value, this.$_value)) {
-					this.onValueChanging();
+					this.onBeforeValueChanged();
 					this.$_value = value;
 					this.onValueChanged();
 				}
 			},
-			add_changing: function(value) {
-				this.$1$ChangingField = ss.delegateCombine(this.$1$ChangingField, value);
+			add_beforeChanged: function(value) {
+				this.$1$BeforeChangedField = ss.delegateCombine(this.$1$BeforeChangedField, value);
 			},
-			remove_changing: function(value) {
-				this.$1$ChangingField = ss.delegateRemove(this.$1$ChangingField, value);
+			remove_beforeChanged: function(value) {
+				this.$1$BeforeChangedField = ss.delegateRemove(this.$1$BeforeChangedField, value);
 			},
-			onValueChanging: function() {
-				if (!ss.staticEquals(this.$1$ChangingField, null)) {
-					this.$1$ChangingField(this, ss.EventArgs.Empty);
+			onBeforeValueChanged: function() {
+				if (!ss.staticEquals(this.$1$BeforeChangedField, null)) {
+					this.$1$BeforeChangedField(this, ss.EventArgs.Empty);
 				}
 			},
 			add_changed: function(value) {

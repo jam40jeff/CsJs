@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Html;
 using System.Linq;
+using MorseCode.CsJs.Common;
 
 namespace MorseCode.CsJs.UI.Controls
 {
-    public abstract class CompositeControl : Control, ICompositeControl
+    public abstract class CompositeControlBase : ControlBase, ICompositeControl
     {
         private readonly ControlCollection _controls;
 
         private bool _childControlsCreated;
 
-        protected CompositeControl()
+        protected CompositeControlBase()
         {
             _controls = new ControlCollection(this);
             _controls.ControlAdded += (sender, args) => ChangeControl(args.Control, true);
@@ -22,7 +23,7 @@ namespace MorseCode.CsJs.UI.Controls
                 };
         }
 
-        private void ChangeControl(Control control, bool add)
+        private void ChangeControl(ControlBase control, bool add)
         {
             Element container = GetChildElementContainerInternal();
             IEnumerable<Element> rootElements = control.GetRootElementsInternal();
@@ -79,9 +80,9 @@ namespace MorseCode.CsJs.UI.Controls
         {
             base.OnDispose();
 
-            List<Control> controls = Controls.ToList();
+            List<ControlBase> controls = Controls.ToList();
             Controls.Clear();
-            foreach (Control control in controls)
+            foreach (ControlBase control in controls)
             {
                 control.Dispose();
             }

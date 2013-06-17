@@ -22,6 +22,12 @@ namespace MorseCode.CsJs.UI
             _pageRegistrationHelper = new PageRegistrationHelper(this);
         }
 
+        public string Title
+        {
+            get { return Document.Title; }
+            set { Document.Title = value; }
+        }
+
         protected abstract ApplicationViewModelBase CreateApplicationViewModel();
 
         public void Initialize()
@@ -53,6 +59,7 @@ namespace MorseCode.CsJs.UI
                 }
                 ApplicationPage applicationPage = _applicationPages[currentViewModelType];
                 _currentPage = applicationPage.CreatePage();
+                Title = _currentPage.Title;
                 applicationPage.Bind(_currentPage, currentViewModel);
             }
         }

@@ -5,6 +5,6 @@ namespace MorseCode.CsJs.UI.Controls
 {
     public interface IControlParser
     {
-        Control ParseNode(XmlNode node, Dictionary<string, Control> childControlsById);
+        ControlBase ParseNode(XmlNode node, Dictionary<string, ControlBase> childControlsById);
     }
 }

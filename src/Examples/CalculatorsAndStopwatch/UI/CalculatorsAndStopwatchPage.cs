@@ -4,15 +4,24 @@ using MorseCode.CsJs.UI.Controls;
 
 namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
 {
-    public class CalculatorsAndStopwatchPage : PageBase<CalculatorsAndStopwatchViewModel>
+    public class CalculatorsAndStopwatchPage : PageBase<CalculatorsAndStopwatchPageViewModel>
     {
+        private NavigationControl _navigationControl;
         private Button _switchCalculators;
         private Label _calculatorLabel;
         private CalculatorControl _calculatorControl;
         private StopwatchControl _stopwatchControl;
 
+        public override string Title
+        {
+            get { return "Calculators and Stopwatch"; }
+        }
+
         protected override void CreateChildControls()
         {
+            _navigationControl = new NavigationControl();
+            Controls.Add(_navigationControl);
+
             HtmlControl div = new HtmlControl("div", controls =>
             {
                 _switchCalculators = new Button();
@@ -32,17 +41,13 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
             Controls.Add(_stopwatchControl);
         }
 
-        protected override void BindControls(IReadableObservableProperty<CalculatorsAndStopwatchViewModel> dataContext)
+        protected override void BindControls(IReadableObservableProperty<CalculatorsAndStopwatchPageViewModel> dataContext)
         {
+            _navigationControl.Bind(dataContext, d => d.NavigationViewModel);
             _switchCalculators.Bind(dataContext, d => d.SwitchCalculators);
             _calculatorLabel.Bind(dataContext, d => d.CalculatorText);
             _calculatorControl.Bind(dataContext, d => d.CalculatorViewModel);
             _stopwatchControl.Bind(dataContext, d => d.StopwatchViewModel);
-        }
-
-        protected override CalculatorsAndStopwatchViewModel CreateViewModel()
-        {
-            return new CalculatorsAndStopwatchViewModel();
         }
     }
 }

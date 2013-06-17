@@ -22,6 +22,39 @@
 		}
 	};
 	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorPageViewModel
+	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorPageViewModel = function(applicationViewModel) {
+		this.$_applicationViewModel = null;
+		this.$_navigationViewModel = null;
+		this.$_calculatorViewModel1 = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModel();
+		this.$_calculatorViewModel2 = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModel();
+		this.$_isCalculator2 = null;
+		this.$_calculatorViewModel = null;
+		this.$_calculatorText = null;
+		this.$_applicationViewModel = applicationViewModel;
+		this.$_navigationViewModel = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_NavigationViewModel(this.$_applicationViewModel);
+		this.$_isCalculator2 = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [Boolean]))();
+		this.$_calculatorViewModel = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModel]).$ctor1)(this.$_calculatorViewModel1);
+		this.$_calculatorText = ss.makeGenericType(MorseCode.CsJs.Common.Observable.CalculatedProperty$1, [String]).create(ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [Boolean])).call(null, this.$_isCalculator2, function(isCalculator2) {
+			return 'Calculator ' + (isCalculator2.get_value() ? '2' : '1');
+		}, null);
+	};
+	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorPageViewModel.prototype = {
+		get_navigationViewModel: function() {
+			return this.$_navigationViewModel;
+		},
+		get_calculatorViewModel: function() {
+			return this.$_calculatorViewModel;
+		},
+		get_calculatorText: function() {
+			return this.$_calculatorText;
+		},
+		switchCalculators: function() {
+			this.get_calculatorViewModel().set_value$2((this.$_isCalculator2.get_value() ? this.$_calculatorViewModel1 : this.$_calculatorViewModel2));
+			this.$_isCalculator2.set_value$2(!this.$_isCalculator2.get_value());
+		}
+	};
+	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchApplicationViewModel
 	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorsAndStopwatchApplicationViewModel = function() {
 		this.$2$ApplicationErrorField = null;
@@ -45,25 +78,35 @@
 			return true;
 		},
 		get_defaultViewModel: function() {
-			return new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorsAndStopwatchViewModel();
+			return new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorsAndStopwatchPageViewModel(this);
+		},
+		navigateToStopwatchPage: function() {
+			this.currentViewModelInternal.set_value$2(new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchPageViewModel(this));
 		}
 	};
 	////////////////////////////////////////////////////////////////////////////////
-	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchViewModel
-	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorsAndStopwatchViewModel = function() {
+	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchPageViewModel
+	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorsAndStopwatchPageViewModel = function(applicationViewModel) {
+		this.$_applicationViewModel = null;
+		this.$_navigationViewModel = null;
 		this.$_calculatorViewModel1 = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModel();
 		this.$_calculatorViewModel2 = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModel();
 		this.$_stopwatchViewModel = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchViewModel();
 		this.$_isCalculator2 = null;
 		this.$_calculatorViewModel = null;
 		this.$_calculatorText = null;
+		this.$_applicationViewModel = applicationViewModel;
+		this.$_navigationViewModel = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_NavigationViewModel(this.$_applicationViewModel);
 		this.$_isCalculator2 = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [Boolean]))();
 		this.$_calculatorViewModel = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModel]).$ctor1)(this.$_calculatorViewModel1);
 		this.$_calculatorText = ss.makeGenericType(MorseCode.CsJs.Common.Observable.CalculatedProperty$1, [String]).create(ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [Boolean])).call(null, this.$_isCalculator2, function(isCalculator2) {
 			return 'Calculator ' + (isCalculator2.get_value() ? '2' : '1');
 		}, null);
 	};
-	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorsAndStopwatchViewModel.prototype = {
+	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorsAndStopwatchPageViewModel.prototype = {
+		get_navigationViewModel: function() {
+			return this.$_navigationViewModel;
+		},
 		get_calculatorViewModel: function() {
 			return this.$_calculatorViewModel;
 		},
@@ -172,10 +215,38 @@
 		}
 	};
 	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.NavigationViewModel
+	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_NavigationViewModel = function(applicationViewModel) {
+		this.$_applicationViewModel = null;
+		this.$_applicationViewModel = applicationViewModel;
+	};
+	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_NavigationViewModel.prototype = {
+		switchPages: function() {
+			this.$_applicationViewModel.navigateToStopwatchPage();
+		}
+	};
+	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.Operator
 	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_Operator = function() {
 	};
 	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_Operator.prototype = { Add: 0, Subtract: 1, Multiply: 2, Divide: 3 };
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchPageViewModel
+	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchPageViewModel = function(applicationViewModel) {
+		this.$_applicationViewModel = null;
+		this.$_navigationViewModel = null;
+		this.$_stopwatchViewModel = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchViewModel();
+		this.$_applicationViewModel = applicationViewModel;
+		this.$_navigationViewModel = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_NavigationViewModel(this.$_applicationViewModel);
+	};
+	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchPageViewModel.prototype = {
+		get_navigationViewModel: function() {
+			return this.$_navigationViewModel;
+		},
+		get_stopwatchViewModel: function() {
+			return this.$_stopwatchViewModel;
+		}
+	};
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchViewModel
 	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchViewModel = function() {
@@ -293,10 +364,13 @@
 	};
 	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchViewModel$ViewMode.prototype = { Milliseconds: 0, Seconds: 1 };
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.ApplicationErrorEventArgs', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_ApplicationErrorEventArgs, ss.EventArgs);
+	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorPageViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorPageViewModel);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchApplicationViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorsAndStopwatchApplicationViewModel, MorseCode.CsJs.ViewModel.ApplicationViewModelBase);
-	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorsAndStopwatchViewModel);
+	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchPageViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorsAndStopwatchPageViewModel);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModel);
+	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.NavigationViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_NavigationViewModel);
 	ss.registerEnum(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.Operator', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_Operator);
+	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchPageViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchPageViewModel);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchViewModel);
 	ss.registerEnum(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchViewModel$ViewMode', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchViewModel$ViewMode);
 })();

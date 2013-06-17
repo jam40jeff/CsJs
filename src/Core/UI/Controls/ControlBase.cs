@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Html;
 using MorseCode.CsJs.Common.Observable;
-using MorseCode.CsJs.ViewModel;
 
 namespace MorseCode.CsJs.UI.Controls
 {
-    public abstract class Control : IControl
+    public abstract class ControlBase : IControl
     {
         private readonly List<IBinding> _bindings = new List<IBinding>();
 
         private bool _elementsCreated;
 
-        public virtual CompositeControl Parent { get; set; }
+        public virtual CompositeControlBase Parent { get; set; }
 
         protected void EnsureElementsCreated()
         {

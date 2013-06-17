@@ -8,7 +8,7 @@ namespace MorseCode.CsJs.UI.Controls
 // ReSharper disable RedundantNameQualifier
     [ControlParser(typeof (Panel.Parser))]
 // ReSharper restore RedundantNameQualifier
-    public class Panel : CompositeControl
+    public class Panel : CompositeControlBase
     {
         private readonly Action<ControlCollection> _createChildControls;
 
@@ -49,12 +49,12 @@ namespace MorseCode.CsJs.UI.Controls
 
         public class Parser : ControlParserBase<Panel>
         {
-            protected override Panel CreateControl(XmlNode node, Dictionary<string, Control> childControlsById)
+            protected override Panel CreateControl(XmlNode node, Dictionary<string, ControlBase> childControlsById)
             {
                 return new Panel(controls => controls.AddRange(MarkupParser.ParseNodes(node.ChildNodes, childControlsById)));
             }
 
-            protected override void ParseAttribute(Panel control, string name, string value, Dictionary<string, Control> childControlsById)
+            protected override void ParseAttribute(Panel control, string name, string value, Dictionary<string, ControlBase> childControlsById)
             {
                 if (name.ToLower() == "style")
                 {

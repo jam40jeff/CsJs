@@ -3,9 +3,9 @@ using System.Xml;
 
 namespace MorseCode.CsJs.UI.Controls
 {
-    public abstract class ControlParserBase<T> : IControlParser where T : Control
+    public abstract class ControlParserBase<T> : IControlParser where T : ControlBase
     {
-        public Control ParseNode(XmlNode node, Dictionary<string, Control> childControlsById)
+        public ControlBase ParseNode(XmlNode node, Dictionary<string, ControlBase> childControlsById)
         {
             T control = CreateControl(node, childControlsById);
             for (int i = 0; i < node.Attributes.Count; i++)
@@ -16,8 +16,8 @@ namespace MorseCode.CsJs.UI.Controls
             return control;
         }
 
-        protected abstract T CreateControl(XmlNode node, Dictionary<string, Control> childControlsById);
+        protected abstract T CreateControl(XmlNode node, Dictionary<string, ControlBase> childControlsById);
 
-        protected abstract void ParseAttribute(T control, string name, string value, Dictionary<string, Control> childControlsById);
+        protected abstract void ParseAttribute(T control, string name, string value, Dictionary<string, ControlBase> childControlsById);
     }
 }

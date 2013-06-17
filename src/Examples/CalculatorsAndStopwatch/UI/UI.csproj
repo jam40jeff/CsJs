@@ -39,8 +39,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CalculatorControl.mc</DependentUpon>
     </Compile>
+    <Compile Include="CalculatorPage.cs" />
     <Compile Include="CalculatorsAndStopwatchApplication.cs" />
     <Compile Include="CalculatorsAndStopwatchPage.cs" />
+    <Compile Include="NavigationControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StopwatchControl.cs">
       <DependentUpon>StopwatchControl.mc</DependentUpon>
@@ -50,6 +52,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StopwatchControl.mc</DependentUpon>
     </Compile>
+    <Compile Include="StopwatchPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CalculatorControl.mc">

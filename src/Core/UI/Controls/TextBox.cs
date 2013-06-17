@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Html;
 using System.Xml;
 using MorseCode.CsJs.Common.Observable;
-using MorseCode.CsJs.ViewModel;
 using jQueryApi;
 
 namespace MorseCode.CsJs.UI.Controls
@@ -11,7 +10,7 @@ namespace MorseCode.CsJs.UI.Controls
     // ReSharper disable RedundantNameQualifier
     [ControlParser(typeof (TextBox.Parser))]
     // ReSharper restore RedundantNameQualifier
-    public class TextBox : Control
+    public class TextBox : ControlBase
     {
         private InputElement _input;
 
@@ -19,8 +18,8 @@ namespace MorseCode.CsJs.UI.Controls
         {
             _input = (InputElement) Document.CreateElement("input");
             _input.Type = "text";
-            jQuery.FromElement(_input).Keyup(OnTextChanging);
-            jQuery.FromElement(_input).Change(OnTextChanged);
+            jQuery.FromElement(_input).Keyup(e => OnTextChanging());
+            jQuery.FromElement(_input).Change(e => OnTextChanged());
         }
 
         protected override IEnumerable<Element> GetRootElements()
@@ -38,13 +37,18 @@ namespace MorseCode.CsJs.UI.Controls
             set
             {
                 EnsureElementsCreated();
-                _input.Value = value;
+                if (_input.Value != value)
+                {
+                    _input.Value = value;
+                    OnTextChanging();
+                    OnTextChanged();
+                }
             }
         }
 
         public event EventHandler TextChanging;
 
-        protected void OnTextChanging(jQueryEvent e)
+        protected void OnTextChanging()
         {
             if (TextChanging != null)
             {
@@ -54,7 +58,7 @@ namespace MorseCode.CsJs.UI.Controls
 
         public event EventHandler TextChanged;
 
-        protected void OnTextChanged(jQueryEvent e)
+        protected void OnTextChanged()
         {
             if (TextChanged != null)
             {
@@ -104,12 +108,12 @@ namespace MorseCode.CsJs.UI.Controls
 
         public class Parser : ControlParserBase<TextBox>
         {
-            protected override TextBox CreateControl(XmlNode node, Dictionary<string, Control> childControlsById)
+            protected override TextBox CreateControl(XmlNode node, Dictionary<string, ControlBase> childControlsById)
             {
                 return new TextBox();
             }
 
-            protected override void ParseAttribute(TextBox control, string name, string value, Dictionary<string, Control> childControlsById)
+            protected override void ParseAttribute(TextBox control, string name, string value, Dictionary<string, ControlBase> childControlsById)
             {
             }
         }

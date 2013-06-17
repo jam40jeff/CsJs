@@ -6,9 +6,9 @@ namespace MorseCode.CsJs.UI.Controls
 {
     public static class MarkupParser
     {
-        public static IEnumerable<Control> ParseNodes(XmlNodeList nodes, Dictionary<string, Control> childControlsById)
+        public static IEnumerable<ControlBase> ParseNodes(XmlNodeList nodes, Dictionary<string, ControlBase> childControlsById)
         {
-            List<Control> controls = new List<Control>();
+            List<ControlBase> controls = new List<ControlBase>();
 
             if (nodes != null)
             {
@@ -46,7 +46,7 @@ namespace MorseCode.CsJs.UI.Controls
                     }
                     ControlParserAttribute controlParserAttribute = (ControlParserAttribute)controlParserAttributes[0];
                     IControlParser controlParser = (IControlParser)Activator.CreateInstance(controlParserAttribute.ControlParserType);
-                    Control control = controlParser.ParseNode(node, childControlsById);
+                    ControlBase control = controlParser.ParseNode(node, childControlsById);
                     controls.Add(control);
 
                     if (control != null)

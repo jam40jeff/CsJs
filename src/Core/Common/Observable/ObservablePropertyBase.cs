@@ -25,19 +25,19 @@ namespace MorseCode.CsJs.Common.Observable
         {
             if ((object) value != (object) _value)
             {
-                OnValueChanging();
+                OnBeforeValueChanged();
                 _value = value;
                 OnValueChanged();
             }
         }
 
-        public event EventHandler Changing;
+        public event EventHandler BeforeChanged;
 
-        protected void OnValueChanging()
+        protected void OnBeforeValueChanged()
         {
-            if (Changing != null)
+            if (BeforeChanged != null)
             {
-                Changing(this, EventArgs.Empty);
+                BeforeChanged(this, EventArgs.Empty);
             }
         }
 

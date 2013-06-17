@@ -26,7 +26,7 @@ namespace MorseCode.CsJs.Common.Observable
 
         public void Insert(int index, T item)
         {
-            OnChanging();
+            OnBeforeChanged();
             _items.Insert(index, item);
             OnItemAdded(item);
             OnChanged();
@@ -35,7 +35,7 @@ namespace MorseCode.CsJs.Common.Observable
         public void RemoveAt(int index)
         {
             T item = _items[index];
-            OnChanging();
+            OnBeforeChanged();
             _items.RemoveAt(index);
             OnItemRemoved(item);
             OnChanged();
@@ -51,7 +51,7 @@ namespace MorseCode.CsJs.Common.Observable
             {
                 if (!ReferenceEquals(value, _items[index]))
                 {
-                    OnChanging();
+                    OnBeforeChanged();
                     _items[index] = value;
                     OnChanged();
                 }
@@ -60,7 +60,7 @@ namespace MorseCode.CsJs.Common.Observable
 
         public void Add(T item)
         {
-            OnChanging();
+            OnBeforeChanged();
             _items.Add(item);
             OnItemAdded(item);
             OnChanged();
@@ -69,7 +69,7 @@ namespace MorseCode.CsJs.Common.Observable
         public void AddRange(IEnumerable<T> items)
         {
             List<T> itemsToAdd = items.ToList();
-            OnChanging();
+            OnBeforeChanged();
             _items.AddRange(itemsToAdd);
             itemsToAdd.ForEach(OnItemAdded);
             OnChanged();
@@ -78,7 +78,7 @@ namespace MorseCode.CsJs.Common.Observable
         public void Clear()
         {
             List<T> oldItems = _items.ToList();
-            OnChanging();
+            OnBeforeChanged();
             _items.Clear();
             OnItemsReset(oldItems, _items);
             OnChanged();
@@ -96,7 +96,7 @@ namespace MorseCode.CsJs.Common.Observable
 
         public bool Remove(T item)
         {
-            OnChanging();
+            OnBeforeChanged();
             bool removed = _items.Remove(item);
             OnItemRemoved(item);
             OnChanged();
@@ -125,13 +125,13 @@ namespace MorseCode.CsJs.Common.Observable
         {
         }
 
-        public event EventHandler Changing;
+        public event EventHandler BeforeChanged;
 
-        protected void OnChanging()
+        protected void OnBeforeChanged()
         {
-            if (Changing != null)
+            if (BeforeChanged != null)
             {
-                Changing(this, EventArgs.Empty);
+                BeforeChanged(this, EventArgs.Empty);
             }
         }
 

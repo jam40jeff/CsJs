@@ -33,8 +33,11 @@
   <ItemGroup>
     <Compile Include="ApplicationErrorEventArgs.cs" />
     <Compile Include="CalculatorsAndStopwatchApplicationViewModel.cs" />
-    <Compile Include="CalculatorsAndStopwatchViewModel.cs" />
+    <Compile Include="CalculatorsAndStopwatchPageViewModel.cs" />
     <Compile Include="CalculatorViewModel.cs" />
+    <Compile Include="CalculatorPageViewModel.cs" />
+    <Compile Include="NavigationViewModel.cs" />
+    <Compile Include="StopwatchPageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StopwatchViewModel.cs" />
   </ItemGroup>

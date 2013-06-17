@@ -10,7 +10,7 @@ namespace MorseCode.CsJs.UI.Controls
 // ReSharper disable RedundantNameQualifier
     [ControlParser(typeof(Label.Parser))]
 // ReSharper restore RedundantNameQualifier
-    public class Label : Control
+    public class Label : ControlBase
     {
         private Element _span;
 
@@ -61,12 +61,12 @@ namespace MorseCode.CsJs.UI.Controls
 
         public class Parser : ControlParserBase<Label>
         {
-            protected override Label CreateControl(XmlNode node, Dictionary<string, Control> childControlsById)
+            protected override Label CreateControl(XmlNode node, Dictionary<string, ControlBase> childControlsById)
             {
                 return new Label();
             }
 
-            protected override void ParseAttribute(Label control, string name, string value, Dictionary<string, Control> childControlsById)
+            protected override void ParseAttribute(Label control, string name, string value, Dictionary<string, ControlBase> childControlsById)
             {
                 if (name.ToLower() == "style")
                 {

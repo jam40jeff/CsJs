@@ -21,7 +21,12 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel
 
         protected override object DefaultViewModel
         {
-            get { return new CalculatorsAndStopwatchViewModel(); }
+            get { return new CalculatorsAndStopwatchPageViewModel(this); }
+        }
+
+        public void NavigateToStopwatchPage()
+        {
+            CurrentViewModelInternal.Value = new StopwatchPageViewModel(this);
         }
     }
 }
