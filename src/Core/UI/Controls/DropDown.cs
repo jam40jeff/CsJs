@@ -39,7 +39,7 @@ namespace MorseCode.CsJs.UI.Controls
             get { return _items; }
         }
 
-        internal void OnItemsChanged()
+        private void OnItemsChanged()
         {
             EnsureElementsCreated();
             while (_select.Options.Length > 0)

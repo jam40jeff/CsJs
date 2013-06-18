@@ -4,7 +4,7 @@ using MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel;
 
 namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
 {
-    public class CalculatorControl : CalculatorControlBase<CalculatorViewModel>
+    public class CalculatorControl : CalculatorControlBase<ICalculatorViewModel>
     {
         protected override void SetupControls()
         {
@@ -14,9 +14,12 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
             _largeResultLabel.Styles.AddOrSet("font-size", "72pt");
         }
 
-        protected override void BindControls(IReadableObservableProperty<CalculatorViewModel> dataContext)
+        protected override void BindControls(IReadableObservableProperty<ICalculatorViewModel> dataContext)
         {
             _updateInRealTime.BindItemsAndSelection(dataContext, d => d.UpdateInRealTimeItems, d => d.UpdateInRealTimeSelection, o => o ? "Yes" : "No", o => o ? "Yes" : "No");
+            _simulateLatencyPanel.BindVisible(dataContext, d => d.SupportsAsync);
+            _simulateLatencyPanel.UseSlideVisibilityTransition = true;
+            _simulateLatency.BindItemsAndSelection(dataContext, d => d.SimulateLatencyItems, d => d.SimulateLatencySelection, o => o ? "Yes" : "No", o => o ? "Yes" : "No");
             _function.BindItemsAndSelection(dataContext, d => d.Operators, d => d.SelectedOperator, o => o.EnumToString(), o => o.EnumToString());
             _operand1.BindUpdateTextBindingWhileChanging(dataContext, d => d.UpdateInRealTime);
             _operand1.BindText(dataContext, d => d.Operand1, true);

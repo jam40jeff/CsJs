@@ -128,6 +128,78 @@
 		$MorseCode_CsJs_Common_TimerFactory.$_instance = value;
 	};
 	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.Observable.AsyncCalculatedProperty
+	var $MorseCode_CsJs_Common_Observable_AsyncCalculatedProperty$1 = function(T) {
+		var $type = function(observables, calculatePropertyValue) {
+			this.$_random = new ss.Random();
+			this.$_requestIds = new Array();
+			this.$_isCalculating = new (ss.makeGenericType($MorseCode_CsJs_Common_Observable_ObservableProperty$1, [Boolean]).$ctor1)(false);
+			ss.makeGenericType($MorseCode_CsJs_Common_Observable_ObservablePropertyBase$1, [T]).call(this);
+			var update = ss.mkdel(this, function() {
+				this.$calculatePropertyValueAsync(calculatePropertyValue, ss.mkdel(this, this.setValue));
+			});
+			var $t1 = ss.getEnumerator(observables);
+			try {
+				while ($t1.moveNext()) {
+					var observable = $t1.current();
+					observable.add_changed(function(sender, args) {
+						update();
+					});
+				}
+			}
+			finally {
+				$t1.dispose();
+			}
+			this.$calculatePropertyValueAsync(calculatePropertyValue, ss.mkdel(this, this.setInitialValue));
+		};
+		$type.prototype = {
+			$calculatePropertyValueAsync: function(calculatePropertyValue, setValue) {
+				var n = this.$_random.nextMax(2147483647);
+				this.$_requestIds.push(n);
+				this.$_isCalculating.set_value$2(true);
+				calculatePropertyValue(ss.mkdel(this, function(v) {
+					if (ss.contains(this.$_requestIds, n)) {
+						while (this.$_requestIds.shift() !== n) {
+						}
+						setValue(v);
+						this.$_isCalculating.set_value$2(this.$_requestIds.length > 0);
+					}
+				}));
+			},
+			get_isCalculating: function() {
+				return this.$_isCalculating;
+			}
+		};
+		$type.create = function(TObservable) {
+			return function(observable, calculatePropertyValue, otherObservables) {
+				return new $type((otherObservables || []).concat([observable]), function(setValue) {
+					calculatePropertyValue(observable, setValue);
+				});
+			};
+		};
+		$type.create$1 = function(TObservable1, TObservable2) {
+			return function(observable1, observable2, calculatePropertyValue, otherObservables) {
+				return new $type((otherObservables || []).concat([observable1, observable2]), function(setValue) {
+					calculatePropertyValue(observable1, observable2, setValue);
+				});
+			};
+		};
+		$type.create$2 = function(TObservable1, TObservable2, TObservable3) {
+			return function(observable1, observable2, observable3, calculatePropertyValue, otherObservables) {
+				return new $type((otherObservables || []).concat([observable1, observable2, observable3]), function(setValue) {
+					calculatePropertyValue(observable1, observable2, observable3, setValue);
+				});
+			};
+		};
+		ss.registerGenericClassInstance($type, $MorseCode_CsJs_Common_Observable_AsyncCalculatedProperty$1, [T], function() {
+			return ss.makeGenericType($MorseCode_CsJs_Common_Observable_ObservablePropertyBase$1, [T]);
+		}, function() {
+			return [ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), $MorseCode_CsJs_Common_Observable_IObservable, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, [T])];
+		});
+		return $type;
+	};
+	ss.registerGenericClass(global, 'MorseCode.CsJs.Common.Observable.AsyncCalculatedProperty$1', $MorseCode_CsJs_Common_Observable_AsyncCalculatedProperty$1, 1);
+	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Common.Observable.CalculatedProperty
 	var $MorseCode_CsJs_Common_Observable_CalculatedProperty$1 = function(T) {
 		var $type = function(observables, calculatePropertyValue) {

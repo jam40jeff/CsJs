@@ -35,7 +35,10 @@
     <Compile Include="CalculatorsAndStopwatchApplicationViewModel.cs" />
     <Compile Include="CalculatorsAndStopwatchPageViewModel.cs" />
     <Compile Include="CalculatorViewModel.cs" />
+    <Compile Include="CalculatorViewModelBase.cs" />
     <Compile Include="CalculatorPageViewModel.cs" />
+    <Compile Include="ICalculatorViewModel.cs" />
+    <Compile Include="RemoteCalculatorViewModel.cs" />
     <Compile Include="NavigationViewModel.cs" />
     <Compile Include="StopwatchPageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -47,6 +50,9 @@
   <ItemGroup>
     <Reference Include="MorseCode.CsJs.Common">
       <HintPath>..\..\..\..\bin\MorseCode.CsJs.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="MorseCode.CsJs.Net">
+      <HintPath>..\..\..\..\bin\MorseCode.CsJs.Net.dll</HintPath>
     </Reference>
     <Reference Include="MorseCode.CsJs.ViewModel">
       <HintPath>..\..\..\..\bin\MorseCode.CsJs.ViewModel.dll</HintPath>

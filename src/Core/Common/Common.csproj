@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="ITimer.cs" />
     <Compile Include="ITimerFactory.cs" />
+    <Compile Include="Observable\AsyncCalculatedProperty.cs" />
     <Compile Include="Observable\CalculatedProperty.cs" />
     <Compile Include="Observable\IObservable.cs" />
     <Compile Include="Observable\IObservableProperty.cs" />

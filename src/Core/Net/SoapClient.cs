@@ -10,7 +10,7 @@ namespace MorseCode.CsJs.Net
         public static string Username;
         public static string Password;
 
-        public static object Invoke(string url, string method, SoapClientParameters parameters, bool async, Callback callback)
+        public static object Invoke(string url, string method, SoapClientParameters parameters, bool async, Action<object, string> callback)
         {
             return null;
         }

@@ -90,7 +90,7 @@
 		this.$_applicationViewModel = null;
 		this.$_navigationViewModel = null;
 		this.$_calculatorViewModel1 = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModel();
-		this.$_calculatorViewModel2 = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModel();
+		this.$_calculatorViewModel2 = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel();
 		this.$_stopwatchViewModel = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchViewModel();
 		this.$_isCalculator2 = null;
 		this.$_calculatorViewModel = null;
@@ -98,7 +98,7 @@
 		this.$_applicationViewModel = applicationViewModel;
 		this.$_navigationViewModel = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_NavigationViewModel(this.$_applicationViewModel);
 		this.$_isCalculator2 = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [Boolean]))();
-		this.$_calculatorViewModel = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModel]).$ctor1)(this.$_calculatorViewModel1);
+		this.$_calculatorViewModel = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_ICalculatorViewModel]).$ctor1)(this.$_calculatorViewModel1);
 		this.$_calculatorText = ss.makeGenericType(MorseCode.CsJs.Common.Observable.CalculatedProperty$1, [String]).create(ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [Boolean])).call(null, this.$_isCalculator2, function(isCalculator2) {
 			return 'Calculator ' + (isCalculator2.get_value() ? '2' : '1');
 		}, null);
@@ -124,19 +124,75 @@
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorViewModel
 	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModel = function() {
+		this.$_result = null;
+		$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModelBase.call(this, false);
+		this.$_result = ss.makeGenericType(MorseCode.CsJs.Common.Observable.CalculatedProperty$1, [String]).create$2(ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [String]), ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [String]), ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [ss.Nullable])).call(null, this.get_operand1(), this.get_operand2(), this.get_selectedOperator(), function(operand1, operand2, selectedOperator) {
+			if (ss.Nullable.eq(selectedOperator.get_value(), null)) {
+				return null;
+			}
+			var function1;
+			switch (ss.Nullable.unbox(selectedOperator.get_value())) {
+				case 0: {
+					function1 = function(x, y) {
+						return ss.Nullable.add(x, y);
+					};
+					break;
+				}
+				case 1: {
+					function1 = function(x1, y1) {
+						return ss.Nullable.sub(x1, y1);
+					};
+					break;
+				}
+				case 2: {
+					function1 = function(x2, y2) {
+						return ss.Nullable.mul(x2, y2);
+					};
+					break;
+				}
+				case 3: {
+					function1 = function(x3, y3) {
+						return ss.Nullable.div(x3, y3);
+					};
+					break;
+				}
+				default: {
+					throw new ss.NotSupportedException('Unknown enum value ' + ss.Nullable.unbox(selectedOperator.get_value()) + '.');
+				}
+			}
+			return MorseCode.CsJs.Common.FrameworkUtility.safeToString(function1(MorseCode.CsJs.Common.FrameworkUtility.doubleTryParse(operand1.get_value()), MorseCode.CsJs.Common.FrameworkUtility.doubleTryParse(operand2.get_value())));
+		}, null);
+	};
+	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModel.prototype = {
+		get_result: function() {
+			return this.$_result;
+		}
+	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorViewModelBase
+	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModelBase = function(supportsAsync) {
 		this.$_updateInRealTimeItems = null;
 		this.$_updateInRealTimeSelection = null;
 		this.$_updateInRealTime = null;
+		this.$_supportsAsync = null;
+		this.$_simulateLatencyItems = null;
+		this.$_simulateLatencySelection = null;
+		this.$_simulateLatency = null;
 		this.$_operators = null;
 		this.$_operand1 = null;
 		this.$_selectedOperator = null;
 		this.$_selectedOperatorString = null;
 		this.$_operand2 = null;
-		this.$_result = null;
 		this.$_updateInRealTimeItems = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableCollection$1, [Boolean]).$ctor1)([true, false]);
 		this.$_updateInRealTimeSelection = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [ss.Nullable]).$ctor1)(true);
 		this.$_updateInRealTime = ss.makeGenericType(MorseCode.CsJs.Common.Observable.CalculatedProperty$1, [Boolean]).create(ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [ss.Nullable])).call(null, this.$_updateInRealTimeSelection, function(updateInRealTimeSelection) {
 			return ss.isValue(updateInRealTimeSelection.get_value()) && ss.Nullable.unbox(updateInRealTimeSelection.get_value());
+		}, null);
+		this.$_supportsAsync = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [Boolean]))(supportsAsync);
+		this.$_simulateLatencyItems = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableCollection$1, [Boolean]).$ctor1)([true, false]);
+		this.$_simulateLatencySelection = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [ss.Nullable]).$ctor1)(true);
+		this.$_simulateLatency = ss.makeGenericType(MorseCode.CsJs.Common.Observable.CalculatedProperty$1, [Boolean]).create(ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [ss.Nullable])).call(null, this.$_simulateLatencySelection, function(simulateLatencySelection) {
+			return ss.isValue(simulateLatencySelection.get_value()) && ss.Nullable.unbox(simulateLatencySelection.get_value());
 		}, null);
 		this.$_operators = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableCollection$1, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_Operator]).$ctor1)([0, 1, 2, 3]);
 		this.$_operand1 = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [String]))();
@@ -165,44 +221,8 @@
 			}
 		}, null);
 		this.$_operand2 = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [String]))();
-		this.$_result = ss.makeGenericType(MorseCode.CsJs.Common.Observable.CalculatedProperty$1, [String]).create$2(ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [String]), ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [String]), ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [ss.Nullable])).call(null, this.$_operand1, this.$_operand2, this.$_selectedOperator, function(operand1, operand2, selectedOperator1) {
-			if (ss.Nullable.eq(selectedOperator1.get_value(), null)) {
-				return null;
-			}
-			var function1;
-			switch (ss.Nullable.unbox(selectedOperator1.get_value())) {
-				case 0: {
-					function1 = function(x, y) {
-						return ss.Nullable.add(x, y);
-					};
-					break;
-				}
-				case 1: {
-					function1 = function(x1, y1) {
-						return ss.Nullable.sub(x1, y1);
-					};
-					break;
-				}
-				case 2: {
-					function1 = function(x2, y2) {
-						return ss.Nullable.mul(x2, y2);
-					};
-					break;
-				}
-				case 3: {
-					function1 = function(x3, y3) {
-						return ss.Nullable.div(x3, y3);
-					};
-					break;
-				}
-				default: {
-					throw new ss.NotSupportedException('Unknown enum value ' + ss.Nullable.unbox(selectedOperator1.get_value()) + '.');
-				}
-			}
-			return MorseCode.CsJs.Common.FrameworkUtility.safeToString(function1(MorseCode.CsJs.Common.FrameworkUtility.doubleTryParse(operand1.get_value()), MorseCode.CsJs.Common.FrameworkUtility.doubleTryParse(operand2.get_value())));
-		}, null);
 	};
-	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModel.prototype = {
+	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModelBase.prototype = {
 		get_updateInRealTimeItems: function() {
 			return this.$_updateInRealTimeItems;
 		},
@@ -211,6 +231,15 @@
 		},
 		get_updateInRealTime: function() {
 			return this.$_updateInRealTime;
+		},
+		get_simulateLatencyItems: function() {
+			return this.$_simulateLatencyItems;
+		},
+		get_simulateLatencySelection: function() {
+			return this.$_simulateLatencySelection;
+		},
+		get_simulateLatency: function() {
+			return this.$_simulateLatency;
 		},
 		get_operators: function() {
 			return this.$_operators;
@@ -227,10 +256,16 @@
 		get_operand2: function() {
 			return this.$_operand2;
 		},
-		get_result: function() {
-			return this.$_result;
-		}
+		get_supportsAsync: function() {
+			return this.$_supportsAsync;
+		},
+		get_result: null
 	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.ICalculatorViewModel
+	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_ICalculatorViewModel = function() {
+	};
+	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_ICalculatorViewModel.prototype = { get_updateInRealTimeItems: null, get_updateInRealTimeSelection: null, get_updateInRealTime: null, get_supportsAsync: null, get_simulateLatencyItems: null, get_simulateLatencySelection: null, get_simulateLatency: null, get_operators: null, get_operand1: null, get_selectedOperator: null, get_selectedOperatorString: null, get_operand2: null, get_result: null };
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.NavigationViewModel
 	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_NavigationViewModel = function(applicationViewModel) {
@@ -247,6 +282,38 @@
 	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_Operator = function() {
 	};
 	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_Operator.prototype = { Add: 0, Subtract: 1, Multiply: 2, Divide: 3 };
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.RemoteCalculatorViewModel
+	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel = function() {
+		this.$_result = null;
+		this.$_resultToDisplay = null;
+		$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModelBase.call(this, true);
+		this.$_result = ss.makeGenericType(MorseCode.CsJs.Common.Observable.AsyncCalculatedProperty$1, [String]).create$2(ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [String]), ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [String]), ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [ss.Nullable])).call(null, this.get_operand1(), this.get_operand2(), this.get_selectedOperator(), ss.mkdel(this, function(operand1, operand2, selectedOperator, setValue) {
+			if (ss.Nullable.eq(selectedOperator.get_value(), null)) {
+				setValue(null);
+			}
+			else {
+				var method = MorseCode.CsJs.Common.FrameworkUtility.enumToString($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_Operator).call(null, ss.Nullable.unbox(selectedOperator.get_value()));
+				var parameters = new SOAPClientParameters();
+				var operand1Parsed = MorseCode.CsJs.Common.FrameworkUtility.doubleTryParse(operand1.get_value());
+				var operand2Parsed = MorseCode.CsJs.Common.FrameworkUtility.doubleTryParse(operand2.get_value());
+				parameters.add('operand1', MorseCode.CsJs.Common.FrameworkUtility.safeToString(operand1Parsed));
+				parameters.add('operand2', MorseCode.CsJs.Common.FrameworkUtility.safeToString(operand2Parsed));
+				parameters.add('simulateLatency', (this.get_simulateLatency().get_value() ? 'true' : 'false'));
+				SOAPClient.invoke('http://localhost/CsJsCalculatorsAndStopwatchExampleServices/CalculatorService.svc', method, parameters, true, function(o, x) {
+					setValue(MorseCode.CsJs.Common.FrameworkUtility.safeToString(o));
+				});
+			}
+		}), null);
+		this.$_resultToDisplay = ss.makeGenericType(MorseCode.CsJs.Common.Observable.CalculatedProperty$1, [String]).create$1(ss.makeGenericType(MorseCode.CsJs.Common.Observable.AsyncCalculatedProperty$1, [String]), ss.makeGenericType(MorseCode.CsJs.Common.Observable.IReadableObservableProperty$1, [Boolean])).call(null, this.$_result, this.$_result.get_isCalculating(), function(result, isCalculating) {
+			return (isCalculating.get_value() ? 'Calculating...' : result.get_value());
+		}, null);
+	};
+	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel.prototype = {
+		get_result: function() {
+			return this.$_resultToDisplay;
+		}
+	};
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchPageViewModel
 	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchPageViewModel = function(applicationViewModel) {
@@ -384,9 +451,12 @@
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorPageViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorPageViewModel);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchApplicationViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorsAndStopwatchApplicationViewModel, MorseCode.CsJs.ViewModel.ApplicationViewModelBase);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchPageViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorsAndStopwatchPageViewModel);
-	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModel);
+	ss.registerInterface(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.ICalculatorViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_ICalculatorViewModel);
+	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorViewModelBase', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModelBase, null, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_ICalculatorViewModel]);
+	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModel, $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModelBase, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_ICalculatorViewModel]);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.NavigationViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_NavigationViewModel);
 	ss.registerEnum(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.Operator', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_Operator);
+	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.RemoteCalculatorViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel, $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModelBase, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_ICalculatorViewModel]);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchPageViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchPageViewModel);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchViewModel);
 	ss.registerEnum(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchViewModel$ViewMode', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchViewModel$ViewMode);

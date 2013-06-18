@@ -7,13 +7,14 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DF36C44E-B06A-4903-8979-33BD38A75985}</ProjectGuid>
+    <ProjectGuid>{4C545763-2889-468F-9E4B-9F225DD7182D}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MorseCode.CsJs.Examples.CalculatorsAndStopwatch.Server.Web.UI</RootNamespace>
-    <AssemblyName>MorseCode.CsJs.Examples.CalculatorsAndStopwatch.Server.Web.UI</AssemblyName>
+    <RootNamespace>MorseCode.CsJs.Examples.CalculatorsAndStopwatch.Server.Web.Services</RootNamespace>
+    <AssemblyName>MorseCode.CsJs.Examples.CalculatorsAndStopwatch.Server.Web.Services</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
     <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -39,72 +40,37 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="MorseCode.CsJs.Server.Web.UI">
-      <HintPath>..\..\..\..\bin\MorseCode.CsJs.Server.Web.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="MorseCode.CsJs.UI">
-      <HintPath>..\..\..\..\bin\MorseCode.CsJs.UI.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\..\bin\MorseCode.CsJs.Common.js">
-      <Link>Scripts\MorseCode.CsJs.Common.js</Link>
-    </Content>
-    <Content Include="..\..\..\..\bin\MorseCode.CsJs.Net.js">
-      <Link>Scripts\MorseCode.CsJs.Net.js</Link>
-    </Content>
-    <Content Include="..\..\..\..\bin\MorseCode.CsJs.UI.js">
-      <Link>Scripts\MorseCode.CsJs.UI.js</Link>
-    </Content>
-    <Content Include="..\..\..\..\bin\MorseCode.CsJs.ViewModel.js">
-      <Link>Scripts\MorseCode.CsJs.ViewModel.js</Link>
-    </Content>
-    <Content Include="..\..\..\..\bin\SOAPClient.js">
-      <Link>Scripts\SOAPClient.js</Link>
-    </Content>
-    <Content Include="..\packages\Saltarelle.jQuery.1.9.0\jquery-1.9.1.js">
-      <Link>Scripts\jquery-1.9.1.js</Link>
-    </Content>
-    <Content Include="..\packages\Saltarelle.Linq.2.1.0\linq.js">
-      <Link>Scripts\linq.js</Link>
-    </Content>
-    <Content Include="..\packages\Saltarelle.Runtime.2.2.0\mscorlib.js">
-      <Link>Scripts\mscorlib.js</Link>
-    </Content>
-    <Content Include="..\UI\bin\Debug\MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.js">
-      <Link>Scripts\MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.js</Link>
-    </Content>
-    <Content Include="..\ViewModel\bin\Debug\MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.js">
-      <Link>Scripts\MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.js</Link>
-    </Content>
-    <Content Include="Default.aspx" />
+    <Content Include="CalculatorService.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Default.aspx.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
+    <Compile Include="CalculatorService.svc.cs">
+      <DependentUpon>CalculatorService.svc</DependentUpon>
     </Compile>
-    <Compile Include="Default.aspx.designer.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
-    </Compile>
+    <Compile Include="ICalculatorService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Web.Debug.config">
@@ -113,13 +79,6 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\UI\UI.csproj">
-      <Project>{7a0f7ffa-ee2c-4613-83af-80b096e0c4a2}</Project>
-      <Name>MorseCode.CsJs.Examples.CnT.UI</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -134,9 +93,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>7407</DevelopmentServerPort>
+          <DevelopmentServerPort>30677</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/CsJsCalculatorsAndStopwatchExample</IISUrl>
+          <IISUrl>http://localhost/CsJsCalculatorsAndStopwatchExampleServices</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -150,8 +109,7 @@
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
-  -->
   <Target Name="AfterBuild">
-    <Copy SourceFiles="%(Content.Identity)" DestinationFiles="%(Content.Link)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Condition="'%(Content.Link)' != ''" />
   </Target>
+  -->
 </Project>

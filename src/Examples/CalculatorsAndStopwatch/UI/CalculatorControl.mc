@@ -4,6 +4,10 @@
   <control type="MorseCode.CsJs.UI.Controls.Label" text="Update In Real-Time: " />
   <control type="MorseCode.CsJs.UI.Controls.DropDown" controlid="_updateInRealTime" />
 </control>
+<control type="MorseCode.CsJs.UI.Controls.Panel" controlid="_simulateLatencyPanel" style="padding: 15px; background-color: rgb(192,192,255);">
+  <control type="MorseCode.CsJs.UI.Controls.Label" text="Simulate Latency: " />
+  <control type="MorseCode.CsJs.UI.Controls.DropDown" controlid="_simulateLatency" />
+</control>
 <control type="MorseCode.CsJs.UI.Controls.Panel" style="padding: 15px; background-color: rgb(128,128,128);">
   <control type="MorseCode.CsJs.UI.Controls.DropDown" controlid="_function" />
 </control>

@@ -35,17 +35,21 @@ namespace MorseCode.CsJs.UI.Controls
         {
             EnsureChildControlsCreated();
 
+            ObservableProperty<T> thisDataContext = new ObservableProperty<T>(getDataContext(dataContext.Value).Value);
+
             EventHandler updateControlEventHandler = null;
             CreateOneWayBinding(
                 dataContext,
                 d =>
-                    {
-                        Action updateControl = () => BindControls(getDataContext(d));
-                        updateControlEventHandler = (sender, args) => updateControl();
-                        getDataContext(d).Changed += updateControlEventHandler;
-                        updateControl();
-                    },
+                {
+                    Action updateControl = () => thisDataContext.Value = getDataContext(d).Value;
+                    updateControlEventHandler = (sender, args) => updateControl();
+                    getDataContext(d).Changed += updateControlEventHandler;
+                    updateControl();
+                },
                 d => getDataContext(d).Changed -= updateControlEventHandler);
+
+            BindControls(thisDataContext);
         }
 
         protected abstract void BindControls(IReadableObservableProperty<T> dataContext);

@@ -1235,7 +1235,9 @@
 	var $MorseCode_CsJs_UI_Controls_Panel = function(createChildControls) {
 		this.$_createChildControls = null;
 		this.$_div = null;
+		this.$_divJQuery = null;
 		this.$_styles = new $MorseCode_CsJs_UI_Styles();
+		this.$_useSlideVisibilityTransition = false;
 		$MorseCode_CsJs_UI_Controls_CompositeControlBase.call(this);
 		this.$_createChildControls = createChildControls;
 	};
@@ -1245,6 +1247,7 @@
 		},
 		createElements: function() {
 			this.$_div = document.createElement('div');
+			this.$_divJQuery = $(this.$_div);
 			this.$_styles.attachToElement(this.$_div);
 		},
 		getChildElementContainer: function() {
@@ -1255,6 +1258,45 @@
 		},
 		get_styles: function() {
 			return this.$_styles;
+		},
+		get_visible: function() {
+			return this.$_divJQuery.is(':visible');
+		},
+		set_visible: function(value) {
+			if (this.$_useSlideVisibilityTransition) {
+				if (value) {
+					this.$_divJQuery.slideDown(200);
+				}
+				else {
+					this.$_divJQuery.slideUp(200);
+				}
+			}
+			else {
+				this.$_div.style.display = (value ? '' : 'none');
+			}
+		},
+		get_useSlideVisibilityTransition: function() {
+			return this.$_useSlideVisibilityTransition;
+		},
+		set_useSlideVisibilityTransition: function(value) {
+			this.$_useSlideVisibilityTransition = value;
+		},
+		bindVisible: function(T) {
+			return function(dataContext, getVisibleProperty) {
+				var updateControlEventHandler = null;
+				this.createOneWayBinding(T).call(this, dataContext, ss.mkdel(this, function(d) {
+					var updateControl = ss.mkdel(this, function() {
+						this.set_visible(getVisibleProperty(d).get_value());
+					});
+					updateControlEventHandler = function(sender, args) {
+						updateControl();
+					};
+					getVisibleProperty(d).add_changed(updateControlEventHandler);
+					updateControl();
+				}), function(d1) {
+					getVisibleProperty(d1).remove_changed(updateControlEventHandler);
+				});
+			};
 		}
 	};
 	////////////////////////////////////////////////////////////////////////////////
@@ -1271,6 +1313,9 @@
 		parseAttribute: function(control, name, value, childControlsById) {
 			if (name.toLowerCase() === 'style') {
 				control.get_styles().$parseStyleString(value);
+			}
+			else if (name.toLowerCase() === 'useslidevisibilitytransition') {
+				control.set_useSlideVisibilityTransition(ss.isValue(value) && value.toLowerCase() === 'true');
 			}
 		}
 	};
@@ -1300,19 +1345,21 @@
 			bindDataContext$1: function(TDataContext) {
 				return function(dataContext, getDataContext) {
 					this.ensureChildControlsCreated();
+					var thisDataContext = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [T]).$ctor1)(getDataContext(dataContext.get_value()).get_value());
 					var updateControlEventHandler = null;
-					this.createOneWayBinding(TDataContext).call(this, dataContext, ss.mkdel(this, function(d) {
-						var updateControl = ss.mkdel(this, function() {
-							this.bindControls(getDataContext(d));
-						});
+					this.createOneWayBinding(TDataContext).call(this, dataContext, function(d) {
+						var updateControl = function() {
+							thisDataContext.set_value$2(getDataContext(d).get_value());
+						};
 						updateControlEventHandler = function(sender, args) {
 							updateControl();
 						};
 						getDataContext(d).add_changed(updateControlEventHandler);
 						updateControl();
-					}), function(d1) {
+					}, function(d1) {
 						getDataContext(d1).remove_changed(updateControlEventHandler);
 					});
+					this.bindControls(thisDataContext);
 				};
 			},
 			bindControls: null,
