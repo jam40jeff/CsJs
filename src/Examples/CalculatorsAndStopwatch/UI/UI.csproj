@@ -58,6 +58,7 @@
     <None Include="CalculatorControl.mc">
       <Generator>MarkupGenerator</Generator>
       <LastGenOutput>CalculatorControl.generated.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
     <None Include="StopwatchControl.mc">
