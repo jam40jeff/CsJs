@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Html;
-using System.Runtime.CompilerServices;
 using System.Xml;
 using MorseCode.CsJs.Common.Observable;
 using jQueryApi;
@@ -10,7 +8,7 @@ using jQueryApi;
 namespace MorseCode.CsJs.UI.Controls
 {
     // ReSharper disable RedundantNameQualifier
-    [ControlParser(typeof(Panel.Parser))]
+    [ControlParser(typeof (Panel.Parser))]
     // ReSharper restore RedundantNameQualifier
     public class Panel : CompositeControlBase
     {
@@ -47,7 +45,7 @@ namespace MorseCode.CsJs.UI.Controls
 
         protected override IEnumerable<Element> GetRootElements()
         {
-            return new[] { _div };
+            return new[] {_div};
         }
 
         public Styles Styles
@@ -90,12 +88,12 @@ namespace MorseCode.CsJs.UI.Controls
             CreateOneWayBinding(
                 dataContext,
                 d =>
-                {
-                    Action updateControl = () => Visible = getVisibleProperty(d).Value;
-                    updateControlEventHandler = (sender, args) => updateControl();
-                    getVisibleProperty(d).Changed += updateControlEventHandler;
-                    updateControl();
-                },
+                    {
+                        Action updateControl = () => Visible = getVisibleProperty(d).Value;
+                        updateControlEventHandler = (sender, args) => updateControl();
+                        getVisibleProperty(d).Changed += updateControlEventHandler;
+                        updateControl();
+                    },
                 d => getVisibleProperty(d).Changed -= updateControlEventHandler);
         }
 
