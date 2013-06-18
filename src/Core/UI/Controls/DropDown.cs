@@ -83,7 +83,7 @@ namespace MorseCode.CsJs.UI.Controls
             }
         }
 
-        public void Bind<TDataContext, T>(IReadableObservableProperty<TDataContext> dataContext, Func<TDataContext, ObservableCollection<T>> getItems, Func<TDataContext, IObservableProperty<T?>> getSelectedItemProperty, Func<T, string> getValue, Func<T, string> getText) where T : struct
+        public void BindItemsAndSelection<TDataContext, T>(IReadableObservableProperty<TDataContext> dataContext, Func<TDataContext, ObservableCollection<T>> getItems, Func<TDataContext, IObservableProperty<T?>> getSelectedItemProperty, Func<T, string> getValue, Func<T, string> getText) where T : struct
         {
             EventHandler updateControlItemsEventHandler = null;
             CreateOneWayBinding(
@@ -137,7 +137,7 @@ namespace MorseCode.CsJs.UI.Controls
                 d => SelectedIndexChanged -= updateDataContextSelectedItemEventHandler);
         }
 
-        public void Bind<TDataContext, T>(IReadableObservableProperty<TDataContext> dataContext, Func<TDataContext, ObservableCollection<T>> getItems, Func<TDataContext, IObservableProperty<T>> getSelectedItemProperty, Func<T, string> getValue, Func<T, string> getText) where T : class
+        public void BindItemsAndSelection<TDataContext, T>(IReadableObservableProperty<TDataContext> dataContext, Func<TDataContext, ObservableCollection<T>> getItems, Func<TDataContext, IObservableProperty<T>> getSelectedItemProperty, Func<T, string> getValue, Func<T, string> getText) where T : class
         {
             Action<TDataContext> updateItems = d =>
                 {

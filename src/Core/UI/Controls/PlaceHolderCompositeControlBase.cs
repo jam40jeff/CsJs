@@ -24,14 +24,14 @@ namespace MorseCode.CsJs.UI.Controls
             return null;
         }
 
-        public void Bind<TDataContext>(IReadableObservableProperty<TDataContext> dataContext, Func<TDataContext, T> getDataContext)
+        public void BindDataContext<TDataContext>(IReadableObservableProperty<TDataContext> dataContext, Func<TDataContext, T> getDataContext)
         {
             EnsureChildControlsCreated();
 
             BindControls(new ReadOnlyProperty<T>(getDataContext(dataContext.Value)));
         }
 
-        public void Bind<TDataContext>(IReadableObservableProperty<TDataContext> dataContext, Func<TDataContext, IReadableObservableProperty<T>> getDataContext)
+        public void BindDataContext<TDataContext>(IReadableObservableProperty<TDataContext> dataContext, Func<TDataContext, IReadableObservableProperty<T>> getDataContext)
         {
             EnsureChildControlsCreated();
 

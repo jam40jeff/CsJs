@@ -1,5 +1,9 @@
 ﻿<declare type="CalculatorControl" />
 
+<control type="MorseCode.CsJs.UI.Controls.Panel" style="padding: 15px; background-color: rgb(255,255,192);">
+  <control type="MorseCode.CsJs.UI.Controls.Label" text="Update In Real-Time: " />
+  <control type="MorseCode.CsJs.UI.Controls.DropDown" controlid="_updateInRealTime" />
+</control>
 <control type="MorseCode.CsJs.UI.Controls.Panel" style="padding: 15px; background-color: rgb(128,128,128);">
   <control type="MorseCode.CsJs.UI.Controls.DropDown" controlid="_function" />
 </control>
@@ -13,7 +17,7 @@
 <control type="MorseCode.CsJs.UI.Controls.Panel" controlid="_largeResultPanel" style="border: 1px dashed gray;">
   <table style="width: 100%;">
     <tr>
-      <td style="height: 200px; vertical-align: middle; text-align: center;">
+      <td style="height: 150px; vertical-align: middle; text-align: center;">
         <control type="MorseCode.CsJs.UI.Controls.Label" controlid="_largeResultLabel" style="font-family: Arial;" />
       </td>
     </tr>

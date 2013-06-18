@@ -16,6 +16,69 @@
 		}
 	};
 	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.Controls.TextBox.ITextBoxTextBinding
+	var $MorseCode_$CsJs_UI_Controls_TextBox$ITextBoxTextBinding = function() {
+	};
+	$MorseCode_$CsJs_UI_Controls_TextBox$ITextBoxTextBinding.prototype = { get_$updateWhileChanging: null, set_$updateWhileChanging: null };
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.Controls.TextBox.TextBoxTextBinding
+	var $MorseCode_$CsJs_UI_Controls_TextBox$TextBoxTextBinding$1 = function(T) {
+		var $type = function(owner, getTextProperty, dataContext, bindToDataContext, unbindFromDataContext, updateWhileChanging) {
+			this.$_owner = null;
+			this.$_getTextProperty = null;
+			this.$_updateWhileChanging = false;
+			this.$_updateDataContextEventHandler = null;
+			ss.makeGenericType($MorseCode_CsJs_UI_Binding$1, [T]).call(this, dataContext, bindToDataContext, unbindFromDataContext, null, null);
+			this.$_owner = owner;
+			this.$_updateWhileChanging = updateWhileChanging;
+			this.$_getTextProperty = getTextProperty;
+			this.set_bindToControl(this.$getBindToControl(updateWhileChanging));
+			this.set_unbindFromControl(this.$getUnbindFromControl(updateWhileChanging));
+		};
+		$type.prototype = {
+			$getBindToControl: function(updateWhileChanging) {
+				return ss.mkdel(this, function(d) {
+					this.$_updateDataContextEventHandler = ss.mkdel(this, function(sender, args) {
+						this.$_getTextProperty(d).set_value$1(this.$_owner.get_text());
+					});
+					if (updateWhileChanging) {
+						this.$_owner.add_textChanging(this.$_updateDataContextEventHandler);
+					}
+					else {
+						this.$_owner.add_textChanged(this.$_updateDataContextEventHandler);
+					}
+				});
+			},
+			$getUnbindFromControl: function(updateWhileChanging) {
+				return ss.mkdel(this, function(d) {
+					if (updateWhileChanging) {
+						this.$_owner.remove_textChanging(this.$_updateDataContextEventHandler);
+					}
+					else {
+						this.$_owner.remove_textChanged(this.$_updateDataContextEventHandler);
+					}
+				});
+			},
+			get_$updateWhileChanging: function() {
+				return this.$_updateWhileChanging;
+			},
+			set_$updateWhileChanging: function(value) {
+				if (this.$_updateWhileChanging !== value) {
+					this.$_updateWhileChanging = value;
+					this.set_bindToControl(this.$getBindToControl(value));
+					this.set_unbindFromControl(this.$getUnbindFromControl(value));
+				}
+			}
+		};
+		ss.registerGenericClassInstance($type, $MorseCode_$CsJs_UI_Controls_TextBox$TextBoxTextBinding$1, [T], function() {
+			return ss.makeGenericType($MorseCode_CsJs_UI_Binding$1, [T]);
+		}, function() {
+			return [ss.IDisposable, $MorseCode_CsJs_UI_IBinding, $MorseCode_$CsJs_UI_Controls_TextBox$ITextBoxTextBinding];
+		});
+		return $type;
+	};
+	ss.registerGenericClass(null, 'MorseCode.$CsJs.UI.Controls.TextBox$TextBoxTextBinding$1', $MorseCode_$CsJs_UI_Controls_TextBox$TextBoxTextBinding$1, 1);
+	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.UI.ApplicationBase
 	var $MorseCode_CsJs_UI_ApplicationBase = function() {
 		this.$_applicationPages = new (ss.makeGenericType(ss.Dictionary$2, [Function, $MorseCode_$CsJs_UI_ApplicationBase$ApplicationPage]))();
@@ -112,25 +175,89 @@
 			this.$_unbindFromDataContext = unbindFromDataContext;
 			this.$_bindToControl = bindToControl;
 			this.$_unbindFromControl = unbindFromControl;
-			this.$_bindToDataContext(this.$_dataContext.get_value());
-			this.$_bindToControl(this.$_dataContext.get_value());
+			this.$bindToDataContextInternal();
+			this.$bindToControlInternal();
 			this.$_dataContext.add_beforeChanged(ss.mkdel(this, this.$onBeforeDataContextChanged));
 			this.$_dataContext.add_changed(ss.mkdel(this, this.$onDataContextChanged));
 		};
 		$type.prototype = {
 			$onBeforeDataContextChanged: function(sender, e) {
-				this.$_unbindFromDataContext(this.$_dataContext.get_value());
-				this.$_unbindFromControl(this.$_dataContext.get_value());
+				this.$unbindFromDataContextInternal();
+				this.$unbindFromControlInternal();
+			},
+			$unbindFromDataContextInternal: function() {
+				if (!ss.staticEquals(this.$_unbindFromDataContext, null)) {
+					this.$_unbindFromDataContext(this.$_dataContext.get_value());
+				}
+			},
+			$unbindFromControlInternal: function() {
+				if (!ss.staticEquals(this.$_unbindFromControl, null)) {
+					this.$_unbindFromControl(this.$_dataContext.get_value());
+				}
 			},
 			$onDataContextChanged: function(sender, e) {
-				this.$_bindToDataContext(this.$_dataContext.get_value());
-				this.$_bindToControl(this.$_dataContext.get_value());
+				this.$bindToDataContextInternal();
+				this.$bindToControlInternal();
+			},
+			$bindToDataContextInternal: function() {
+				if (!ss.staticEquals(this.$_bindToDataContext, null)) {
+					this.$_bindToDataContext(this.$_dataContext.get_value());
+				}
+			},
+			$bindToControlInternal: function() {
+				if (!ss.staticEquals(this.$_bindToControl, null)) {
+					this.$_bindToControl(this.$_dataContext.get_value());
+				}
 			},
 			dispose: function() {
 				this.$_dataContext.remove_beforeChanged(ss.mkdel(this, this.$onBeforeDataContextChanged));
 				this.$_dataContext.remove_changed(ss.mkdel(this, this.$onDataContextChanged));
-				this.$_unbindFromDataContext(this.$_dataContext.get_value());
-				this.$_unbindFromControl(this.$_dataContext.get_value());
+				this.$unbindFromDataContextInternal();
+				this.$unbindFromControlInternal();
+			},
+			get_dataContext: function() {
+				return this.$_dataContext;
+			},
+			set_dataContext: function(value) {
+				if (!ss.referenceEquals(this.$_dataContext, value)) {
+					this.$unbindFromDataContextInternal();
+					this.$unbindFromControlInternal();
+					this.$_dataContext = value;
+					this.$bindToDataContextInternal();
+					this.$bindToControlInternal();
+				}
+			},
+			get_bindToDataContext: function() {
+				return this.$_bindToDataContext;
+			},
+			set_bindToDataContext: function(value) {
+				if (!ss.referenceEquals(this.$_bindToDataContext, value)) {
+					this.$unbindFromDataContextInternal();
+					this.$_bindToDataContext = value;
+					this.$bindToDataContextInternal();
+				}
+			},
+			get_unbindFromDataContext: function() {
+				return this.$_unbindFromDataContext;
+			},
+			set_unbindFromDataContext: function(value) {
+				this.$_unbindFromDataContext = value;
+			},
+			get_bindToControl: function() {
+				return this.$_bindToControl;
+			},
+			set_bindToControl: function(value) {
+				if (!ss.referenceEquals(this.$_bindToControl, value)) {
+					this.$unbindFromControlInternal();
+					this.$_bindToControl = value;
+					this.$bindToControlInternal();
+				}
+			},
+			get_unbindFromControl: function() {
+				return this.$_unbindFromControl;
+			},
+			set_unbindFromControl: function(value) {
+				this.$_unbindFromControl = value;
 			}
 		};
 		ss.registerGenericClassInstance($type, $MorseCode_CsJs_UI_Binding$1, [T], function() {
@@ -327,7 +454,7 @@
 	var $MorseCode_CsJs_UI_Controls_Button = function() {
 		this.$_button = null;
 		this.$_buttonJQuery = null;
-		this.$2$ButtonClickedField = null;
+		this.$2$ClickField = null;
 		$MorseCode_CsJs_UI_Controls_ControlBase.call(this);
 	};
 	$MorseCode_CsJs_UI_Controls_Button.prototype = {
@@ -335,7 +462,7 @@
 			this.$_button = document.createElement('button');
 			this.$_buttonJQuery = $(this.$_button);
 			this.$_buttonJQuery.click(ss.mkdel(this, function(e) {
-				this.onButtonClicked();
+				this.onClick();
 			}));
 		},
 		getRootElements: function() {
@@ -355,27 +482,27 @@
 		set_visible: function(value) {
 			this.$_button.style.display = (value ? '' : 'none');
 		},
-		add_buttonClicked: function(value) {
-			this.$2$ButtonClickedField = ss.delegateCombine(this.$2$ButtonClickedField, value);
+		add_click: function(value) {
+			this.$2$ClickField = ss.delegateCombine(this.$2$ClickField, value);
 		},
-		remove_buttonClicked: function(value) {
-			this.$2$ButtonClickedField = ss.delegateRemove(this.$2$ButtonClickedField, value);
+		remove_click: function(value) {
+			this.$2$ClickField = ss.delegateRemove(this.$2$ClickField, value);
 		},
-		onButtonClicked: function() {
-			if (!ss.staticEquals(this.$2$ButtonClickedField, null)) {
-				this.$2$ButtonClickedField(this, ss.EventArgs.Empty);
+		onClick: function() {
+			if (!ss.staticEquals(this.$2$ClickField, null)) {
+				this.$2$ClickField(this, ss.EventArgs.Empty);
 			}
 		},
-		bind: function(T) {
+		bindClickAction: function(T) {
 			return function(dataContext, getClickAction) {
 				var updateDataContextEventHandler = null;
 				this.createOneWayToSourceBinding(T).call(this, dataContext, ss.mkdel(this, function(d) {
 					updateDataContextEventHandler = function(sender, args) {
 						getClickAction(d)();
 					};
-					this.add_buttonClicked(updateDataContextEventHandler);
+					this.add_click(updateDataContextEventHandler);
 				}), ss.mkdel(this, function(d1) {
-					this.remove_buttonClicked(updateDataContextEventHandler);
+					this.remove_click(updateDataContextEventHandler);
 				}));
 			};
 		},
@@ -542,6 +669,9 @@
 			return function(dataContext, bindToDataContext, unbindFromDataContext, bindToControl, unbindFromControl) {
 				ss.add(this.$_bindings, new (ss.makeGenericType($MorseCode_CsJs_UI_Binding$1, [T]))(dataContext, bindToDataContext, unbindFromDataContext, bindToControl, unbindFromControl));
 			};
+		},
+		addBinding: function(binding) {
+			ss.add(this.$_bindings, binding);
 		},
 		dispose: function() {
 			this.$_bindings.forEach(function(b) {
@@ -749,7 +879,7 @@
 				this.$2$SelectedIndexChangedField(this, ss.EventArgs.Empty);
 			}
 		},
-		bind: function(TDataContext, T) {
+		bindItemsAndSelection: function(TDataContext, T) {
 			return function(dataContext, getItems, getSelectedItemProperty, getValue, getText) {
 				var updateControlItemsEventHandler = null;
 				this.createOneWayBinding(TDataContext).call(this, dataContext, ss.mkdel(this, function(d) {
@@ -798,7 +928,7 @@
 				}));
 			};
 		},
-		bind$1: function(TDataContext, T) {
+		bindItemsAndSelection$1: function(TDataContext, T) {
 			return function(dataContext, getItems, getSelectedItemProperty, getValue, getText) {
 				var updateItems = ss.mkdel(this, function(d) {
 					this.get_items().clear();
@@ -953,7 +1083,7 @@
 			this.ensureElementsCreated();
 			this.$_span.innerHTML = value;
 		},
-		bind: function(T) {
+		bindText: function(T) {
 			return function(dataContext, getTextProperty) {
 				var updateControlEventHandler = null;
 				this.createOneWayBinding(T).call(this, dataContext, ss.mkdel(this, function(d) {
@@ -986,6 +1116,9 @@
 		parseAttribute: function(control, name, value, childControlsById) {
 			if (name.toLowerCase() === 'style') {
 				control.get_styles().$parseStyleString(value);
+			}
+			if (name.toLowerCase() === 'text') {
+				control.set_text(value);
 			}
 		}
 	};
@@ -1083,7 +1216,7 @@
 			},
 			createElements: function() {
 			},
-			bind: function(dataContext) {
+			bindDataContext: function(dataContext) {
 				this.ensureChildControlsCreated();
 				this.bindControls(new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [T]))(dataContext));
 			},
@@ -1158,13 +1291,13 @@
 			getRootElements: function() {
 				return null;
 			},
-			bind: function(TDataContext) {
+			bindDataContext: function(TDataContext) {
 				return function(dataContext, getDataContext) {
 					this.ensureChildControlsCreated();
 					this.bindControls(new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [T]))(getDataContext(dataContext.get_value())));
 				};
 			},
-			bind$1: function(TDataContext) {
+			bindDataContext$1: function(TDataContext) {
 				return function(dataContext, getDataContext) {
 					this.ensureChildControlsCreated();
 					var updateControlEventHandler = null;
@@ -1231,6 +1364,8 @@
 	// MorseCode.CsJs.UI.Controls.TextBox
 	var $MorseCode_CsJs_UI_Controls_TextBox = function() {
 		this.$_input = null;
+		this.$_textBoxTextBinding = null;
+		this.$_updateTextBindingWhileChanging = false;
 		this.$2$TextChangingField = null;
 		this.$2$TextChangedField = null;
 		$MorseCode_CsJs_UI_Controls_ControlBase.call(this);
@@ -1261,6 +1396,17 @@
 				this.onTextChanged();
 			}
 		},
+		get_updateTextBindingWhileChanging: function() {
+			return this.$_updateTextBindingWhileChanging;
+		},
+		set_updateTextBindingWhileChanging: function(value) {
+			if (this.$_updateTextBindingWhileChanging !== value) {
+				this.$_updateTextBindingWhileChanging = value;
+				if (ss.isValue(this.$_textBoxTextBinding)) {
+					this.$_textBoxTextBinding.set_$updateWhileChanging(value);
+				}
+			}
+		},
 		add_textChanging: function(value) {
 			this.$2$TextChangingField = ss.delegateCombine(this.$2$TextChangingField, value);
 		},
@@ -1283,11 +1429,18 @@
 				this.$2$TextChangedField(this, ss.EventArgs.Empty);
 			}
 		},
-		bind: function(T) {
-			return function(dataContext, getTextProperty, updateWhileChanging) {
-				var updateDataContextEventHandler = null;
+		bindText: function(T) {
+			return function(dataContext, getTextProperty) {
+				this.bindText$1(T).call(this, dataContext, getTextProperty, this.get_updateTextBindingWhileChanging());
+			};
+		},
+		bindText$1: function(T) {
+			return function(dataContext, getTextProperty, updateTextBindingWhileChanging) {
+				if (ss.isValue(this.$_textBoxTextBinding)) {
+					throw new ss.NotSupportedException('Bind may not be called twice on TextBox.');
+				}
 				var updateControlEventHandler = null;
-				this.createTwoWayBinding(T).call(this, dataContext, ss.mkdel(this, function(d) {
+				this.$_textBoxTextBinding = new (ss.makeGenericType($MorseCode_$CsJs_UI_Controls_TextBox$TextBoxTextBinding$1, [T]))(this, getTextProperty, dataContext, ss.mkdel(this, function(d) {
 					var updateControl = ss.mkdel(this, function() {
 						this.set_text(ss.coalesce(getTextProperty(d).get_value$1(), ''));
 					});
@@ -1298,24 +1451,25 @@
 					updateControl();
 				}), function(d1) {
 					getTextProperty(d1).remove_changed(updateControlEventHandler);
-				}, ss.mkdel(this, function(d2) {
-					updateDataContextEventHandler = ss.mkdel(this, function(sender1, args1) {
-						getTextProperty(d2).set_value$1(this.get_text());
+				}, updateTextBindingWhileChanging);
+				this.addBinding(this.$_textBoxTextBinding);
+			};
+		},
+		bindUpdateTextBindingWhileChanging: function(T) {
+			return function(dataContext, getUpdateTextBindingWhileChangingProperty) {
+				var updateControlEventHandler = null;
+				this.createOneWayBinding(T).call(this, dataContext, ss.mkdel(this, function(d) {
+					var updateControl = ss.mkdel(this, function() {
+						this.set_updateTextBindingWhileChanging(getUpdateTextBindingWhileChangingProperty(d).get_value());
 					});
-					if (updateWhileChanging) {
-						this.add_textChanging(updateDataContextEventHandler);
-					}
-					else {
-						this.add_textChanged(updateDataContextEventHandler);
-					}
-				}), ss.mkdel(this, function(d3) {
-					if (updateWhileChanging) {
-						this.remove_textChanging(updateDataContextEventHandler);
-					}
-					else {
-						this.remove_textChanged(updateDataContextEventHandler);
-					}
-				}));
+					updateControlEventHandler = function(sender, args) {
+						updateControl();
+					};
+					getUpdateTextBindingWhileChangingProperty(d).add_changed(updateControlEventHandler);
+					updateControl();
+				}), function(d1) {
+					getUpdateTextBindingWhileChangingProperty(d1).remove_changed(updateControlEventHandler);
+				});
 			};
 		}
 	};
@@ -1332,9 +1486,10 @@
 		}
 	};
 	ss.registerClass(null, 'MorseCode.$CsJs.UI.ApplicationBase$ApplicationPage', $MorseCode_$CsJs_UI_ApplicationBase$ApplicationPage);
+	ss.registerInterface(global, 'MorseCode.CsJs.UI.IBinding', $MorseCode_CsJs_UI_IBinding, [ss.IDisposable]);
+	ss.registerInterface(null, 'MorseCode.$CsJs.UI.Controls.TextBox$ITextBoxTextBinding', $MorseCode_$CsJs_UI_Controls_TextBox$ITextBoxTextBinding, [ss.IDisposable, $MorseCode_CsJs_UI_IBinding]);
 	ss.registerClass(global, 'MorseCode.CsJs.UI.ApplicationBase', $MorseCode_CsJs_UI_ApplicationBase);
 	ss.registerClass(global, 'MorseCode.CsJs.UI.ApplicationBase$PageRegistrationHelper', $MorseCode_CsJs_UI_ApplicationBase$PageRegistrationHelper);
-	ss.registerInterface(global, 'MorseCode.CsJs.UI.IBinding', $MorseCode_CsJs_UI_IBinding, [ss.IDisposable]);
 	ss.registerClass(global, 'MorseCode.CsJs.UI.Styles', $MorseCode_CsJs_UI_Styles, null, [ss.IEnumerable, ss.IEnumerable]);
 	ss.registerClass(global, 'MorseCode.CsJs.UI.WindowTimer', $MorseCode_CsJs_UI_WindowTimer, null, [MorseCode.CsJs.Common.ITimer]);
 	ss.registerClass(global, 'MorseCode.CsJs.UI.WindowTimerFactory', $MorseCode_CsJs_UI_WindowTimerFactory, null, [MorseCode.CsJs.Common.ITimerFactory]);

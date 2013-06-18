@@ -47,6 +47,11 @@ namespace MorseCode.CsJs.UI.Controls
             _bindings.Add(new Binding<T>(dataContext, bindToDataContext, unbindFromDataContext, bindToControl, unbindFromControl));
         }
 
+        protected void AddBinding(IBinding binding)
+        {
+            _bindings.Add(binding);
+        }
+
         public void Dispose()
         {
             _bindings.ForEach(b => b.Dispose());

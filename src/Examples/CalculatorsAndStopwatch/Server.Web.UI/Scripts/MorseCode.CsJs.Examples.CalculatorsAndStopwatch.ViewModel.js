@@ -124,12 +124,20 @@
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorViewModel
 	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModel = function() {
+		this.$_updateInRealTimeItems = null;
+		this.$_updateInRealTimeSelection = null;
+		this.$_updateInRealTime = null;
 		this.$_operators = null;
 		this.$_operand1 = null;
 		this.$_selectedOperator = null;
 		this.$_selectedOperatorString = null;
 		this.$_operand2 = null;
 		this.$_result = null;
+		this.$_updateInRealTimeItems = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableCollection$1, [Boolean]).$ctor1)([true, false]);
+		this.$_updateInRealTimeSelection = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [ss.Nullable]).$ctor1)(true);
+		this.$_updateInRealTime = ss.makeGenericType(MorseCode.CsJs.Common.Observable.CalculatedProperty$1, [Boolean]).create(ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [ss.Nullable])).call(null, this.$_updateInRealTimeSelection, function(updateInRealTimeSelection) {
+			return ss.isValue(updateInRealTimeSelection.get_value()) && ss.Nullable.unbox(updateInRealTimeSelection.get_value());
+		}, null);
 		this.$_operators = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableCollection$1, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_Operator]).$ctor1)([0, 1, 2, 3]);
 		this.$_operand1 = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [String]))();
 		this.$_selectedOperator = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableProperty$1, [ss.Nullable]))();
@@ -195,6 +203,15 @@
 		}, null);
 	};
 	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModel.prototype = {
+		get_updateInRealTimeItems: function() {
+			return this.$_updateInRealTimeItems;
+		},
+		get_updateInRealTimeSelection: function() {
+			return this.$_updateInRealTimeSelection;
+		},
+		get_updateInRealTime: function() {
+			return this.$_updateInRealTime;
+		},
 		get_operators: function() {
 			return this.$_operators;
 		},

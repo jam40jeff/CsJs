@@ -17,7 +17,7 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
 
         protected override void BindControls(IReadableObservableProperty<NavigationViewModel> dataContext)
         {
-            _switchButton.Bind(dataContext, d => d.SwitchPages);
+            _switchButton.BindClickAction(dataContext, d => d.SwitchPages);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace MorseCode.CsJs.UI.Controls
         {
         }
 
-        public void Bind(T dataContext)
+        public void BindDataContext(T dataContext)
         {
             EnsureChildControlsCreated();
 

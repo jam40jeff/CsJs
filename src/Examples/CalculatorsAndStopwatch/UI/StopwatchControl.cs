@@ -12,13 +12,13 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
 
         protected override void BindControls(IReadableObservableProperty<StopwatchViewModel> dataContext)
         {
-            _viewModeDropDown.Bind(dataContext, d => d.ViewModes, d => d.SelectedViewMode, o => o.EnumToString(), o => o.EnumToString());
-            _timeLabel.Bind(dataContext, d => d.ElapsedString);
-            _startButton.Bind(dataContext, d => d.Start);
+            _viewModeDropDown.BindItemsAndSelection(dataContext, d => d.ViewModes, d => d.SelectedViewMode, o => o.EnumToString(), o => o.EnumToString());
+            _timeLabel.BindText(dataContext, d => d.ElapsedString);
+            _startButton.BindClickAction(dataContext, d => d.Start);
             _startButton.BindVisible(dataContext, d => d.AllowStart);
-            _stopButton.Bind(dataContext, d => d.Stop);
+            _stopButton.BindClickAction(dataContext, d => d.Stop);
             _stopButton.BindVisible(dataContext, d => d.AllowStop);
-            _resetButton.Bind(dataContext, d => d.Reset);
+            _resetButton.BindClickAction(dataContext, d => d.Reset);
         }
     }
 }

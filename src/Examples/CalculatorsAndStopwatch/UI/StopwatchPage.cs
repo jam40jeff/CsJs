@@ -25,8 +25,8 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
 
         protected override void BindControls(IReadableObservableProperty<StopwatchPageViewModel> dataContext)
         {
-            _navigationControl.Bind(dataContext, d => d.NavigationViewModel);
-            _stopwatchControl.Bind(dataContext, d => d.StopwatchViewModel);
+            _navigationControl.BindDataContext(dataContext, d => d.NavigationViewModel);
+            _stopwatchControl.BindDataContext(dataContext, d => d.StopwatchViewModel);
         }
     }
 }

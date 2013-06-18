@@ -19,7 +19,7 @@ namespace MorseCode.CsJs.UI.Controls
         {
             _button = Document.CreateElement("button");
             _buttonJQuery = jQuery.FromElement(_button);
-            _buttonJQuery.Click(e => OnButtonClicked());
+            _buttonJQuery.Click(e => OnClick());
         }
 
         protected override IEnumerable<Element> GetRootElements()
@@ -47,17 +47,17 @@ namespace MorseCode.CsJs.UI.Controls
             set { _button.Style.Display = value ? string.Empty : "none"; }
         }
 
-        public event EventHandler ButtonClicked;
+        public event EventHandler Click;
 
-        protected void OnButtonClicked()
+        protected void OnClick()
         {
-            if (ButtonClicked != null)
+            if (Click != null)
             {
-                ButtonClicked(this, EventArgs.Empty);
+                Click(this, EventArgs.Empty);
             }
         }
 
-        public void Bind<T>(IReadableObservableProperty<T> dataContext, Func<T, Action> getClickAction)
+        public void BindClickAction<T>(IReadableObservableProperty<T> dataContext, Func<T, Action> getClickAction)
         {
             EventHandler updateDataContextEventHandler = null;
             CreateOneWayToSourceBinding(
@@ -65,9 +65,9 @@ namespace MorseCode.CsJs.UI.Controls
                 d =>
                 {
                     updateDataContextEventHandler = (sender, args) => getClickAction(d)();
-                    ButtonClicked += updateDataContextEventHandler;
+                    Click += updateDataContextEventHandler;
                 },
-                d => ButtonClicked -= updateDataContextEventHandler);
+                d => Click -= updateDataContextEventHandler);
         }
 
         public void BindVisible<T>(IReadableObservableProperty<T> dataContext, Func<T, IReadableObservableProperty<bool>> getVisibleProperty)

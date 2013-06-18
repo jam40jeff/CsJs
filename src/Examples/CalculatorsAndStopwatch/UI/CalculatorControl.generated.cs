@@ -2,6 +2,7 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
 {
 	public abstract class CalculatorControlBase<T> : global::MorseCode.CsJs.UI.Controls.MarkupControlBase<T>
 	{
+		protected global::MorseCode.CsJs.UI.Controls.DropDown @_updateInRealTime { get { return FindControl<global::MorseCode.CsJs.UI.Controls.DropDown>("_updateInRealTime"); } }
 		protected global::MorseCode.CsJs.UI.Controls.DropDown @_function { get { return FindControl<global::MorseCode.CsJs.UI.Controls.DropDown>("_function"); } }
 		protected global::MorseCode.CsJs.UI.Controls.TextBox @_operand1 { get { return FindControl<global::MorseCode.CsJs.UI.Controls.TextBox>("_operand1"); } }
 		protected global::MorseCode.CsJs.UI.Controls.Label @_operator { get { return FindControl<global::MorseCode.CsJs.UI.Controls.Label>("_operator"); } }
@@ -18,6 +19,10 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
 				return
 @"<declare type=""CalculatorControl"" />
 
+<control type=""MorseCode.CsJs.UI.Controls.Panel"" style=""padding: 15px; background-color: rgb(255,255,192);"">
+  <control type=""MorseCode.CsJs.UI.Controls.Label"" text=""Update In Real-Time: "" />
+  <control type=""MorseCode.CsJs.UI.Controls.DropDown"" controlid=""_updateInRealTime"" />
+</control>
 <control type=""MorseCode.CsJs.UI.Controls.Panel"" style=""padding: 15px; background-color: rgb(128,128,128);"">
   <control type=""MorseCode.CsJs.UI.Controls.DropDown"" controlid=""_function"" />
 </control>
@@ -31,7 +36,7 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
 <control type=""MorseCode.CsJs.UI.Controls.Panel"" controlid=""_largeResultPanel"" style=""border: 1px dashed gray;"">
   <table style=""width: 100%;"">
     <tr>
-      <td style=""height: 200px; vertical-align: middle; text-align: center;"">
+      <td style=""height: 150px; vertical-align: middle; text-align: center;"">
         <control type=""MorseCode.CsJs.UI.Controls.Label"" controlid=""_largeResultLabel"" style=""font-family: Arial;"" />
       </td>
     </tr>

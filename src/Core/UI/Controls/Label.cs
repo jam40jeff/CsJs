@@ -39,7 +39,7 @@ namespace MorseCode.CsJs.UI.Controls
             set { EnsureElementsCreated(); _span.InnerHTML = value; }
         }
 
-        public void Bind<T>(IReadableObservableProperty<T> dataContext, Func<T, IReadableObservableProperty<string>> getTextProperty)
+        public void BindText<T>(IReadableObservableProperty<T> dataContext, Func<T, IReadableObservableProperty<string>> getTextProperty)
         {
             EventHandler updateControlEventHandler = null;
             CreateOneWayBinding(
@@ -71,6 +71,11 @@ namespace MorseCode.CsJs.UI.Controls
                 if (name.ToLower() == "style")
                 {
                     control.Styles.ParseStyleString(value);
+                }
+
+                if (name.ToLower() == "text")
+                {
+                    control.Text = value;
                 }
             }
         }

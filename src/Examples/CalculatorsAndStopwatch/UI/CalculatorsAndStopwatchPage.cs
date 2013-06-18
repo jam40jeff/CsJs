@@ -43,11 +43,11 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
 
         protected override void BindControls(IReadableObservableProperty<CalculatorsAndStopwatchPageViewModel> dataContext)
         {
-            _navigationControl.Bind(dataContext, d => d.NavigationViewModel);
-            _switchCalculators.Bind(dataContext, d => d.SwitchCalculators);
-            _calculatorLabel.Bind(dataContext, d => d.CalculatorText);
-            _calculatorControl.Bind(dataContext, d => d.CalculatorViewModel);
-            _stopwatchControl.Bind(dataContext, d => d.StopwatchViewModel);
+            _navigationControl.BindDataContext(dataContext, d => d.NavigationViewModel);
+            _switchCalculators.BindClickAction(dataContext, d => d.SwitchCalculators);
+            _calculatorLabel.BindText(dataContext, d => d.CalculatorText);
+            _calculatorControl.BindDataContext(dataContext, d => d.CalculatorViewModel);
+            _stopwatchControl.BindDataContext(dataContext, d => d.StopwatchViewModel);
         }
     }
 }
