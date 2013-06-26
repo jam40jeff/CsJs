@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server.Web.UI", "Server.Web
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net", "Net\Net.csproj", "{17AC29A3-DAB6-4201-AB01-D500F9352B3E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xml", "Xml\Xml.csproj", "{9F505174-707B-43EE-B862-5075FE26F128}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 		{17AC29A3-DAB6-4201-AB01-D500F9352B3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17AC29A3-DAB6-4201-AB01-D500F9352B3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17AC29A3-DAB6-4201-AB01-D500F9352B3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F505174-707B-43EE-B862-5075FE26F128}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F505174-707B-43EE-B862-5075FE26F128}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F505174-707B-43EE-B862-5075FE26F128}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F505174-707B-43EE-B862-5075FE26F128}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

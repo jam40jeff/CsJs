@@ -5,7 +5,7 @@
 	};
 	$MorseCode_CsJs_Common_FrameworkUtility.enumParse = function(T) {
 		return function(value) {
-			return ss.cast(ss.Enum.parse(T, value), T);
+			return ss.Enum.parse(T, value);
 		};
 	};
 	$MorseCode_CsJs_Common_FrameworkUtility.enumToString = function(T) {
@@ -115,6 +115,143 @@
 	};
 	ss.registerGenericClass(global, 'MorseCode.CsJs.Common.StaticReflection$1', $MorseCode_CsJs_Common_StaticReflection$1, 1);
 	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.StringUtility
+	var $MorseCode_CsJs_Common_StringUtility = function() {
+	};
+	$MorseCode_CsJs_Common_StringUtility.toBase64 = function(bytes) {
+		if (ss.isNullOrUndefined(bytes)) {
+			return null;
+		}
+		var output = '';
+		var n = 0;
+		var chr1 = 0;
+		var chr2 = 0;
+		var $t1 = ss.getEnumerator(bytes);
+		try {
+			while ($t1.moveNext()) {
+				var b = $t1.current();
+				switch (n) {
+					case 0: {
+						chr1 = b;
+						break;
+					}
+					case 1: {
+						chr2 = b;
+						break;
+					}
+					case 2: {
+						{
+							var chr3 = b;
+							var enc1 = chr1 >> 2;
+							var enc2 = (chr1 & 3) << 4 | chr2 >> 4;
+							var enc3 = (chr2 & 15) << 2 | chr3 >> 6;
+							var enc4 = chr3 & 63;
+							output = output + $MorseCode_CsJs_Common_StringUtility.$keyString.charAt(enc1) + $MorseCode_CsJs_Common_StringUtility.$keyString.charAt(enc2) + $MorseCode_CsJs_Common_StringUtility.$keyString.charAt(enc3) + $MorseCode_CsJs_Common_StringUtility.$keyString.charAt(enc4);
+						}
+						break;
+					}
+				}
+				n++;
+				n %= 3;
+			}
+		}
+		finally {
+			$t1.dispose();
+		}
+		if (n > 0) {
+			if (n < 2) {
+				chr2 = 0;
+			}
+			var enc11 = chr1 >> 2;
+			var enc21 = (chr1 & 3) << 4 | chr2 >> 4;
+			var enc31 = (chr2 & 15) << 2;
+			if (n < 2) {
+				enc31 = 64;
+			}
+			output = output + $MorseCode_CsJs_Common_StringUtility.$keyString.charAt(enc11) + $MorseCode_CsJs_Common_StringUtility.$keyString.charAt(enc21) + $MorseCode_CsJs_Common_StringUtility.$keyString.charAt(enc31) + $MorseCode_CsJs_Common_StringUtility.$keyString.charAt(64);
+		}
+		return output;
+	};
+	$MorseCode_CsJs_Common_StringUtility.toBase64$1 = function(s) {
+		return $MorseCode_CsJs_Common_StringUtility.toBase64($MorseCode_CsJs_Common_StringUtility.$utf8Encode(s));
+	};
+	$MorseCode_CsJs_Common_StringUtility.$utf8Encode = function(s) {
+		if (ss.isNullOrUndefined(s)) {
+			return null;
+		}
+		s = s.replace(new RegExp('\\r\\n', 'g'), '\\n');
+		var bytes = [];
+		for (var i = 0; i < s.length; i++) {
+			var c = s.charCodeAt(i);
+			if (c < 128) {
+				ss.add(bytes, c);
+			}
+			else if (c > 127 && c < 2048) {
+				ss.add(bytes, c >> 6 | 192);
+				ss.add(bytes, c & 63 | 128);
+			}
+			else {
+				ss.add(bytes, c >> 12 | 224);
+				ss.add(bytes, c >> 6 & 63 | 128);
+				ss.add(bytes, c & 63 | 128);
+			}
+		}
+		return bytes;
+	};
+	$MorseCode_CsJs_Common_StringUtility.fromBase64ToByteArray = function(s) {
+		if (ss.isNullOrUndefined(s)) {
+			return null;
+		}
+		s = s.replace(new RegExp('[^A-Za-z0-9\\+\\/\\=]', 'g'), '');
+		var bytes = [];
+		var n = 0;
+		while (n < s.length) {
+			// ReSharper disable StringIndexOfIsCultureSpecific.1
+			var enc1 = $MorseCode_CsJs_Common_StringUtility.$keyString.indexOf(s.charAt(n++));
+			var enc2 = $MorseCode_CsJs_Common_StringUtility.$keyString.indexOf(s.charAt(n++));
+			var enc3 = $MorseCode_CsJs_Common_StringUtility.$keyString.indexOf(s.charAt(n++));
+			var enc4 = $MorseCode_CsJs_Common_StringUtility.$keyString.indexOf(s.charAt(n++));
+			// ReSharper restore StringIndexOfIsCultureSpecific.1
+			var chr1 = enc1 << 2 | enc2 >> 4;
+			var chr2 = (enc2 & 15) << 4 | enc3 >> 2;
+			var chr3 = (enc3 & 3) << 6 | enc4;
+			ss.add(bytes, chr1);
+			if (enc3 !== 64) {
+				ss.add(bytes, chr2);
+			}
+			if (enc4 !== 64) {
+				ss.add(bytes, chr3);
+			}
+		}
+		return bytes;
+	};
+	$MorseCode_CsJs_Common_StringUtility.fromBase64ToString = function(s) {
+		return $MorseCode_CsJs_Common_StringUtility.$utf8Decode($MorseCode_CsJs_Common_StringUtility.fromBase64ToByteArray(s));
+	};
+	$MorseCode_CsJs_Common_StringUtility.$utf8Decode = function(bytes) {
+		var s = '';
+		var n = 0;
+		while (n < bytes.length) {
+			var c = bytes[n];
+			if (c < 128) {
+				s += String.fromCharCode(c);
+				n++;
+			}
+			else if (c > 191 && c < 224) {
+				var c2 = bytes[n + 1];
+				s += String.fromCharCode((c & 31) << 6 | c2 & 63);
+				n += 2;
+			}
+			else {
+				var c21 = bytes[n + 1];
+				var c3 = bytes[n + 2];
+				s += String.fromCharCode((c & 15) << 12 | (c21 & 63) << 6 | c3 & 63);
+				n += 3;
+			}
+		}
+		return s;
+	};
+	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Common.TimerFactory
 	var $MorseCode_CsJs_Common_TimerFactory = function() {
 	};
@@ -126,6 +263,27 @@
 	};
 	$MorseCode_CsJs_Common_TimerFactory.set_instance = function(value) {
 		$MorseCode_CsJs_Common_TimerFactory.$_instance = value;
+	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.UnhandledEnumValueException
+	var $MorseCode_CsJs_Common_UnhandledEnumValueException = function() {
+		ss.Exception.call(this);
+	};
+	$MorseCode_CsJs_Common_UnhandledEnumValueException.$ctor1 = function(message) {
+		ss.Exception.call(this, message);
+	};
+	$MorseCode_CsJs_Common_UnhandledEnumValueException.$ctor2 = function(message, innerException) {
+		ss.Exception.call(this, message, innerException);
+	};
+	$MorseCode_CsJs_Common_UnhandledEnumValueException.$ctor1.prototype = $MorseCode_CsJs_Common_UnhandledEnumValueException.$ctor2.prototype = $MorseCode_CsJs_Common_UnhandledEnumValueException.prototype;
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.UnhandledEnumValueExceptionFactory
+	var $MorseCode_CsJs_Common_UnhandledEnumValueExceptionFactory = function() {
+	};
+	$MorseCode_CsJs_Common_UnhandledEnumValueExceptionFactory.create = function(T) {
+		return function(value) {
+			throw new $MorseCode_CsJs_Common_UnhandledEnumValueException.$ctor1('An unhandled enum value was encountered for enum type ' + ss.getTypeFullName(T) + ': ' + $MorseCode_CsJs_Common_FrameworkUtility.enumToString(T).call(null, value) + '.');
+		};
 	};
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Common.Observable.AsyncCalculatedProperty
@@ -528,10 +686,40 @@
 		return $type;
 	};
 	ss.registerGenericClass(global, 'MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1', $MorseCode_CsJs_Common_Observable_ReadOnlyProperty$1, 1);
+	////////////////////////////////////////////////////////////////////////////////
+	// System.InvalidOperationException
+	var $System_InvalidOperationException = function() {
+		ss.Exception.call(this);
+	};
+	$System_InvalidOperationException.$ctor1 = function(message) {
+		ss.Exception.call(this, message);
+	};
+	$System_InvalidOperationException.$ctor2 = function(message, innerException) {
+		ss.Exception.call(this, message, innerException);
+	};
+	$System_InvalidOperationException.$ctor1.prototype = $System_InvalidOperationException.$ctor2.prototype = $System_InvalidOperationException.prototype;
+	////////////////////////////////////////////////////////////////////////////////
+	// System.NotImplementedException
+	var $System_NotImplementedException = function() {
+		ss.Exception.call(this);
+	};
+	$System_NotImplementedException.$ctor1 = function(message) {
+		ss.Exception.call(this, message);
+	};
+	$System_NotImplementedException.$ctor2 = function(message, innerException) {
+		ss.Exception.call(this, message, innerException);
+	};
+	$System_NotImplementedException.$ctor1.prototype = $System_NotImplementedException.$ctor2.prototype = $System_NotImplementedException.prototype;
 	ss.registerClass(global, 'MorseCode.CsJs.Common.FrameworkUtility', $MorseCode_CsJs_Common_FrameworkUtility);
 	ss.registerInterface(global, 'MorseCode.CsJs.Common.ITimer', $MorseCode_CsJs_Common_ITimer);
 	ss.registerInterface(global, 'MorseCode.CsJs.Common.ITimerFactory', $MorseCode_CsJs_Common_ITimerFactory);
+	ss.registerClass(global, 'MorseCode.CsJs.Common.StringUtility', $MorseCode_CsJs_Common_StringUtility);
 	ss.registerClass(global, 'MorseCode.CsJs.Common.TimerFactory', $MorseCode_CsJs_Common_TimerFactory);
+	ss.registerClass(global, 'MorseCode.CsJs.Common.UnhandledEnumValueException', $MorseCode_CsJs_Common_UnhandledEnumValueException, ss.Exception);
+	ss.registerClass(global, 'MorseCode.CsJs.Common.UnhandledEnumValueExceptionFactory', $MorseCode_CsJs_Common_UnhandledEnumValueExceptionFactory);
 	ss.registerInterface(global, 'MorseCode.CsJs.Common.Observable.IObservable', $MorseCode_CsJs_Common_Observable_IObservable);
+	ss.registerClass(global, 'System.InvalidOperationException', $System_InvalidOperationException, ss.Exception);
+	ss.registerClass(global, 'System.NotImplementedException', $System_NotImplementedException, ss.Exception);
+	$MorseCode_CsJs_Common_StringUtility.$keyString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
 	$MorseCode_CsJs_Common_TimerFactory.$_instance = null;
 })();

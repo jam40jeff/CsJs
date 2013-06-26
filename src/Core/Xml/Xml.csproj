@@ -4,16 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B7FE8517-61CE-4115-B8D0-763C2181E388}</ProjectGuid>
+    <ProjectGuid>{9F505174-707B-43EE-B862-5075FE26F128}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MorseCode.CsJs.Common</RootNamespace>
-    <AssemblyName>MorseCode.CsJs.Common</AssemblyName>
+    <RootNamespace>MorseCode.CsJs.Xml</RootNamespace>
+    <AssemblyName>MorseCode.CsJs.Xml</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NoStdLib>True</NoStdLib>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <NoStdLib>True</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,57 +32,62 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\MorseCode.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
   <ItemGroup>
-    <Compile Include="InvalidOperationException.cs" />
-    <Compile Include="ITimer.cs" />
-    <Compile Include="ITimerFactory.cs" />
-    <Compile Include="NotImplementedException.cs" />
-    <Compile Include="Observable\AsyncCalculatedProperty.cs" />
-    <Compile Include="Observable\CalculatedProperty.cs" />
-    <Compile Include="Observable\IObservable.cs" />
-    <Compile Include="Observable\IObservableProperty.cs" />
-    <Compile Include="Observable\IReadableObservableProperty.cs" />
-    <Compile Include="Observable\IReadableProperty.cs" />
-    <Compile Include="Observable\IWritableProperty.cs" />
-    <Compile Include="Observable\ObservableCollection.cs" />
-    <Compile Include="Observable\ObservableProperty.cs" />
-    <Compile Include="Observable\ObservablePropertyBase.cs" />
-    <Compile Include="Observable\ReadOnlyProperty.cs" />
-    <Compile Include="StaticReflection.cs" />
+    <Compile Include="Schema\IXmlSchemaAttributeDefinition.cs" />
+    <Compile Include="Schema\IXmlSchemaComplexTypeDefinition.cs" />
+    <Compile Include="Schema\IXmlSchemaElementDefinition.cs" />
+    <Compile Include="Schema\IXmlSchemaSimpleTypeDefinition.cs" />
+    <Compile Include="Schema\IXmlSchemaTypeDefinition.cs" />
+    <Compile Include="Schema\XmlBuiltInSimpleType.cs" />
+    <Compile Include="Schema\XmlSchemaAttributeDefinition.cs" />
+    <Compile Include="Schema\XmlSchemaBuiltInSimpleTypeDefinition.cs" />
+    <Compile Include="Schema\XmlSchemaComplexTypeDefinition.cs" />
+    <Compile Include="Schema\XmlSchemaConstants.cs" />
+    <Compile Include="Schema\XmlSchemaCustomSimpleTypeDefinition.cs" />
+    <Compile Include="Schema\XmlSchemaElementDefinition.cs" />
+    <Compile Include="Schema\XmlSchemaEnumSimpleTypeDefinition.cs" />
+    <Compile Include="Schema\XmlSchemaParser.cs" />
+    <Compile Include="Schema\XmlSchemaTypeDefinition.cs" />
+    <Compile Include="XmlExtensionMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FrameworkUtility.cs" />
-    <Compile Include="StringUtility.cs" />
-    <Compile Include="TimerFactory.cs" />
-    <Compile Include="UnhandledEnumValueExceptionFactory.cs" />
+    <Compile Include="XPath\XPath.cs" />
+    <Compile Include="XPath\XPathExtensionMethods.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\MorseCode.snk">
-      <Link>MorseCode.snk</Link>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib">
       <HintPath>$(SolutionDir)packages\Saltarelle.Runtime.2.2.0\tools\Assemblies\mscorlib.dll</HintPath>
     </Reference>
-    <Reference Include="Saltarelle.Linq">
-      <HintPath>..\packages\Saltarelle.Linq.2.1.0\lib\Saltarelle.Linq.dll</HintPath>
+    <Reference Include="Saltarelle.jQuery, Version=1.9.0.0, Culture=neutral, PublicKeyToken=a4048e8fcc593f14, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Saltarelle.jQuery.1.9.0\lib\Saltarelle.jQuery.dll</HintPath>
+    </Reference>
+    <Reference Include="Saltarelle.Web, Version=2.2.0.0, Culture=neutral, PublicKeyToken=a4048e8fcc593f14, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Saltarelle.Web.2.2.0\lib\Saltarelle.Web.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="XPath\jquery.xpath.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{b7fe8517-61ce-4115-b8d0-763c2181e388}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" Condition="!Exists('$(SolutionDir)packages\Saltarelle.Compiler.2.2.0\tools\Saltarelle.Compiler.targets')" />
   <Import Project="$(SolutionDir)packages\Saltarelle.Compiler.2.2.0\tools\Saltarelle.Compiler.targets" Condition="Exists('$(SolutionDir)packages\Saltarelle.Compiler.2.2.0\tools\Saltarelle.Compiler.targets')" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(TargetDir)$(TargetName).*" "$(ProjectDir)..\..\..\bin\" /y
+xcopy "$(TargetDir)XPath\jquery.xpath.js" "$(ProjectDir)..\..\..\bin\" /y
 </PostBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

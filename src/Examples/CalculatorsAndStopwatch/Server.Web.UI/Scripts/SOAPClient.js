@@ -123,7 +123,7 @@ SOAPClient._loadWsdl = function (url, method, parameters, async, callback) {
     // get wsdl
     var xmlHttp = SOAPClient._getXmlHttp();
     xmlHttp.open("GET", url + "?singleWsdl", async);
-    try { xmlHttp.responseType = 'msxml-document'; } catch (e) { }
+    //try { xmlHttp.responseType = 'msxml-document'; } catch (e) { }
     if (async) {
         xmlHttp.onreadystatechange = function () {
             if (xmlHttp.readyState == 4)
@@ -162,7 +162,7 @@ SOAPClient._sendSoapRequest = function (url, method, parameters, async, callback
     }
     else
         xmlHttp.open("POST", url, async);
-    try { xmlHttp.responseType = 'msxml-document'; } catch (e) { }
+    //try { xmlHttp.responseType = 'msxml-document'; } catch (e) { }
     var soapaction = SOAPClient._findSoapAction(wsdl, method);
     xmlHttp.setRequestHeader("SOAPAction", soapaction);
     xmlHttp.setRequestHeader("Content-Type", "text/xml; charset=utf-8");

@@ -10,6 +10,10 @@
     <projectUrl>http://www.saltarelle-compiler.com/</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>This package contains the required metadata to develop web applications with the Saltarelle C# to JavaScript compiler. It is a slightly modified version of the web library from the Script# project by Nikhil Kothari (https://github.com/nikhilk/scriptsharp).</description>
+    <summary />
+    <releaseNotes />
+    <copyright />
+    <language />
     <tags>compiler c# javascript web</tags>
     <dependencies>
       <dependency id="Saltarelle.Runtime" version="2.2" />

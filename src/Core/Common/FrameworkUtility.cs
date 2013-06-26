@@ -7,17 +7,23 @@ namespace MorseCode.CsJs.Common
     {
         public static T EnumParse<T>(string value) where T : struct
         {
-            return Script.Reinterpret<T>(Enum.Parse(typeof (T), value));
+            return Script.Reinterpret<T>(Enum.Parse(typeof(T), value));
         }
 
         public static string EnumToString<T>(this T o) where T : struct
         {
-            return Enum.ToString(typeof (T), Script.Reinterpret<Enum>(o));
+            return Enum.ToString(typeof(T), Script.Reinterpret<Enum>(o));
         }
 
         public static string SafeToString(this object o)
         {
             return o == null ? null : o.ToString();
+        }
+
+        [InlineCode("Object.prototype.toString.call({o}).match(new RegExp(\"\\s([a-zA-Z]+)\"))[1]")]
+        public static string GetJsType(object o)
+        {
+            return null;
         }
 
         #region TryParse
@@ -33,13 +39,13 @@ namespace MorseCode.CsJs.Common
             {
                 return null;
             }
-            return IsNaN(b) ? (byte?) null : b;
+            return IsNaN(b) ? (byte?)null : b;
         }
 
         [ScriptAlias("isNaN")]
         // ReSharper disable UnusedParameter.Local
         private static bool IsNaN(byte b)
-            // ReSharper restore UnusedParameter.Local
+        // ReSharper restore UnusedParameter.Local
         {
             return false;
         }
@@ -55,13 +61,13 @@ namespace MorseCode.CsJs.Common
             {
                 return null;
             }
-            return IsNaN(n) ? (short?) null : n;
+            return IsNaN(n) ? (short?)null : n;
         }
 
         [ScriptAlias("isNaN")]
         // ReSharper disable UnusedParameter.Local
         private static bool IsNaN(short s)
-            // ReSharper restore UnusedParameter.Local
+        // ReSharper restore UnusedParameter.Local
         {
             return false;
         }
@@ -77,13 +83,13 @@ namespace MorseCode.CsJs.Common
             {
                 return null;
             }
-            return IsNaN(i) ? (int?) null : i;
+            return IsNaN(i) ? (int?)null : i;
         }
 
         [ScriptAlias("isNaN")]
         // ReSharper disable UnusedParameter.Local
         private static bool IsNaN(int i)
-            // ReSharper restore UnusedParameter.Local
+        // ReSharper restore UnusedParameter.Local
         {
             return false;
         }
@@ -99,13 +105,13 @@ namespace MorseCode.CsJs.Common
             {
                 return null;
             }
-            return IsNaN(l) ? (long?) null : l;
+            return IsNaN(l) ? (long?)null : l;
         }
 
         [ScriptAlias("isNaN")]
         // ReSharper disable UnusedParameter.Local
         private static bool IsNaN(long l)
-            // ReSharper restore UnusedParameter.Local
+        // ReSharper restore UnusedParameter.Local
         {
             return false;
         }
@@ -121,13 +127,13 @@ namespace MorseCode.CsJs.Common
             {
                 return null;
             }
-            return float.IsNaN(f) ? (float?) null : f;
+            return float.IsNaN(f) ? (float?)null : f;
         }
 
         [ScriptAlias("parseFloat")]
         // ReSharper disable UnusedParameter.Local
         private static float ParseFloat(string s)
-            // ReSharper restore UnusedParameter.Local
+        // ReSharper restore UnusedParameter.Local
         {
             return 0f;
         }
@@ -143,7 +149,7 @@ namespace MorseCode.CsJs.Common
             {
                 return null;
             }
-            return double.IsNaN(d) ? (double?) null : d;
+            return double.IsNaN(d) ? (double?)null : d;
         }
 
         public static decimal? DecimalTryParse(string s)
@@ -157,13 +163,13 @@ namespace MorseCode.CsJs.Common
             {
                 return null;
             }
-            return IsNaN(d) ? (decimal?) null : d;
+            return IsNaN(d) ? (decimal?)null : d;
         }
 
         [ScriptAlias("isNaN")]
         // ReSharper disable UnusedParameter.Local
         private static bool IsNaN(decimal d)
-            // ReSharper restore UnusedParameter.Local
+        // ReSharper restore UnusedParameter.Local
         {
             return false;
         }
@@ -171,7 +177,7 @@ namespace MorseCode.CsJs.Common
         [ScriptAlias("parseFloat")]
         // ReSharper disable UnusedParameter.Local
         private static decimal ParseDecimal(string s)
-            // ReSharper restore UnusedParameter.Local
+        // ReSharper restore UnusedParameter.Local
         {
             return 0m;
         }

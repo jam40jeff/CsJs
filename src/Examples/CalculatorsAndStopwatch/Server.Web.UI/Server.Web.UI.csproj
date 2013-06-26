@@ -75,8 +75,8 @@
     <Content Include="..\..\..\..\bin\MorseCode.CsJs.ViewModel.js">
       <Link>Scripts\MorseCode.CsJs.ViewModel.js</Link>
     </Content>
-    <Content Include="..\..\..\..\bin\SOAPClient.js">
-      <Link>Scripts\SOAPClient.js</Link>
+    <Content Include="..\..\..\..\bin\MorseCode.CsJs.Xml.js">
+      <Link>Scripts\MorseCode.CsJs.Xml.js</Link>
     </Content>
     <Content Include="..\packages\Saltarelle.jQuery.1.9.0\jquery-1.9.1.js">
       <Link>Scripts\jquery-1.9.1.js</Link>
