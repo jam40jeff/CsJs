@@ -46,7 +46,9 @@
 		$invokeUsingWsdl: function(wsdl) {
 			var targetNamespaceNode = wsdl.documentElement.attributes.getNamedItem('targetNamespace');
 			var targetNamespace = (ss.isNullOrUndefined(targetNamespaceNode) ? '' : targetNamespaceNode.nodeValue);
-			var soapRequest = '<?xml version="1.0" encoding="utf-8"?>\r\n<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\r\n    <soap:Body>\r\n        <' + this.$_method + ' xmlns="' + targetNamespace + '">' + this.$getParametersXml(wsdl, targetNamespace) + '</' + this.$_method + '>\r\n    </soap:Body>\r\n</soap:Envelope>';
+			var namespacePrefixes = new $MorseCode_$CsJs_Net_SoapClient$SoapClientInvocator$NamespacePrefixes(targetNamespace);
+			var parametersXml = this.$getParametersXml(wsdl, namespacePrefixes);
+			var soapRequest = '<?xml version="1.0" encoding="utf-8"?>\r\n<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">\r\n    <soap:Body>\r\n        <' + this.$_method + ' xmlns="' + targetNamespace + '"' + namespacePrefixes.$getPrefixDefinitions() + '>' + parametersXml + '</' + this.$_method + '>\r\n    </soap:Body>\r\n</soap:Envelope>';
 			var options = { dataType: 'xml' };
 			var useCredentials = !ss.isNullOrEmptyString(this.$_username) && !ss.isNullOrEmptyString(this.$_password);
 			if (useCredentials) {
@@ -93,12 +95,12 @@
 			var nodes = MorseCode.CsJs.Xml.XPath.XPath.evaluate$3(wsdl, path, this.$getNamespaceResolver(targetNamespace));
 			return ((ss.isNullOrUndefined(nodes) || nodes.length < 1) ? '' : nodes[0].nodeValue);
 		},
-		$getParametersXml: function(wsdl, targetNamespace) {
-			var messageName = MorseCode.CsJs.Xml.XPath.XPath.evaluate$3(wsdl, './/wsdl:portType/wsdl:operation[@name=\'' + this.$_method + '\']/wsdl:input/@message', this.$getNamespaceResolver(targetNamespace))[0].nodeValue;
+		$getParametersXml: function(wsdl, namespacePrefixes) {
+			var messageName = MorseCode.CsJs.Xml.XPath.XPath.evaluate$3(wsdl, './/wsdl:portType/wsdl:operation[@name=\'' + this.$_method + '\']/wsdl:input/@message', this.$getNamespaceResolver(null))[0].nodeValue;
 			if (messageName.indexOf(':') !== -1) {
 				messageName = messageName.substring(messageName.indexOf(String.fromCharCode(58)) + 1);
 			}
-			var parametersElementFullName = MorseCode.CsJs.Xml.XPath.XPath.evaluate$3(wsdl, './/wsdl:message[@name=\'' + messageName + '\']/wsdl:part[@name=\'parameters\']/@element', this.$getNamespaceResolver(targetNamespace))[0].nodeValue;
+			var parametersElementFullName = MorseCode.CsJs.Xml.XPath.XPath.evaluate$3(wsdl, './/wsdl:message[@name=\'' + messageName + '\']/wsdl:part[@name=\'parameters\']/@element', this.$getNamespaceResolver(null))[0].nodeValue;
 			var parametersElementNameParts = parametersElementFullName.split(String.fromCharCode(58));
 			var parametersElementNamespace;
 			var parametersElementName;
@@ -115,13 +117,15 @@
 			var $t1 = ss.cast(elementDefinition.get_type(), MorseCode.CsJs.Xml.Schema.XmlSchemaComplexTypeDefinition).get_elements();
 			for (var $t2 = 0; $t2 < $t1.length; $t2++) {
 				var childElementDefinition = $t1[$t2];
-				xml += this.$getObjectXmlRecursive(childElementDefinition, this.$_parameters.get_item(childElementDefinition.get_name()), false);
+				xml += this.$getObjectXmlRecursive(childElementDefinition, this.$_parameters.get_item(childElementDefinition.get_name()), false, namespacePrefixes);
 			}
 			return xml;
 		},
-		$getObjectXmlRecursive: function(elementDefinition, value, ignoreArray) {
+		$getObjectXmlRecursive: function(elementDefinition, value, ignoreArray, namespacePrefixes) {
+			var prefix = null;
 			if (ss.isNullOrUndefined(value)) {
-				return '<' + elementDefinition.get_name() + (ss.isNullOrUndefined(elementDefinition.get_elementNamespace()) ? '' : (' xmlns="' + elementDefinition.get_elementNamespace() + '"')) + ' i:nil="true" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" />';
+				prefix = namespacePrefixes.$getPrefixAndColon(elementDefinition.get_elementNamespace());
+				return '<' + prefix + elementDefinition.get_name() + ' i:nil="true" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" />';
 			}
 			var xml = '';
 			var simpleTypeDefinition = ss.safeCast(elementDefinition.get_type(), MorseCode.CsJs.Xml.Schema.IXmlSchemaSimpleTypeDefinition);
@@ -226,7 +230,8 @@
 					}
 					var arrayElementDefinition;
 					if (isArrayContainer) {
-						xml += '<' + elementDefinition.get_name() + (ss.isNullOrUndefined(elementDefinition.get_elementNamespace()) ? '' : (' xmlns="' + elementDefinition.get_elementNamespace() + '"')) + '>';
+						prefix = namespacePrefixes.$getPrefixAndColon(elementDefinition.get_elementNamespace());
+						xml += '<' + prefix + elementDefinition.get_name() + '>';
 						arrayElementDefinition = complexTypeDefinition.get_elements()[0];
 					}
 					else {
@@ -234,22 +239,21 @@
 					}
 					for (var $t1 = 0; $t1 < value.length; $t1++) {
 						var item = value[$t1];
-						xml += this.$getObjectXmlRecursive(arrayElementDefinition, item, true);
+						xml += this.$getObjectXmlRecursive(arrayElementDefinition, item, true, namespacePrefixes);
 					}
 					if (isArrayContainer) {
-						xml += '</' + elementDefinition.get_name() + '>';
+						xml += '</' + prefix + elementDefinition.get_name() + '>';
 					}
 					return xml;
 				}
-				else {
-					var $t2 = complexTypeDefinition.get_elements();
-					for (var $t3 = 0; $t3 < $t2.length; $t3++) {
-						var childElementDefinition = $t2[$t3];
-						xml += this.$getObjectXmlRecursive(childElementDefinition, value[childElementDefinition.get_name()], false);
-					}
+				var $t2 = complexTypeDefinition.get_elements();
+				for (var $t3 = 0; $t3 < $t2.length; $t3++) {
+					var childElementDefinition = $t2[$t3];
+					xml += this.$getObjectXmlRecursive(childElementDefinition, value[childElementDefinition.get_name()], false, namespacePrefixes);
 				}
 			}
-			return '<' + elementDefinition.get_name() + (ss.isNullOrUndefined(elementDefinition.get_elementNamespace()) ? '' : (' xmlns="' + elementDefinition.get_elementNamespace() + '"')) + '>' + xml + '</' + elementDefinition.get_name() + '>';
+			prefix = namespacePrefixes.$getPrefixAndColon(elementDefinition.get_elementNamespace());
+			return '<' + prefix + elementDefinition.get_name() + '>' + xml + '</' + prefix + elementDefinition.get_name() + '>';
 		},
 		$isArrayContainer: function(complexElementDefinition) {
 			return complexElementDefinition.get_elements().length === 1 && complexElementDefinition.get_elements()[0].get_isArray();
@@ -445,6 +449,33 @@
 		return (ss.isNullOrUndefined(s) ? null : s.replace(new RegExp('&amp;', 'g'), '&').replace(new RegExp('&lt;', 'g'), '<').replace(new RegExp('&gt;', 'g'), '>'));
 	};
 	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Net.SoapClient.SoapClientInvocator.NamespacePrefixes
+	var $MorseCode_$CsJs_Net_SoapClient$SoapClientInvocator$NamespacePrefixes = function(targetNamespace) {
+		this.$_targetNamespace = null;
+		this.$_prefixByNamespace = new (ss.makeGenericType(ss.Dictionary$2, [String, String]))();
+		this.$_prefixCount = 0;
+		this.$_targetNamespace = targetNamespace;
+	};
+	$MorseCode_$CsJs_Net_SoapClient$SoapClientInvocator$NamespacePrefixes.prototype = {
+		$getPrefixAndColon: function(namespace1) {
+			if (ss.referenceEquals(namespace1, this.$_targetNamespace)) {
+				return '';
+			}
+			var prefix = {};
+			if (!this.$_prefixByNamespace.tryGetValue(namespace1, prefix)) {
+				prefix.$ = $MorseCode_$CsJs_Net_SoapClient$SoapClientInvocator$NamespacePrefixes.$prefixPrefix + this.$_prefixCount;
+				this.$_prefixCount++;
+				this.$_prefixByNamespace.add(namespace1, prefix.$);
+			}
+			return prefix.$ + ':';
+		},
+		$getPrefixDefinitions: function() {
+			return ss.arrayFromEnumerable(Enumerable.from(this.$_prefixByNamespace).select(function(p) {
+				return ' xmlns:' + p.value + '="' + ss.replaceAllString(p.key, '"', '\\"') + '"';
+			})).join('');
+		}
+	};
+	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Net.jQueryAjaxOptionsUtility
 	var $MorseCode_CsJs_Net_jQueryAjaxOptionsUtility = function() {
 	};
@@ -501,8 +532,10 @@
 		}
 	};
 	ss.registerClass(null, 'MorseCode.$CsJs.Net.SoapClient$SoapClientInvocator', $MorseCode_$CsJs_Net_SoapClient$SoapClientInvocator);
+	ss.registerClass(null, 'MorseCode.$CsJs.Net.SoapClient$SoapClientInvocator$NamespacePrefixes', $MorseCode_$CsJs_Net_SoapClient$SoapClientInvocator$NamespacePrefixes);
 	ss.registerClass(global, 'MorseCode.CsJs.Net.jQueryAjaxOptionsUtility', $MorseCode_CsJs_Net_jQueryAjaxOptionsUtility);
 	ss.registerClass(global, 'MorseCode.CsJs.Net.jQueryXmlHttpRequestExtensionMethods', $MorseCode_CsJs_Net_jQueryXmlHttpRequestExtensionMethods);
 	ss.registerClass(global, 'MorseCode.CsJs.Net.SoapClient', $MorseCode_CsJs_Net_SoapClient);
+	$MorseCode_$CsJs_Net_SoapClient$SoapClientInvocator$NamespacePrefixes.$prefixPrefix = 'rns';
 	$MorseCode_$CsJs_Net_SoapClient$SoapClientInvocator.$wsdlByUrl = new (ss.makeGenericType(ss.Dictionary$2, [String, Object]))();
 })();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
 using MorseCode.CsJs.Common;
@@ -115,10 +116,12 @@ namespace MorseCode.CsJs.Net
             {
                 XmlNode targetNamespaceNode = wsdl.DocumentElement.Attributes.GetNamedItem("targetNamespace");
                 string targetNamespace = targetNamespaceNode == null ? string.Empty : targetNamespaceNode.Value;
+                NamespacePrefixes namespacePrefixes = new NamespacePrefixes(targetNamespace);
+                string parametersXml = GetParametersXml(wsdl, namespacePrefixes);
                 string soapRequest = @"<?xml version=""1.0"" encoding=""utf-8""?>
 <soap:Envelope xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:soap=""http://schemas.xmlsoap.org/soap/envelope/"">
     <soap:Body>
-        <" + _method + @" xmlns=""" + targetNamespace + @""">" + GetParametersXml(wsdl, targetNamespace) + @"</" + _method + @">
+        <" + _method + @" xmlns=""" + targetNamespace + @"""" + namespacePrefixes.GetPrefixDefinitions() + ">" + parametersXml + @"</" + _method + @">
     </soap:Body>
 </soap:Envelope>";
                 jQueryAjaxOptions options = new jQueryAjaxOptions { DataType = "xml" };
@@ -184,14 +187,14 @@ namespace MorseCode.CsJs.Net
                 return nodes == null || nodes.Count < 1 ? string.Empty : nodes[0].Value;
             }
 
-            private string GetParametersXml(XmlDocument wsdl, string targetNamespace)
+            private string GetParametersXml(XmlDocument wsdl, NamespacePrefixes namespacePrefixes)
             {
-                string messageName = XPath.Evaluate(wsdl, ".//wsdl:portType/wsdl:operation[@name='" + _method + "']/wsdl:input/@message", GetNamespaceResolver(targetNamespace))[0].Value;
+                string messageName = XPath.Evaluate(wsdl, ".//wsdl:portType/wsdl:operation[@name='" + _method + "']/wsdl:input/@message", GetNamespaceResolver(null))[0].Value;
                 if (messageName.Contains(":"))
                 {
                     messageName = messageName.Substring(messageName.IndexOf(':') + 1);
                 }
-                string parametersElementFullName = XPath.Evaluate(wsdl, ".//wsdl:message[@name='" + messageName + "']/wsdl:part[@name='parameters']/@element", GetNamespaceResolver(targetNamespace))[0].Value;
+                string parametersElementFullName = XPath.Evaluate(wsdl, ".//wsdl:message[@name='" + messageName + "']/wsdl:part[@name='parameters']/@element", GetNamespaceResolver(null))[0].Value;
                 string[] parametersElementNameParts = parametersElementFullName.Split(':');
                 string parametersElementNamespace;
                 string parametersElementName;
@@ -210,16 +213,19 @@ namespace MorseCode.CsJs.Net
                 string xml = string.Empty;
                 foreach (IXmlSchemaElementDefinition childElementDefinition in ((XmlSchemaComplexTypeDefinition)elementDefinition.Type).Elements)
                 {
-                    xml += GetObjectXmlRecursive(childElementDefinition, _parameters[childElementDefinition.Name], false);
+                    xml += GetObjectXmlRecursive(childElementDefinition, _parameters[childElementDefinition.Name], false, namespacePrefixes);
                 }
                 return xml;
             }
 
-            private string GetObjectXmlRecursive(IXmlSchemaElementDefinition elementDefinition, object value, bool ignoreArray)
+            private string GetObjectXmlRecursive(IXmlSchemaElementDefinition elementDefinition, object value, bool ignoreArray, NamespacePrefixes namespacePrefixes)
             {
+                string prefix = null;
+
                 if (Script.IsNullOrUndefined(value))
                 {
-                    return "<" + elementDefinition.Name + (elementDefinition.ElementNamespace == null ? string.Empty : (" xmlns=\"" + elementDefinition.ElementNamespace + "\"")) + " i:nil=\"true\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" />";
+                    prefix = namespacePrefixes.GetPrefixAndColon(elementDefinition.ElementNamespace);
+                    return "<" + prefix + elementDefinition.Name + " i:nil=\"true\" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" />";
                 }
 
                 string xml = string.Empty;
@@ -329,7 +335,8 @@ namespace MorseCode.CsJs.Net
                         IXmlSchemaElementDefinition arrayElementDefinition;
                         if (isArrayContainer)
                         {
-                            xml += "<" + elementDefinition.Name + (elementDefinition.ElementNamespace == null ? string.Empty : (" xmlns=\"" + elementDefinition.ElementNamespace + "\"")) + ">";
+                            prefix = namespacePrefixes.GetPrefixAndColon(elementDefinition.ElementNamespace);
+                            xml += "<" + prefix + elementDefinition.Name + ">";
                             arrayElementDefinition = complexTypeDefinition.Elements[0];
                         }
                         else
@@ -339,12 +346,12 @@ namespace MorseCode.CsJs.Net
 
                         foreach (object item in Script.Reinterpret<Array>(value))
                         {
-                            xml += GetObjectXmlRecursive(arrayElementDefinition, item, true);
+                            xml += GetObjectXmlRecursive(arrayElementDefinition, item, true, namespacePrefixes);
                         }
 
                         if (isArrayContainer)
                         {
-                            xml += "</" + elementDefinition.Name + ">";
+                            xml += "</" + prefix + elementDefinition.Name + ">";
                         }
 
                         return xml;
@@ -352,10 +359,12 @@ namespace MorseCode.CsJs.Net
 
                     foreach (IXmlSchemaElementDefinition childElementDefinition in complexTypeDefinition.Elements)
                     {
-                        xml += GetObjectXmlRecursive(childElementDefinition, Script.Reinterpret<JsDictionary>(value)[childElementDefinition.Name], false);
+                        xml += GetObjectXmlRecursive(childElementDefinition, Script.Reinterpret<JsDictionary>(value)[childElementDefinition.Name], false, namespacePrefixes);
                     }
                 }
-                return "<" + elementDefinition.Name + (elementDefinition.ElementNamespace == null ? string.Empty : (" xmlns=\"" + elementDefinition.ElementNamespace + "\"")) + ">" + xml + "</" + elementDefinition.Name + ">";
+
+                prefix = namespacePrefixes.GetPrefixAndColon(elementDefinition.ElementNamespace);
+                return "<" + prefix + elementDefinition.Name + ">" + xml + "</" + prefix + elementDefinition.Name + ">";
             }
 
             private bool IsArrayContainer(IXmlSchemaComplexTypeDefinition complexElementDefinition)
@@ -569,6 +578,42 @@ namespace MorseCode.CsJs.Net
                     d[childElementDefinition.Name] = GetObjectRecursive(childElementDefinition, node);
                 }
                 return d;
+            }
+
+            private class NamespacePrefixes
+            {
+                private const string PrefixPrefix = "rns";
+
+                private readonly string _targetNamespace;
+                private readonly Dictionary<string, string> _prefixByNamespace = new Dictionary<string, string>();
+                private int _prefixCount;
+
+                public NamespacePrefixes(string targetNamespace)
+                {
+                    _targetNamespace = targetNamespace;
+                }
+
+                public string GetPrefixAndColon(string @namespace)
+                {
+                    if (@namespace == _targetNamespace)
+                    {
+                        return string.Empty;
+                    }
+
+                    string prefix;
+                    if (!_prefixByNamespace.TryGetValue(@namespace, out prefix))
+                    {
+                        prefix = PrefixPrefix + _prefixCount;
+                        _prefixCount++;
+                        _prefixByNamespace.Add(@namespace, prefix);
+                    }
+                    return prefix + ":";
+                }
+
+                public string GetPrefixDefinitions()
+                {
+                    return string.Join(string.Empty, _prefixByNamespace.Select(p => " xmlns:" + p.Value + "=\"" + p.Key.Replace("\"", "\\\"") + "\""));
+                }
             }
         }
     }
