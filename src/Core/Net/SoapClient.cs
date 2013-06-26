@@ -349,12 +349,10 @@ namespace MorseCode.CsJs.Net
 
                         return xml;
                     }
-                    else
+
+                    foreach (IXmlSchemaElementDefinition childElementDefinition in complexTypeDefinition.Elements)
                     {
-                        foreach (IXmlSchemaElementDefinition childElementDefinition in complexTypeDefinition.Elements)
-                        {
-                            xml += GetObjectXmlRecursive(childElementDefinition, Script.Reinterpret<JsDictionary>(value)[childElementDefinition.Name], false);
-                        }
+                        xml += GetObjectXmlRecursive(childElementDefinition, Script.Reinterpret<JsDictionary>(value)[childElementDefinition.Name], false);
                     }
                 }
                 return "<" + elementDefinition.Name + (elementDefinition.ElementNamespace == null ? string.Empty : (" xmlns=\"" + elementDefinition.ElementNamespace + "\"")) + ">" + xml + "</" + elementDefinition.Name + ">";
