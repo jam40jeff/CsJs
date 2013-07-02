@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.ServiceModel;
 
-namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.Server.Web.Services
+namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.Server.Web.UI.Services
 {
     [ServiceContract]
     public interface ICalculatorService
     {
         [OperationContract(Name = "TestMethod")]
-        CustomObject Test(double? operand1, int operand2, bool simulateLatency, string something, CustomObject Add, List<string> somethingElse, int[] somethingElseAgain, List<CustomObject> somethingElseAgain2);
+        CustomObject Test(double? operand1, int operand2, bool simulateLatency, string something, CustomObject Add, List<string> somethingElse, int[] somethingElseAgain, int?[] somethingElseNullable, List<CustomObject> somethingElseAgain2);
 
         [OperationContract]
         double? Add(double? operand1, double? operand2, bool simulateLatency);
@@ -26,7 +26,7 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.Server.Web.Services
     {
         public string Property1 { get; set; }
         public int? Property2 { get; set; }
-        public CustomObject Property3 { get; set; }
+        public List<CustomObject> Property3 { get; set; }
         public CustomObject2 Property4 { get; set; }
         public SomeEnum Property5 { get; set; }
         public SomeEnum? Add { get; set; }

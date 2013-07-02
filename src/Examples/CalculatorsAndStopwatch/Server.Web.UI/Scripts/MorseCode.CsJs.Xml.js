@@ -338,8 +338,8 @@
 				}
 			}
 		}
-		var isNillableAttribute = elementNode.attributes.getNamedItem('isNillable');
-		elementDefinition.set_isNullable(ss.isValue(isNillableAttribute) && (isNillableAttribute.nodeValue === 'true' || isNillableAttribute.nodeValue === 'false'));
+		var nillableAttribute = elementNode.attributes.getNamedItem('nillable');
+		elementDefinition.set_isNullable(ss.isValue(nillableAttribute) && (nillableAttribute.nodeValue === 'true' || nillableAttribute.nodeValue === 'false'));
 		elementDefinition.set_name(elementName);
 		if (ss.isValue(existingType)) {
 			elementDefinition.set_type(existingType);
@@ -473,6 +473,9 @@
 				if (!ss.staticEquals(addTypeByName, null)) {
 					addTypeByName(enumSimpleTypeDefinition);
 				}
+				var nameAttribute1 = simpleTypeNode.attributes.getNamedItem('name');
+				enumSimpleTypeDefinition.set_typeName(nameAttribute1.nodeValue);
+				enumSimpleTypeDefinition.set_typeNamespace(typeTargetNamespace);
 				for (var i1 = 0; i1 < enumerationValueAttributes.length; i1++) {
 					ss.add(enumSimpleTypeDefinition.get_enumValues(), enumerationValueAttributes[i1].nodeValue);
 				}

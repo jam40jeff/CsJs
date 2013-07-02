@@ -1,1 +1,0 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="MorseCode.CsJs.Examples.CalculatorsAndStopwatch.Server.Web.Services.CalculatorService" CodeBehind="CalculatorService.svc.cs" %>

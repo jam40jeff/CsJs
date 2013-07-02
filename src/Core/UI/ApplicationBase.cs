@@ -32,6 +32,8 @@ namespace MorseCode.CsJs.UI
 
         public void Initialize()
         {
+            OnBeforeInitialize();
+
             TimerFactory.Instance = WindowTimerFactory.Instance;
 
             RegisterPages(_pageRegistrationHelper);
@@ -39,6 +41,16 @@ namespace MorseCode.CsJs.UI
             Window.Onerror = new ErrorHandler(_applicationViewModel.Value.ErrorHandler);
             _applicationViewModel.Value.CurrentViewModel.Changed += CurrentViewModelChanged;
             _applicationViewModel.Value.Initialize();
+
+            OnAfterInitialize();
+        }
+
+        protected virtual void OnBeforeInitialize()
+        {
+        }
+
+        protected virtual void OnAfterInitialize()
+        {
         }
 
         private void CurrentViewModelChanged(object sender, EventArgs e)

@@ -53,6 +53,7 @@
       <DependentUpon>StopwatchControl.mc</DependentUpon>
     </Compile>
     <Compile Include="StopwatchPage.cs" />
+    <Compile Include="CalculatorsAndStopwatchWebServiceClientFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CalculatorControl.mc">
@@ -69,6 +70,9 @@
   <ItemGroup>
     <Reference Include="MorseCode.CsJs.Common">
       <HintPath>..\..\..\..\bin\MorseCode.CsJs.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="MorseCode.CsJs.Net">
+      <HintPath>..\..\..\..\bin\MorseCode.CsJs.Net.dll</HintPath>
     </Reference>
     <Reference Include="MorseCode.CsJs.UI">
       <HintPath>..\..\..\..\bin\MorseCode.CsJs.UI.dll</HintPath>

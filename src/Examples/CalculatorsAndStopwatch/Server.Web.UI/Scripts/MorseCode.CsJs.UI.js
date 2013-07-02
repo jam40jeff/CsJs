@@ -97,11 +97,17 @@
 		},
 		createApplicationViewModel: null,
 		initialize: function() {
+			this.onBeforeInitialize();
 			MorseCode.CsJs.Common.TimerFactory.set_instance($MorseCode_CsJs_UI_WindowTimerFactory.get_instance());
 			this.registerPages(this.$_pageRegistrationHelper);
 			window.onerror = this.$_applicationViewModel.value().get_errorHandler();
 			this.$_applicationViewModel.value().get_currentViewModel().add_changed(ss.mkdel(this, this.$currentViewModelChanged));
 			this.$_applicationViewModel.value().initialize();
+			this.onAfterInitialize();
+		},
+		onBeforeInitialize: function() {
+		},
+		onAfterInitialize: function() {
 		},
 		$currentViewModelChanged: function(sender, e) {
 			if (ss.isValue(this.$_currentPage)) {
@@ -372,6 +378,28 @@
 	};
 	$MorseCode_CsJs_UI_Styles.$clearElementStyles = function(element) {
 		element.removeAttribute('style');
+	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.VirtualPathUtility
+	var $MorseCode_CsJs_UI_VirtualPathUtility = function() {
+	};
+	$MorseCode_CsJs_UI_VirtualPathUtility.get_applicationRootPath = function() {
+		return $MorseCode_CsJs_UI_VirtualPathUtility.$1$ApplicationRootPathField;
+	};
+	$MorseCode_CsJs_UI_VirtualPathUtility.set_applicationRootPath = function(value) {
+		$MorseCode_CsJs_UI_VirtualPathUtility.$1$ApplicationRootPathField = value;
+	};
+	$MorseCode_CsJs_UI_VirtualPathUtility.toAbsolute = function(applicationRelativePath) {
+		if (!ss.startsWithString(applicationRelativePath, '~/')) {
+			throw new System.InvalidOperationException.$ctor1('Path must begin with ~/ to be application relative.');
+		}
+		return $MorseCode_CsJs_UI_VirtualPathUtility.$ensureTrailingSlash($MorseCode_CsJs_UI_VirtualPathUtility.get_applicationRootPath()) + applicationRelativePath.substring(2);
+	};
+	$MorseCode_CsJs_UI_VirtualPathUtility.$ensureTrailingSlash = function(path) {
+		if (!ss.endsWithString(path, '/')) {
+			path += '/';
+		}
+		return path;
 	};
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.UI.WindowTimer
@@ -1538,6 +1566,7 @@
 	ss.registerClass(global, 'MorseCode.CsJs.UI.ApplicationBase', $MorseCode_CsJs_UI_ApplicationBase);
 	ss.registerClass(global, 'MorseCode.CsJs.UI.ApplicationBase$PageRegistrationHelper', $MorseCode_CsJs_UI_ApplicationBase$PageRegistrationHelper);
 	ss.registerClass(global, 'MorseCode.CsJs.UI.Styles', $MorseCode_CsJs_UI_Styles, null, [ss.IEnumerable, ss.IEnumerable]);
+	ss.registerClass(global, 'MorseCode.CsJs.UI.VirtualPathUtility', $MorseCode_CsJs_UI_VirtualPathUtility);
 	ss.registerClass(global, 'MorseCode.CsJs.UI.WindowTimer', $MorseCode_CsJs_UI_WindowTimer, null, [MorseCode.CsJs.Common.ITimer]);
 	ss.registerClass(global, 'MorseCode.CsJs.UI.WindowTimerFactory', $MorseCode_CsJs_UI_WindowTimerFactory, null, [MorseCode.CsJs.Common.ITimerFactory]);
 	ss.registerInterface(global, 'MorseCode.CsJs.UI.Controls.IControl', $MorseCode_CsJs_UI_Controls_IControl, [ss.IDisposable]);
@@ -1569,4 +1598,5 @@
 	$MorseCode_CsJs_UI_WindowTimerFactory.$instanceLazy = new ss.Lazy(function() {
 		return new $MorseCode_CsJs_UI_WindowTimerFactory();
 	});
+	$MorseCode_CsJs_UI_VirtualPathUtility.$1$ApplicationRootPathField = null;
 })();

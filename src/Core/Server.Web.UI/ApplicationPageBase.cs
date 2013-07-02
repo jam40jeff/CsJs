@@ -25,6 +25,7 @@ namespace MorseCode.CsJs.Server.Web.UI
             base.OnLoad(e);
 
             ClientScript.RegisterClientScriptBlock(typeof(ApplicationPageBase<T>), "Init", @"$(function() {
+    " + typeof(VirtualPathUtility).FullName + @".set_applicationRootPath('" + System.Web.VirtualPathUtility.ToAbsolute("~/").Replace("'", "\\'") + @"');
     new " + typeof(T).FullName + @"().initialize();
 });", true);
         }

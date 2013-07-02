@@ -2,7 +2,7 @@
 using EnvDTE;
 using Microsoft.VisualStudio.TemplateWizard;
 
-namespace MorseCode.CsJs.MarkupItemTemplateWizardExtension
+namespace MorseCode.CsJs.Tools.VSIXExtension.MarkupItemTemplateWizardExtension
 {
     public class MarkupItemTemplateWizardExtension : IWizard
     {

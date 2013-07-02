@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+  <TemplateData>
+    <Name>CsJs Service Reference</Name>
+    <Description>CsJs Service Reference</Description>
+    <Icon>ServiceReferenceItemTemplate.ico</Icon>
+    <TemplateID>1647cb21-0eac-4c19-b060-3fe3a8c58106</TemplateID>
+    <ProjectType>CSharp</ProjectType>
+    <RequiredFrameworkVersion>2.0</RequiredFrameworkVersion>
+    <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
+    <DefaultName>Service.svcref</DefaultName>
+  </TemplateData>
+  <TemplateContent>
+    <References>
+    </References>
+    <ProjectItem ReplaceParameters="true">Service.svcref</ProjectItem>
+  </TemplateContent>
+</VSTemplate>

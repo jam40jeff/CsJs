@@ -1,0 +1,4 @@
+﻿<serviceReference
+  namespace="$rootnamespace$.$safeitemrootname$ServiceReference"
+  clientClass="$safeitemrootname$Client"
+  url="http://[url-to-web-service-goes-here]" />

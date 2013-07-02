@@ -10,7 +10,7 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 using MorseCode.CsJs.UI.Controls;
 
-namespace MorseCode.CsJs.MarkupGeneratorPackage
+namespace MorseCode.CsJs.Tools.VSIXExtension.MarkupGeneratorPackage
 {
     internal class MarkupGenerator : IVsSingleFileGenerator
     {

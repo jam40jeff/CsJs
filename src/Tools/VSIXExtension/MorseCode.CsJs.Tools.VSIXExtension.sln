@@ -1,4 +1,3 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkupGeneratorPackage", "MarkupGeneratorPackage\MarkupGeneratorPackage.csproj", "{21564BAD-B098-43FA-A3A1-C05F30DF374B}"
@@ -13,6 +12,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkupItemTemplate", "MarkupItemTemplate\MarkupItemTemplate.csproj", "{43B92D64-F60D-4283-865B-2F505EEDD676}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtensionPackage", "ExtensionPackage\ExtensionPackage.csproj", "{EA8F9E44-3B22-4B65-8DED-AD3E6C44220A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceReferenceGeneratorPackage", "ServiceReferenceGeneratorPackage\ServiceReferenceGeneratorPackage.csproj", "{212CE152-CA20-439F-AAA0-DEA03526296C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceReferenceItemTemplate", "ServiceReferenceItemTemplate\ServiceReferenceItemTemplate.csproj", "{2C784FFA-7A7D-41DB-A833-B0C08731D3D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +39,14 @@ Global
 		{EA8F9E44-3B22-4B65-8DED-AD3E6C44220A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA8F9E44-3B22-4B65-8DED-AD3E6C44220A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA8F9E44-3B22-4B65-8DED-AD3E6C44220A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{212CE152-CA20-439F-AAA0-DEA03526296C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{212CE152-CA20-439F-AAA0-DEA03526296C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{212CE152-CA20-439F-AAA0-DEA03526296C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{212CE152-CA20-439F-AAA0-DEA03526296C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C784FFA-7A7D-41DB-A833-B0C08731D3D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C784FFA-7A7D-41DB-A833-B0C08731D3D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C784FFA-7A7D-41DB-A833-B0C08731D3D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C784FFA-7A7D-41DB-A833-B0C08731D3D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

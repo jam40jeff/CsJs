@@ -164,6 +164,10 @@
 		createApplicationViewModel: function() {
 			return new MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchApplicationViewModel();
 		},
+		onBeforeInitialize: function() {
+			MorseCode.CsJs.UI.ApplicationBase.prototype.onBeforeInitialize.call(this);
+			MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.WebServiceClientFactory.set_instance(new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorsAndStopwatchWebServiceClientFactory());
+		},
 		registerPages: function(pageRegistrationHelper) {
 			var $t1 = pageRegistrationHelper.registerPage($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorsAndStopwatchPage).call(pageRegistrationHelper, function() {
 				return new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorsAndStopwatchPage();
@@ -232,6 +236,17 @@
 			this.$_stopwatchControl.bindDataContext(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchPageViewModel).call(this.$_stopwatchControl, dataContext, function(d4) {
 				return d4.get_stopwatchViewModel();
 			});
+		}
+	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.CalculatorsAndStopwatchWebServiceClientFactory
+	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorsAndStopwatchWebServiceClientFactory = function() {
+	};
+	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorsAndStopwatchWebServiceClientFactory.prototype = {
+		createCalculatorClient: function() {
+			var calculatorClient = new MorseCode.CsJs.Examples.CalculatorAndStopwatch.ViewModel.CalculatorServiceReference.CalculatorClient();
+			calculatorClient.set_url(MorseCode.CsJs.UI.VirtualPathUtility.toAbsolute('~/Services/CalculatorService.svc'));
+			return calculatorClient;
 		}
 	};
 	////////////////////////////////////////////////////////////////////////////////
@@ -363,6 +378,7 @@
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.CalculatorPage', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorPage, ss.makeGenericType(MorseCode.CsJs.UI.Controls.PageBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorPageViewModel]), [ss.IDisposable, MorseCode.CsJs.UI.Controls.IControl, MorseCode.CsJs.UI.Controls.ICompositeControl, MorseCode.CsJs.UI.Controls.IPage]);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.CalculatorsAndStopwatchApplication', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorsAndStopwatchApplication, MorseCode.CsJs.UI.ApplicationBase);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.CalculatorsAndStopwatchPage', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorsAndStopwatchPage, ss.makeGenericType(MorseCode.CsJs.UI.Controls.PageBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchPageViewModel]), [ss.IDisposable, MorseCode.CsJs.UI.Controls.IControl, MorseCode.CsJs.UI.Controls.ICompositeControl, MorseCode.CsJs.UI.Controls.IPage]);
+	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.CalculatorsAndStopwatchWebServiceClientFactory', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorsAndStopwatchWebServiceClientFactory, null, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.IWebServiceClientFactory]);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.NavigationControl', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_NavigationControl, ss.makeGenericType(MorseCode.CsJs.UI.Controls.PlaceHolderCompositeControlBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.NavigationViewModel]), [ss.IDisposable, MorseCode.CsJs.UI.Controls.IControl, MorseCode.CsJs.UI.Controls.ICompositeControl]);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.StopwatchControl', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_StopwatchControl, ss.makeGenericType($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_StopwatchControlBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchViewModel]), [ss.IDisposable, MorseCode.CsJs.UI.Controls.IControl, MorseCode.CsJs.UI.Controls.ICompositeControl]);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.StopwatchPage', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_StopwatchPage, ss.makeGenericType(MorseCode.CsJs.UI.Controls.PageBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchPageViewModel]), [ss.IDisposable, MorseCode.CsJs.UI.Controls.IControl, MorseCode.CsJs.UI.Controls.ICompositeControl, MorseCode.CsJs.UI.Controls.IPage]);

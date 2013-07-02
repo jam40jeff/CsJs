@@ -63,6 +63,7 @@
     <Compile Include="IBinding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Styles.cs" />
+    <Compile Include="VirtualPathUtility.cs" />
     <Compile Include="WindowTimer.cs" />
     <Compile Include="WindowTimerFactory.cs" />
   </ItemGroup>

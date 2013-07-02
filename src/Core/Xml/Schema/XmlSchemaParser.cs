@@ -103,8 +103,8 @@ namespace MorseCode.CsJs.Xml.Schema
                 }
             }
 
-            XmlNode isNillableAttribute = elementNode.Attributes.GetNamedItem("isNillable");
-            elementDefinition.IsNullable = isNillableAttribute != null && (isNillableAttribute.Value == "true" || isNillableAttribute.Value == "false");
+            XmlNode nillableAttribute = elementNode.Attributes.GetNamedItem("nillable");
+            elementDefinition.IsNullable = nillableAttribute != null && (nillableAttribute.Value == "true" || nillableAttribute.Value == "false");
 
             elementDefinition.Name = elementName;
 
@@ -238,6 +238,9 @@ namespace MorseCode.CsJs.Xml.Schema
                     {
                         addTypeByName(enumSimpleTypeDefinition);
                     }
+                    XmlNode nameAttribute = simpleTypeNode.Attributes.GetNamedItem("name");
+                    enumSimpleTypeDefinition.TypeName = nameAttribute.Value;
+                    enumSimpleTypeDefinition.TypeNamespace = typeTargetNamespace;
 
                     for (int i = 0; i < enumerationValueAttributes.Count; i++)
                     {

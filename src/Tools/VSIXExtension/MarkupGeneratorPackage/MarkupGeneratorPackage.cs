@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.TextTemplating.VSHost;
 
-namespace MorseCode.CsJs.MarkupGeneratorPackage
+namespace MorseCode.CsJs.Tools.VSIXExtension.MarkupGeneratorPackage
 {
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.

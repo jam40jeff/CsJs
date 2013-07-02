@@ -1,8 +1,9 @@
 ﻿// Guids.cs
 // MUST match guids.h
+
 using System;
 
-namespace MorseCode.CsJs.MarkupGeneratorPackage
+namespace MorseCode.CsJs.Tools.VSIXExtension.MarkupGeneratorPackage
 {
     static class GuidList
     {

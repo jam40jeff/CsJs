@@ -1,0 +1,4 @@
+﻿<serviceReference
+  namespace="MorseCode.CsJs.Examples.CalculatorAndStopwatch.ViewModel.CalculatorServiceReference"
+  clientClass="CalculatorClient"
+  url="http://localhost/CsJsCalculatorsAndStopwatchExample/Services/CalculatorService.svc" />

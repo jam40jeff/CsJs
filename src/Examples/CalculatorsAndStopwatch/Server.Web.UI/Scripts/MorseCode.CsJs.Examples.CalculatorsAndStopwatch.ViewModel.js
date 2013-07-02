@@ -1,5 +1,365 @@
 ﻿(function() {
 	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Examples.CalculatorAndStopwatch.ViewModel.CalculatorServiceReference.CalculatorClient
+	var $MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_CalculatorClient = function() {
+		MorseCode.CsJs.Net.SoapClient.call(this);
+	};
+	$MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_CalculatorClient.prototype = {
+		$getParametersForTestMethod: function(operand1, operand2, simulateLatency, something, Add, somethingElse, somethingElseAgain, somethingElseNullable, somethingElseAgain2) {
+			var parameters = new (ss.makeGenericType(ss.Dictionary$2, [String, Object]))();
+			var tempArray;
+			parameters.add('operand1', operand1);
+			parameters.add('operand2', operand2);
+			parameters.add('simulateLatency', simulateLatency);
+			parameters.add('something', something);
+			parameters.add('Add', $MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_CustomObject.ToJsDictionary(Add));
+			tempArray = new Array();
+			if (ss.isValue(somethingElse)) {
+				for (var i = 0; i < somethingElse.length; i = i + 1) {
+					tempArray[i] = somethingElse[i];
+				}
+			}
+			parameters.add('somethingElse', tempArray);
+			tempArray = new Array();
+			if (ss.isValue(somethingElseAgain)) {
+				for (var i1 = 0; i1 < somethingElseAgain.length; i1 = i1 + 1) {
+					tempArray[i1] = somethingElseAgain[i1];
+				}
+			}
+			parameters.add('somethingElseAgain', tempArray);
+			tempArray = new Array();
+			if (ss.isValue(somethingElseNullable)) {
+				for (var i2 = 0; i2 < somethingElseNullable.length; i2 = i2 + 1) {
+					tempArray[i2] = somethingElseNullable[i2];
+				}
+			}
+			parameters.add('somethingElseNullable', tempArray);
+			tempArray = new Array();
+			if (ss.isValue(somethingElseAgain2)) {
+				for (var i3 = 0; i3 < somethingElseAgain2.length; i3 = i3 + 1) {
+					tempArray[i3] = $MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_CustomObject.ToJsDictionary(somethingElseAgain2[i3]);
+				}
+			}
+			parameters.add('somethingElseAgain2', tempArray);
+			return parameters;
+		},
+		$convertReturnValueForTestMethod: function(value) {
+			return $MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_CustomObject.FromJsDictionary(value);
+		},
+		testMethod: function(operand1, operand2, simulateLatency, something, Add, somethingElse, somethingElseAgain, somethingElseNullable, somethingElseAgain2, successCallback, errorCallback) {
+			this.invoke('TestMethod', this.$getParametersForTestMethod(operand1, operand2, simulateLatency, something, Add, somethingElse, somethingElseAgain, somethingElseNullable, somethingElseAgain2), ss.mkdel(this, function(o) {
+				successCallback(this.$convertReturnValueForTestMethod(o));
+			}), errorCallback);
+		},
+		testMethod$1: function(operand1, operand2, simulateLatency, something, Add, somethingElse, somethingElseAgain, somethingElseNullable, somethingElseAgain2, successCallback, errorCallback) {
+			this.invoke$1('TestMethod', this.$getParametersForTestMethod(operand1, operand2, simulateLatency, something, Add, somethingElse, somethingElseAgain, somethingElseNullable, somethingElseAgain2), ss.mkdel(this, function(o, e, r) {
+				successCallback(this.$convertReturnValueForTestMethod(o), e, r);
+			}), errorCallback);
+		},
+		testMethod$2: function(operand1, operand2, simulateLatency, something, Add, somethingElse, somethingElseAgain, somethingElseNullable, somethingElseAgain2, successCallback, errorCallback, wsdlErrorCallback) {
+			this.invoke$2('TestMethod', this.$getParametersForTestMethod(operand1, operand2, simulateLatency, something, Add, somethingElse, somethingElseAgain, somethingElseNullable, somethingElseAgain2), ss.mkdel(this, function(o) {
+				successCallback(this.$convertReturnValueForTestMethod(o));
+			}), errorCallback, wsdlErrorCallback);
+		},
+		testMethod$3: function(operand1, operand2, simulateLatency, something, Add, somethingElse, somethingElseAgain, somethingElseNullable, somethingElseAgain2, successCallback, errorCallback, wsdlErrorCallback) {
+			this.invoke$3('TestMethod', this.$getParametersForTestMethod(operand1, operand2, simulateLatency, something, Add, somethingElse, somethingElseAgain, somethingElseNullable, somethingElseAgain2), ss.mkdel(this, function(o, e, r) {
+				successCallback(this.$convertReturnValueForTestMethod(o), e, r);
+			}), errorCallback, wsdlErrorCallback);
+		},
+		$getParametersForAdd: function(operand1, operand2, simulateLatency) {
+			var parameters = new (ss.makeGenericType(ss.Dictionary$2, [String, Object]))();
+			parameters.add('operand1', operand1);
+			parameters.add('operand2', operand2);
+			parameters.add('simulateLatency', simulateLatency);
+			return parameters;
+		},
+		$convertReturnValueForAdd: function(value) {
+			return value;
+		},
+		add: function(operand1, operand2, simulateLatency, successCallback, errorCallback) {
+			this.invoke('Add', this.$getParametersForAdd(operand1, operand2, simulateLatency), ss.mkdel(this, function(o) {
+				successCallback(this.$convertReturnValueForAdd(o));
+			}), errorCallback);
+		},
+		add$1: function(operand1, operand2, simulateLatency, successCallback, errorCallback) {
+			this.invoke$1('Add', this.$getParametersForAdd(operand1, operand2, simulateLatency), ss.mkdel(this, function(o, e, r) {
+				successCallback(this.$convertReturnValueForAdd(o), e, r);
+			}), errorCallback);
+		},
+		add$2: function(operand1, operand2, simulateLatency, successCallback, errorCallback, wsdlErrorCallback) {
+			this.invoke$2('Add', this.$getParametersForAdd(operand1, operand2, simulateLatency), ss.mkdel(this, function(o) {
+				successCallback(this.$convertReturnValueForAdd(o));
+			}), errorCallback, wsdlErrorCallback);
+		},
+		add$3: function(operand1, operand2, simulateLatency, successCallback, errorCallback, wsdlErrorCallback) {
+			this.invoke$3('Add', this.$getParametersForAdd(operand1, operand2, simulateLatency), ss.mkdel(this, function(o, e, r) {
+				successCallback(this.$convertReturnValueForAdd(o), e, r);
+			}), errorCallback, wsdlErrorCallback);
+		},
+		$getParametersForSubtract: function(operand1, operand2, simulateLatency) {
+			var parameters = new (ss.makeGenericType(ss.Dictionary$2, [String, Object]))();
+			parameters.add('operand1', operand1);
+			parameters.add('operand2', operand2);
+			parameters.add('simulateLatency', simulateLatency);
+			return parameters;
+		},
+		$convertReturnValueForSubtract: function(value) {
+			return value;
+		},
+		subtract: function(operand1, operand2, simulateLatency, successCallback, errorCallback) {
+			this.invoke('Subtract', this.$getParametersForSubtract(operand1, operand2, simulateLatency), ss.mkdel(this, function(o) {
+				successCallback(this.$convertReturnValueForSubtract(o));
+			}), errorCallback);
+		},
+		subtract$1: function(operand1, operand2, simulateLatency, successCallback, errorCallback) {
+			this.invoke$1('Subtract', this.$getParametersForSubtract(operand1, operand2, simulateLatency), ss.mkdel(this, function(o, e, r) {
+				successCallback(this.$convertReturnValueForSubtract(o), e, r);
+			}), errorCallback);
+		},
+		subtract$2: function(operand1, operand2, simulateLatency, successCallback, errorCallback, wsdlErrorCallback) {
+			this.invoke$2('Subtract', this.$getParametersForSubtract(operand1, operand2, simulateLatency), ss.mkdel(this, function(o) {
+				successCallback(this.$convertReturnValueForSubtract(o));
+			}), errorCallback, wsdlErrorCallback);
+		},
+		subtract$3: function(operand1, operand2, simulateLatency, successCallback, errorCallback, wsdlErrorCallback) {
+			this.invoke$3('Subtract', this.$getParametersForSubtract(operand1, operand2, simulateLatency), ss.mkdel(this, function(o, e, r) {
+				successCallback(this.$convertReturnValueForSubtract(o), e, r);
+			}), errorCallback, wsdlErrorCallback);
+		},
+		$getParametersForMultiply: function(operand1, operand2, simulateLatency) {
+			var parameters = new (ss.makeGenericType(ss.Dictionary$2, [String, Object]))();
+			parameters.add('operand1', operand1);
+			parameters.add('operand2', operand2);
+			parameters.add('simulateLatency', simulateLatency);
+			return parameters;
+		},
+		$convertReturnValueForMultiply: function(value) {
+			return value;
+		},
+		multiply: function(operand1, operand2, simulateLatency, successCallback, errorCallback) {
+			this.invoke('Multiply', this.$getParametersForMultiply(operand1, operand2, simulateLatency), ss.mkdel(this, function(o) {
+				successCallback(this.$convertReturnValueForMultiply(o));
+			}), errorCallback);
+		},
+		multiply$1: function(operand1, operand2, simulateLatency, successCallback, errorCallback) {
+			this.invoke$1('Multiply', this.$getParametersForMultiply(operand1, operand2, simulateLatency), ss.mkdel(this, function(o, e, r) {
+				successCallback(this.$convertReturnValueForMultiply(o), e, r);
+			}), errorCallback);
+		},
+		multiply$2: function(operand1, operand2, simulateLatency, successCallback, errorCallback, wsdlErrorCallback) {
+			this.invoke$2('Multiply', this.$getParametersForMultiply(operand1, operand2, simulateLatency), ss.mkdel(this, function(o) {
+				successCallback(this.$convertReturnValueForMultiply(o));
+			}), errorCallback, wsdlErrorCallback);
+		},
+		multiply$3: function(operand1, operand2, simulateLatency, successCallback, errorCallback, wsdlErrorCallback) {
+			this.invoke$3('Multiply', this.$getParametersForMultiply(operand1, operand2, simulateLatency), ss.mkdel(this, function(o, e, r) {
+				successCallback(this.$convertReturnValueForMultiply(o), e, r);
+			}), errorCallback, wsdlErrorCallback);
+		},
+		$getParametersForDivide: function(operand1, operand2, simulateLatency) {
+			var parameters = new (ss.makeGenericType(ss.Dictionary$2, [String, Object]))();
+			parameters.add('operand1', operand1);
+			parameters.add('operand2', operand2);
+			parameters.add('simulateLatency', simulateLatency);
+			return parameters;
+		},
+		$convertReturnValueForDivide: function(value) {
+			return value;
+		},
+		divide: function(operand1, operand2, simulateLatency, successCallback, errorCallback) {
+			this.invoke('Divide', this.$getParametersForDivide(operand1, operand2, simulateLatency), ss.mkdel(this, function(o) {
+				successCallback(this.$convertReturnValueForDivide(o));
+			}), errorCallback);
+		},
+		divide$1: function(operand1, operand2, simulateLatency, successCallback, errorCallback) {
+			this.invoke$1('Divide', this.$getParametersForDivide(operand1, operand2, simulateLatency), ss.mkdel(this, function(o, e, r) {
+				successCallback(this.$convertReturnValueForDivide(o), e, r);
+			}), errorCallback);
+		},
+		divide$2: function(operand1, operand2, simulateLatency, successCallback, errorCallback, wsdlErrorCallback) {
+			this.invoke$2('Divide', this.$getParametersForDivide(operand1, operand2, simulateLatency), ss.mkdel(this, function(o) {
+				successCallback(this.$convertReturnValueForDivide(o));
+			}), errorCallback, wsdlErrorCallback);
+		},
+		divide$3: function(operand1, operand2, simulateLatency, successCallback, errorCallback, wsdlErrorCallback) {
+			this.invoke$3('Divide', this.$getParametersForDivide(operand1, operand2, simulateLatency), ss.mkdel(this, function(o, e, r) {
+				successCallback(this.$convertReturnValueForDivide(o), e, r);
+			}), errorCallback, wsdlErrorCallback);
+		}
+	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Examples.CalculatorAndStopwatch.ViewModel.CalculatorServiceReference.CustomObject
+	var $MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_CustomObject = function() {
+		this.$_add = null;
+		this.$_property1 = null;
+		this.$_property2 = null;
+		this.$_property3 = [];
+		this.$_property4 = null;
+		this.$_property5 = 0;
+	};
+	$MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_CustomObject.prototype = {
+		get_Add: function() {
+			return this.$_add;
+		},
+		set_Add: function(value) {
+			this.$_add = value;
+		},
+		get_Property1: function() {
+			return this.$_property1;
+		},
+		set_Property1: function(value) {
+			this.$_property1 = value;
+		},
+		get_Property2: function() {
+			return this.$_property2;
+		},
+		set_Property2: function(value) {
+			this.$_property2 = value;
+		},
+		get_Property3: function() {
+			return this.$_property3;
+		},
+		get_Property4: function() {
+			return this.$_property4;
+		},
+		set_Property4: function(value) {
+			this.$_property4 = value;
+		},
+		get_Property5: function() {
+			return this.$_property5;
+		},
+		set_Property5: function(value) {
+			this.$_property5 = value;
+		}
+	};
+	$MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_CustomObject.FromJsDictionary = function(value) {
+		if (ss.isNullOrUndefined(value)) {
+			return null;
+		}
+		var returnValue = new $MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_CustomObject();
+		returnValue.set_Add($MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_EnumConverters.convertStringToNullableSomeEnum(value['Add']));
+		returnValue.set_Property1(value['Property1']);
+		returnValue.set_Property2(value['Property2']);
+		for (var i = 0; i < value['Property3'].length; i = i + 1) {
+			ss.add(returnValue.get_Property3(), $MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_CustomObject.FromJsDictionary(value['Property3'][i]));
+		}
+		returnValue.set_Property4($MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_CustomObject2.FromJsDictionary(value['Property4']));
+		returnValue.set_Property5($MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_EnumConverters.convertStringToSomeEnum(value['Property5']));
+		return returnValue;
+	};
+	$MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_CustomObject.ToJsDictionary = function(value) {
+		if (ss.isNullOrUndefined(value)) {
+			return null;
+		}
+		var returnValue = {};
+		returnValue['Add'] = $MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_EnumConverters.convertNullableSomeEnumToString(value.get_Add());
+		returnValue['Property1'] = value.get_Property1();
+		returnValue['Property2'] = value.get_Property2();
+		returnValue['Property3'] = new Array();
+		for (var i = 0; i < value.get_Property3().length; i = i + 1) {
+			returnValue['Property3'][i] = $MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_CustomObject.ToJsDictionary(value.get_Property3()[i]);
+		}
+		returnValue['Property4'] = $MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_CustomObject2.ToJsDictionary(value.get_Property4());
+		returnValue['Property5'] = $MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_EnumConverters.convertSomeEnumToString(value.get_Property5());
+		return returnValue;
+	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Examples.CalculatorAndStopwatch.ViewModel.CalculatorServiceReference.CustomObject2
+	var $MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_CustomObject2 = function() {
+		this.$_property1 = null;
+		this.$_property2 = null;
+		this.$_property3 = null;
+	};
+	$MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_CustomObject2.prototype = {
+		get_Property1: function() {
+			return this.$_property1;
+		},
+		set_Property1: function(value) {
+			this.$_property1 = value;
+		},
+		get_Property2: function() {
+			return this.$_property2;
+		},
+		set_Property2: function(value) {
+			this.$_property2 = value;
+		},
+		get_Property3: function() {
+			return this.$_property3;
+		},
+		set_Property3: function(value) {
+			this.$_property3 = value;
+		}
+	};
+	$MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_CustomObject2.FromJsDictionary = function(value) {
+		if (ss.isNullOrUndefined(value)) {
+			return null;
+		}
+		var returnValue = new $MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_CustomObject2();
+		returnValue.set_Property1(value['Property1']);
+		returnValue.set_Property2(value['Property2']);
+		returnValue.set_Property3($MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_EnumConverters.convertStringToNullableSomeEnum(value['Property3']));
+		return returnValue;
+	};
+	$MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_CustomObject2.ToJsDictionary = function(value) {
+		if (ss.isNullOrUndefined(value)) {
+			return null;
+		}
+		var returnValue = {};
+		returnValue['Property1'] = value.get_Property1();
+		returnValue['Property2'] = value.get_Property2();
+		returnValue['Property3'] = $MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_EnumConverters.convertNullableSomeEnumToString(value.get_Property3());
+		return returnValue;
+	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Examples.CalculatorAndStopwatch.ViewModel.CalculatorServiceReference.EnumConverters
+	var $MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_EnumConverters = function() {
+	};
+	$MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_EnumConverters.convertSomeEnumToString = function(value) {
+		if (value === 0) {
+			return 'Value1';
+		}
+		if (value === 1) {
+			return 'Value2';
+		}
+		if (value === 2) {
+			return 'Value3';
+		}
+		throw new ss.Exception('Could not convert SomeEnum value ' + (value + ' to string.'));
+	};
+	$MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_EnumConverters.convertNullableSomeEnumToString = function(value) {
+		if (ss.Nullable.eq(value, null)) {
+			return null;
+		}
+		else {
+			return $MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_EnumConverters.convertSomeEnumToString(ss.Nullable.unbox(value));
+		}
+	};
+	$MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_EnumConverters.convertStringToSomeEnum = function(value) {
+		if (value === 'Value1') {
+			return 0;
+		}
+		if (value === 'Value2') {
+			return 1;
+		}
+		if (value === 'Value3') {
+			return 2;
+		}
+		throw new ss.Exception('Could not convert string value ' + (value + ' to SomeEnum.'));
+	};
+	$MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_EnumConverters.convertStringToNullableSomeEnum = function(value) {
+		if (ss.isNullOrUndefined(value)) {
+			return null;
+		}
+		else {
+			return $MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_EnumConverters.convertStringToSomeEnum(value);
+		}
+	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Examples.CalculatorAndStopwatch.ViewModel.CalculatorServiceReference.SomeEnum
+	var $MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_SomeEnum = function() {
+	};
+	$MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_SomeEnum.prototype = { Value1: 0, Value2: 1, Value3: 2 };
+	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.ApplicationErrorEventArgs
 	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_ApplicationErrorEventArgs = function(errorMessage, url, lineNumber) {
 		this.$_errorMessage = null;
@@ -267,6 +627,11 @@
 	};
 	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_ICalculatorViewModel.prototype = { get_updateInRealTimeItems: null, get_updateInRealTimeSelection: null, get_updateInRealTime: null, get_supportsAsync: null, get_simulateLatencyItems: null, get_simulateLatencySelection: null, get_simulateLatency: null, get_operators: null, get_operand1: null, get_selectedOperator: null, get_selectedOperatorString: null, get_operand2: null, get_result: null };
 	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.IWebServiceClientFactory
+	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_IWebServiceClientFactory = function() {
+	};
+	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_IWebServiceClientFactory.prototype = { createCalculatorClient: null };
+	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.NavigationViewModel
 	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_NavigationViewModel = function(applicationViewModel) {
 		this.$_applicationViewModel = null;
@@ -293,44 +658,53 @@
 				setValue(null);
 			}
 			else {
-				var c = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$CustomObject();
-				c.set_Add(null);
-				c.set_Property1('asdfksdhkdfh');
-				c.set_Property2(29);
-				c.set_Property3(null);
-				var c2 = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$CustomObject2();
-				c2.set_Property1('341231');
-				c2.set_Property2(null);
-				c2.set_Property3(1);
-				c.set_Property4(c2);
-				c.set_Property5(0);
-				var cc = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$CustomObject();
-				cc.set_Property5(2);
-				var t = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator();
-				t.set_url('http://localhost/CsJsCalculatorsAndStopwatchExampleServices/CalculatorService.svc');
-				var $t1 = [];
-				ss.add($t1, 'a');
-				ss.add($t1, 'b');
-				ss.add($t1, 'c');
-				var $t2 = [];
-				ss.add($t2, c);
-				ss.add($t2, cc);
-				t.testMethod(7.2, 3, false, 'something value', c, $t1, null, $t2, function(o) {
-					debugger;
+				//CustomObject c = new CustomObject();
+				//c.Add = null;
+				//c.Property1 = "asdfksdhkdfh";
+				//c.Property2 = 29;
+				//CustomObject c3 = new CustomObject();
+				//c3.Property1 = null;
+				//c3.Property2 = 8;
+				//c3.Property5 = SomeEnum.Value1;
+				//c.Property3.Add(c3);
+				//CustomObject2 c2 = new CustomObject2();
+				//c2.Property1 = "341231";
+				//c2.Property2 = null;
+				//c2.Property3 = SomeEnum.Value2;
+				//c.Property4 = c2;
+				//c.Property5 = SomeEnum.Value1;
+				//CustomObject cc = new CustomObject();
+				//cc.Property5 = SomeEnum.Value3;
+				//CalculatorClient t = new CalculatorClient();
+				//t.Url = "http://localhost/CsJsCalculatorsAndStopwatchExampleServices/CalculatorService.svc";
+				//t.TestMethod(7.2, 3, false, "something value", c, new List<string> { "a", "b", "c" }, null, new List<int?> { 1, null, 3 }, new List<CustomObject> { c, cc }, o => FrameworkUtility.Debugger(), (request, textStatus, error) => FrameworkUtility.Debugger());
+				var calculatorClient = $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_WebServiceClientFactory.get_instance().createCalculatorClient();
+				var method;
+				switch (ss.Nullable.unbox(selectedOperator.get_value())) {
+					case 0: {
+						method = ss.mkdel(calculatorClient, calculatorClient.add);
+						break;
+					}
+					case 1: {
+						method = ss.mkdel(calculatorClient, calculatorClient.subtract);
+						break;
+					}
+					case 2: {
+						method = ss.mkdel(calculatorClient, calculatorClient.multiply);
+						break;
+					}
+					case 3: {
+						method = ss.mkdel(calculatorClient, calculatorClient.divide);
+						break;
+					}
+					default: {
+						throw MorseCode.CsJs.Common.UnhandledEnumValueExceptionFactory.create($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_Operator).call(null, ss.Nullable.unbox(selectedOperator.get_value()));
+					}
+				}
+				method(MorseCode.CsJs.Common.FrameworkUtility.doubleTryParse(operand1.get_value()), MorseCode.CsJs.Common.FrameworkUtility.doubleTryParse(operand2.get_value()), this.get_simulateLatency().get_value(), function(o) {
+					setValue(MorseCode.CsJs.Common.FrameworkUtility.safeToString(o));
 				}, function(request, textStatus, error) {
-					debugger;
-				});
-				var method = MorseCode.CsJs.Common.FrameworkUtility.enumToString($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_Operator).call(null, ss.Nullable.unbox(selectedOperator.get_value()));
-				var soapClient = new MorseCode.CsJs.Net.SoapClient();
-				soapClient.set_url('http://localhost/CsJsCalculatorsAndStopwatchExampleServices/CalculatorService.svc');
-				var parameters = new (ss.makeGenericType(ss.Dictionary$2, [String, Object]))();
-				parameters.add('operand1', MorseCode.CsJs.Common.FrameworkUtility.doubleTryParse(operand1.get_value()));
-				parameters.add('operand2', MorseCode.CsJs.Common.FrameworkUtility.doubleTryParse(operand2.get_value()));
-				parameters.add('simulateLatency', this.get_simulateLatency().get_value());
-				soapClient.invoke(method, parameters, function(o1) {
-					setValue(MorseCode.CsJs.Common.FrameworkUtility.safeToString(o1));
-				}, function(request1, textStatus1, error1) {
-					setValue('Error: ' + error1);
+					setValue('Error: ' + error);
 				});
 			}
 		}), null);
@@ -343,156 +717,6 @@
 			return this.$_resultToDisplay;
 		}
 	};
-	////////////////////////////////////////////////////////////////////////////////
-	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.RemoteCalculatorViewModel.TestInvocator
-	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator = function() {
-		MorseCode.CsJs.Net.SoapClient.call(this);
-	};
-	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator.prototype = {
-		testMethod: function(operand1, operand2, simulateLatency, something, Add, somethingElse, somethingElseAgain, somethingElseAgain2, successCallback, errorCallback) {
-			var parameters = new (ss.makeGenericType(ss.Dictionary$2, [String, Object]))();
-			parameters.add('operand1', operand1);
-			parameters.add('operand2', operand2);
-			parameters.add('simulateLatency', simulateLatency);
-			parameters.add('something', something);
-			parameters.add('Add', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$CustomObject.ToJsDictionary(Add));
-			parameters.add('somethingElse', somethingElse);
-			parameters.add('somethingElseAgain', somethingElseAgain);
-			parameters.add('somethingElseAgain2', Enumerable.from(somethingElseAgain2).select($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$CustomObject.ToJsDictionary).toArray());
-			this.invoke('TestMethod', parameters, function(o) {
-				successCallback($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$CustomObject.FromJsDictionary(o));
-			}, errorCallback);
-		}
-	};
-	////////////////////////////////////////////////////////////////////////////////
-	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.RemoteCalculatorViewModel.TestInvocator.CustomObject
-	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$CustomObject = function() {
-		this.$1$Property1Field = null;
-		this.$1$Property2Field = null;
-		this.$1$Property3Field = null;
-		this.$1$Property4Field = null;
-		this.$1$Property5Field = 0;
-		this.$1$AddField = null;
-	};
-	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$CustomObject.prototype = {
-		get_Property1: function() {
-			return this.$1$Property1Field;
-		},
-		set_Property1: function(value) {
-			this.$1$Property1Field = value;
-		},
-		get_Property2: function() {
-			return this.$1$Property2Field;
-		},
-		set_Property2: function(value) {
-			this.$1$Property2Field = value;
-		},
-		get_Property3: function() {
-			return this.$1$Property3Field;
-		},
-		set_Property3: function(value) {
-			this.$1$Property3Field = value;
-		},
-		get_Property4: function() {
-			return this.$1$Property4Field;
-		},
-		set_Property4: function(value) {
-			this.$1$Property4Field = value;
-		},
-		get_Property5: function() {
-			return this.$1$Property5Field;
-		},
-		set_Property5: function(value) {
-			this.$1$Property5Field = value;
-		},
-		get_Add: function() {
-			return this.$1$AddField;
-		},
-		set_Add: function(value) {
-			this.$1$AddField = value;
-		}
-	};
-	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$CustomObject.FromJsDictionary = function(d) {
-		if (ss.isNullOrUndefined(d)) {
-			return null;
-		}
-		var o = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$CustomObject();
-		o.set_Property1(ss.safeCast(d['Property1'], String));
-		o.set_Property2(ss.safeCast(d['Property2'], ss.Int32));
-		o.set_Property3($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$CustomObject.FromJsDictionary(d['Property3']));
-		o.set_Property4($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$CustomObject2.FromJsDictionary(d['Property4']));
-		var Property5 = ss.safeCast(d['Property5'], String);
-		o.set_Property5(MorseCode.CsJs.Common.FrameworkUtility.enumParse($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$SomeEnum).call(null, Property5));
-		var Add = ss.safeCast(d['Add'], String);
-		o.set_Add((ss.isNullOrUndefined(Add) ? null : MorseCode.CsJs.Common.FrameworkUtility.enumParse($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$SomeEnum).call(null, Add)));
-		return o;
-	};
-	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$CustomObject.ToJsDictionary = function(o) {
-		if (ss.isNullOrUndefined(o)) {
-			return null;
-		}
-		var d = {};
-		d['Property1'] = o.get_Property1();
-		d['Property2'] = o.get_Property2();
-		d['Property3'] = $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$CustomObject.ToJsDictionary(o.get_Property3());
-		d['Property4'] = $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$CustomObject2.ToJsDictionary(o.get_Property4());
-		d['Property5'] = MorseCode.CsJs.Common.FrameworkUtility.enumToString($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$SomeEnum).call(null, o.get_Property5());
-		d['Add'] = (ss.Nullable.eq(o.get_Add(), null) ? null : MorseCode.CsJs.Common.FrameworkUtility.enumToString($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$SomeEnum).call(null, ss.Nullable.unbox(o.get_Add())));
-		return d;
-	};
-	////////////////////////////////////////////////////////////////////////////////
-	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.RemoteCalculatorViewModel.TestInvocator.CustomObject2
-	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$CustomObject2 = function() {
-		this.$1$Property1Field = null;
-		this.$1$Property2Field = null;
-		this.$1$Property3Field = null;
-	};
-	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$CustomObject2.prototype = {
-		get_Property1: function() {
-			return this.$1$Property1Field;
-		},
-		set_Property1: function(value) {
-			this.$1$Property1Field = value;
-		},
-		get_Property2: function() {
-			return this.$1$Property2Field;
-		},
-		set_Property2: function(value) {
-			this.$1$Property2Field = value;
-		},
-		get_Property3: function() {
-			return this.$1$Property3Field;
-		},
-		set_Property3: function(value) {
-			this.$1$Property3Field = value;
-		}
-	};
-	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$CustomObject2.FromJsDictionary = function(d) {
-		if (ss.isNullOrUndefined(d)) {
-			return null;
-		}
-		var o = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$CustomObject2();
-		o.set_Property1(ss.safeCast(d['Property1'], String));
-		o.set_Property2(ss.safeCast(d['Property2'], ss.Int32));
-		var Property3 = ss.safeCast(d['Property3'], String);
-		o.set_Property3((ss.isNullOrUndefined(Property3) ? null : MorseCode.CsJs.Common.FrameworkUtility.enumParse($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$SomeEnum).call(null, Property3)));
-		return o;
-	};
-	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$CustomObject2.ToJsDictionary = function(o) {
-		if (ss.isNullOrUndefined(o)) {
-			return null;
-		}
-		var d = {};
-		d['Property1'] = o.get_Property1();
-		d['Property2'] = o.get_Property2();
-		d['Property3'] = (ss.Nullable.eq(o.get_Property3(), null) ? null : MorseCode.CsJs.Common.FrameworkUtility.enumToString($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$SomeEnum).call(null, ss.Nullable.unbox(o.get_Property3())));
-		return d;
-	};
-	////////////////////////////////////////////////////////////////////////////////
-	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.RemoteCalculatorViewModel.TestInvocator.SomeEnum
-	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$SomeEnum = function() {
-	};
-	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$SomeEnum.prototype = { Value1: 0, Value2: 1, Value3: 2 };
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchPageViewModel
 	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchPageViewModel = function(applicationViewModel) {
@@ -626,6 +850,24 @@
 	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchViewModel$ViewMode = function() {
 	};
 	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchViewModel$ViewMode.prototype = { Milliseconds: 0, Seconds: 1 };
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.WebServiceClientFactory
+	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_WebServiceClientFactory = function() {
+	};
+	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_WebServiceClientFactory.get_instance = function() {
+		if (ss.isNullOrUndefined($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_WebServiceClientFactory.$_instance)) {
+			throw new System.InvalidOperationException.$ctor1(ss.getTypeName($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_WebServiceClientFactory) + '.Instance must be set when the application starts.');
+		}
+		return $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_WebServiceClientFactory.$_instance;
+	};
+	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_WebServiceClientFactory.set_instance = function(value) {
+		$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_WebServiceClientFactory.$_instance = value;
+	};
+	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorAndStopwatch.ViewModel.CalculatorServiceReference.CalculatorClient', $MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_CalculatorClient, MorseCode.CsJs.Net.SoapClient);
+	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorAndStopwatch.ViewModel.CalculatorServiceReference.CustomObject', $MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_CustomObject);
+	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorAndStopwatch.ViewModel.CalculatorServiceReference.CustomObject2', $MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_CustomObject2);
+	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorAndStopwatch.ViewModel.CalculatorServiceReference.EnumConverters', $MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_EnumConverters);
+	ss.registerEnum(global, 'MorseCode.CsJs.Examples.CalculatorAndStopwatch.ViewModel.CalculatorServiceReference.SomeEnum', $MorseCode_CsJs_Examples_CalculatorAndStopwatch_ViewModel_CalculatorServiceReference_SomeEnum);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.ApplicationErrorEventArgs', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_ApplicationErrorEventArgs, ss.EventArgs);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorPageViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorPageViewModel);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorsAndStopwatchApplicationViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorsAndStopwatchApplicationViewModel, MorseCode.CsJs.ViewModel.ApplicationViewModelBase);
@@ -633,14 +875,13 @@
 	ss.registerInterface(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.ICalculatorViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_ICalculatorViewModel);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorViewModelBase', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModelBase, null, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_ICalculatorViewModel]);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModel, $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModelBase, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_ICalculatorViewModel]);
+	ss.registerInterface(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.IWebServiceClientFactory', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_IWebServiceClientFactory);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.NavigationViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_NavigationViewModel);
 	ss.registerEnum(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.Operator', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_Operator);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.RemoteCalculatorViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel, $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModelBase, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_ICalculatorViewModel]);
-	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.RemoteCalculatorViewModel$TestInvocator', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator, MorseCode.CsJs.Net.SoapClient);
-	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.RemoteCalculatorViewModel$TestInvocator$CustomObject', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$CustomObject);
-	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.RemoteCalculatorViewModel$TestInvocator$CustomObject2', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$CustomObject2);
-	ss.registerEnum(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.RemoteCalculatorViewModel$TestInvocator$SomeEnum', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel$TestInvocator$SomeEnum);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchPageViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchPageViewModel);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchViewModel);
 	ss.registerEnum(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchViewModel$ViewMode', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchViewModel$ViewMode);
+	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.WebServiceClientFactory', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_WebServiceClientFactory);
+	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_WebServiceClientFactory.$_instance = null;
 })();

@@ -11,6 +11,13 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
             return new CalculatorsAndStopwatchApplicationViewModel();
         }
 
+        protected override void OnBeforeInitialize()
+        {
+            base.OnBeforeInitialize();
+
+            WebServiceClientFactory.Instance = new CalculatorsAndStopwatchWebServiceClientFactory();
+        }
+
         protected override void RegisterPages(PageRegistrationHelper pageRegistrationHelper)
         {
             pageRegistrationHelper.RegisterPage(() => new CalculatorsAndStopwatchPage()).WithBinding<CalculatorsAndStopwatchPageViewModel>((p, d) => p.BindDataContext(d));
