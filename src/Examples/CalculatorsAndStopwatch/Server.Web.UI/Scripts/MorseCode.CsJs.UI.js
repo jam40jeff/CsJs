@@ -309,7 +309,7 @@
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.UI.SkinBase
 	var $MorseCode_CsJs_UI_SkinBase = function() {
-		this.$_skinActionsByType = new (ss.makeGenericType(ss.Dictionary$2, [Function, Function]))();
+		this.$_skinActionsByType = new (ss.makeGenericType(ss.Dictionary$2, [Function, Array]))();
 		this.$_isInitialized = false;
 	};
 	$MorseCode_CsJs_UI_SkinBase.prototype = {
@@ -325,16 +325,23 @@
 				currentType = ss.getBaseType(currentType);
 			}
 			while (types.length > 0) {
-				var skinAction = {};
-				if (this.$_skinActionsByType.tryGetValue(types.pop(), skinAction)) {
-					skinAction.$(control, skinCategory);
+				var skinActions = {};
+				if (this.$_skinActionsByType.tryGetValue(types.pop(), skinActions)) {
+					skinActions.$.forEach(function(skinAction) {
+						skinAction(control, skinCategory);
+					});
 				}
 			}
 		},
 		$ensureInitialized: function() {
 			if (!this.$_isInitialized) {
 				this.addSkinActions(ss.mkdel(this, function(skinAction) {
-					this.$_skinActionsByType.add(skinAction.get_type(), skinAction.get_skinAction());
+					var skinActions = {};
+					if (!this.$_skinActionsByType.tryGetValue(skinAction.get_type(), skinActions)) {
+						skinActions.$ = [];
+						this.$_skinActionsByType.add(skinAction.get_type(), skinActions.$);
+					}
+					ss.add(skinActions.$, skinAction.get_skinAction());
 				}));
 				this.$_isInitialized = true;
 			}

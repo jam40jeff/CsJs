@@ -246,8 +246,19 @@
 	};
 	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorsAndStopwatchSkin.prototype = {
 		addSkinActions: function(addSkinAction) {
+			//NOTE: normally the following line would be used when the skin is contained within one class, however this example is testing the ability to override control skin actions by providing
+			//separate skin actions below
+			//addSkinAction(CreateSkinAction<DropDown>((control, skinCategory) => control.Styles.AddOrSet("color", skinCategory == "Lighter" ? "gray" : "blue")));
 			addSkinAction(this.createSkinAction$1(MorseCode.CsJs.UI.Controls.DropDown).call(this, function(control, skinCategory) {
-				control.get_styles().addOrSet('color', ((skinCategory === 'Lighter') ? 'gray' : 'blue'));
+				control.get_styles().addOrSet('color', 'yellow');
+			}));
+			addSkinAction(this.createSkinAction$1(MorseCode.CsJs.UI.Controls.DropDown).call(this, function(control1, skinCategory1) {
+				control1.get_styles().addOrSet('color', 'blue');
+			}));
+			addSkinAction(this.createSkinAction$1(MorseCode.CsJs.UI.Controls.DropDown).call(this, function(control2, skinCategory2) {
+				if (skinCategory2 === 'Lighter') {
+					control2.get_styles().addOrSet('color', ((skinCategory2 === 'Lighter') ? 'gray' : 'blue'));
+				}
 			}));
 		}
 	};

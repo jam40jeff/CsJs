@@ -6,7 +6,7 @@ namespace MorseCode.CsJs.UI
 {
     public abstract class SkinBase : ISkin
     {
-        private readonly Dictionary<Type, Action<IControl, string>> _skinActionsByType = new Dictionary<Type, Action<IControl, string>>();
+        private readonly Dictionary<Type, List<Action<IControl, string>>> _skinActionsByType = new Dictionary<Type, List<Action<IControl, string>>>();
 
         private bool _isInitialized;
 
@@ -29,10 +29,10 @@ namespace MorseCode.CsJs.UI
 
             while (types.Count > 0)
             {
-                Action<IControl, string> skinAction;
-                if (_skinActionsByType.TryGetValue(types.Pop(), out skinAction))
+                List<Action<IControl, string>> skinActions;
+                if (_skinActionsByType.TryGetValue(types.Pop(), out skinActions))
                 {
-                    skinAction(control, skinCategory);
+                    skinActions.ForEach(skinAction => skinAction(control, skinCategory));
                 }
             }
         }
@@ -41,7 +41,16 @@ namespace MorseCode.CsJs.UI
         {
             if (!_isInitialized)
             {
-                AddSkinActions(skinAction => _skinActionsByType.Add(skinAction.Type, skinAction.SkinAction));
+                AddSkinActions(skinAction =>
+                    {
+                        List<Action<IControl, string>> skinActions;
+                        if (!_skinActionsByType.TryGetValue(skinAction.Type, out skinActions))
+                        {
+                            skinActions = new List<Action<IControl, string>>();
+                            _skinActionsByType.Add(skinAction.Type, skinActions);
+                        }
+                        skinActions.Add(skinAction.SkinAction);
+                    });
 
                 _isInitialized = true;
             }
@@ -51,12 +60,12 @@ namespace MorseCode.CsJs.UI
 
         protected SkinActionWithType CreateSkinAction<T>(Action<T> skinAction) where T : IControl
         {
-            return new SkinActionWithType(typeof(T), (control, skinCategory) => skinAction((T)control));
+            return new SkinActionWithType(typeof (T), (control, skinCategory) => skinAction((T) control));
         }
 
         protected SkinActionWithType CreateSkinAction<T>(Action<T, string> skinAction) where T : IControl
         {
-            return new SkinActionWithType(typeof(T), (control, skinCategory) => skinAction((T)control, skinCategory));
+            return new SkinActionWithType(typeof (T), (control, skinCategory) => skinAction((T) control, skinCategory));
         }
 
         public class SkinActionWithType
