@@ -212,9 +212,10 @@ namespace MorseCode.CsJs.UI.Controls
                 return new TextBox();
             }
 
-            protected override void ParseAttribute(TextBox control, string name, string value, Dictionary<string, ControlBase> childControlsById)
-            {
-            }
+            //protected override void ParseAttribute(TextBox control, string name, string value, Dictionary<string, ControlBase> childControlsById)
+            //{
+            //    base.ParseAttribute(control, name, value, childControlsById);
+            //}
         }
     }
 }

@@ -9,9 +9,43 @@ namespace MorseCode.CsJs.UI.Controls
     {
         private readonly List<IBinding> _bindings = new List<IBinding>();
 
+        private bool _isSetup;
         private bool _elementsCreated;
+        private bool _isSkinApplied;
+
+        private ISkin _skin;
+        private string _skinCategory;
+
+        private readonly List<Action> _postSkinActions = new List<Action>();
 
         public virtual CompositeControlBase Parent { get; set; }
+
+        internal void AddPostSkinAction<T>(Action<T> postSkinAction) where T : ControlBase
+        {
+            if (_isSkinApplied)
+            {
+                postSkinAction((T)this);
+            }
+            else
+            {
+                _postSkinActions.Add(() => postSkinAction((T)this));
+            }
+        }
+
+        protected void EnsureSetup()
+        {
+            if (!_isSetup)
+            {
+                Setup();
+                _isSetup = true;
+            }
+        }
+
+        protected virtual void Setup()
+        {
+            EnsureElementsCreated();
+            EnsureSkinApplied();
+        }
 
         protected void EnsureElementsCreated()
         {
@@ -24,8 +58,98 @@ namespace MorseCode.CsJs.UI.Controls
 
         protected abstract void CreateElements();
 
+        public ISkin Skin
+        {
+            get { return _skin; }
+            set
+            {
+                if (_isSkinApplied)
+                {
+                    throw new InvalidOperationException("Skin cannot be changed after it has been applied.");
+                }
+                _skin = value;
+            }
+        }
+
+        public string SkinCategory
+        {
+            get { return _skinCategory; }
+            set
+            {
+                if (_isSkinApplied)
+                {
+                    throw new InvalidOperationException("SkinCategory cannot be changed after it has been applied.");
+                }
+                _skinCategory = value;
+            }
+        }
+
+        private ISkin GetEffectiveSkin()
+        {
+            return Skin ?? Application.Current.Skin;
+        }
+
+        protected void EnsureSkinApplied()
+        {
+            if (!_isSkinApplied)
+            {
+                OnBeforeSkin();
+
+                ISkin skin = GetEffectiveSkin();
+                if (skin != null)
+                {
+                    skin.Apply(this, SkinCategory);
+                }
+
+                OnAfterSkin();
+
+                foreach (Action postSkinAction in _postSkinActions)
+                {
+                    postSkinAction();
+                }
+
+                OnAfterPostSkinMarkup();
+
+                _isSkinApplied = true;
+            }
+        }
+
+        public event EventHandler BeforeSkin;
+
+        protected virtual void OnBeforeSkin()
+        {
+            EventHandler handler = BeforeSkin;
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
+        }
+
+        public event EventHandler AfterSkin;
+
+        protected virtual void OnAfterSkin()
+        {
+            EventHandler handler = AfterSkin;
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
+        }
+
+        public event EventHandler AfterPostSkinMarkup;
+
+        protected virtual void OnAfterPostSkinMarkup()
+        {
+            EventHandler handler = AfterPostSkinMarkup;
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
+        }
+
         internal virtual IEnumerable<Element> GetRootElementsInternal()
         {
+            EnsureSetup();
             EnsureElementsCreated();
             return GetRootElements();
         }

@@ -5,9 +5,9 @@ using System.Xml;
 
 namespace MorseCode.CsJs.UI.Controls
 {
-// ReSharper disable RedundantNameQualifier
+    // ReSharper disable RedundantNameQualifier
     [ControlParser(typeof(HtmlControl.Parser))]
-// ReSharper restore RedundantNameQualifier
+    // ReSharper restore RedundantNameQualifier
     public class HtmlControl : CompositeControlBase
     {
         private readonly string _tagName;
@@ -56,11 +56,13 @@ namespace MorseCode.CsJs.UI.Controls
                 return new HtmlControl(node.Name, controls => controls.AddRange(MarkupParser.ParseNodes(node.ChildNodes, childControlsById)));
             }
 
-            protected override void ParseAttribute(HtmlControl control, string name, string value, Dictionary<string, ControlBase> childControlsById)
+            protected override void ParseAttributeAfterSkin(string name, string value, Dictionary<string, ControlBase> childControlsById, Action<Action<HtmlControl>> addPostSkinAction)
             {
+                base.ParseAttributeAfterSkin(name, value, childControlsById, addPostSkinAction);
+
                 if (name.ToLower() == "style")
                 {
-                    control.Styles.ParseStyleString(value);
+                    addPostSkinAction(control => control.Styles.ParseStyleString(value));
                 }
             }
         }

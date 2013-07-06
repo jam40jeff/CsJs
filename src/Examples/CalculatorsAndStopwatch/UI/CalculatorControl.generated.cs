@@ -23,14 +23,14 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
 
 <control type=""MorseCode.CsJs.UI.Controls.Panel"" style=""padding: 15px; background-color: rgb(255,255,192);"">
   <control type=""MorseCode.CsJs.UI.Controls.Label"" text=""Update In Real-Time: "" />
-  <control type=""MorseCode.CsJs.UI.Controls.DropDown"" controlid=""_updateInRealTime"" />
+  <control type=""MorseCode.CsJs.UI.Controls.DropDown"" controlid=""_updateInRealTime"" style=""color: red;"" />
 </control>
 <control type=""MorseCode.CsJs.UI.Controls.Panel"" controlid=""_simulateLatencyPanel"" style=""padding: 15px; background-color: rgb(192,192,255);"">
   <control type=""MorseCode.CsJs.UI.Controls.Label"" text=""Simulate Latency: "" />
   <control type=""MorseCode.CsJs.UI.Controls.DropDown"" controlid=""_simulateLatency"" />
 </control>
 <control type=""MorseCode.CsJs.UI.Controls.Panel"" style=""padding: 15px; background-color: rgb(128,128,128);"">
-  <control type=""MorseCode.CsJs.UI.Controls.DropDown"" controlid=""_function"" />
+  <control type=""MorseCode.CsJs.UI.Controls.DropDown"" controlid=""_function"" skincategory=""Lighter"" />
 </control>
 <control type=""MorseCode.CsJs.UI.Controls.Panel"" style=""padding: 15px; background-color: rgb(192,192,192);"">
   <control type=""MorseCode.CsJs.UI.Controls.TextBox"" controlid=""_operand1"" />

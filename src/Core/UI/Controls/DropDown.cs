@@ -17,6 +17,8 @@ namespace MorseCode.CsJs.UI.Controls
 
         private SelectElement _select;
 
+        private readonly Styles _styles = new Styles();
+
         public DropDown()
         {
             _items = new ObservableCollection<DropDownItem>();
@@ -26,12 +28,18 @@ namespace MorseCode.CsJs.UI.Controls
         protected override void CreateElements()
         {
             _select = (SelectElement)Document.CreateElement("select");
+            _styles.AttachToElement(_select);
             jQuery.FromElement(_select).Change(e => OnSelectedIndexChanged());
         }
 
         protected override IEnumerable<Element> GetRootElements()
         {
             return new[] { _select };
+        }
+
+        public Styles Styles
+        {
+            get { return _styles; }
         }
 
         public ObservableCollection<DropDownItem> Items
@@ -173,8 +181,14 @@ namespace MorseCode.CsJs.UI.Controls
                 return new DropDown();
             }
 
-            protected override void ParseAttribute(DropDown control, string name, string value, Dictionary<string, ControlBase> childControlsById)
+            protected override void ParseAttributeAfterSkin(string name, string value, Dictionary<string, ControlBase> childControlsById, Action<Action<DropDown>> addPostSkinAction)
             {
+                base.ParseAttributeAfterSkin(name, value, childControlsById, addPostSkinAction);
+
+                if (name.ToLower() == "style")
+                {
+                    addPostSkinAction(control => control.Styles.ParseStyleString(value));
+                }
             }
         }
     }

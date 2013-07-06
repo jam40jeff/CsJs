@@ -79,16 +79,34 @@
 	};
 	ss.registerGenericClass(null, 'MorseCode.$CsJs.UI.Controls.TextBox$TextBoxTextBinding$1', $MorseCode_$CsJs_UI_Controls_TextBox$TextBoxTextBinding$1, 1);
 	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.Application
+	var $MorseCode_CsJs_UI_Application = function() {
+	};
+	$MorseCode_CsJs_UI_Application.get_current = function() {
+		return $MorseCode_CsJs_UI_Application.$1$CurrentField;
+	};
+	$MorseCode_CsJs_UI_Application.set_current = function(value) {
+		$MorseCode_CsJs_UI_Application.$1$CurrentField = value;
+	};
+	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.UI.ApplicationBase
 	var $MorseCode_CsJs_UI_ApplicationBase = function() {
 		this.$_applicationPages = new (ss.makeGenericType(ss.Dictionary$2, [Function, $MorseCode_$CsJs_UI_ApplicationBase$ApplicationPage]))();
 		this.$_pageRegistrationHelper = null;
 		this.$_applicationViewModel = null;
 		this.$_currentPage = null;
+		this.$1$SkinField = null;
 		this.$_applicationViewModel = new ss.Lazy(ss.mkdel(this, this.createApplicationViewModel));
 		this.$_pageRegistrationHelper = new $MorseCode_CsJs_UI_ApplicationBase$PageRegistrationHelper(this);
+		$MorseCode_CsJs_UI_Application.set_current(this);
 	};
 	$MorseCode_CsJs_UI_ApplicationBase.prototype = {
+		get_skin: function() {
+			return this.$1$SkinField;
+		},
+		set_skin: function(value) {
+			this.$1$SkinField = value;
+		},
 		get_title: function() {
 			return document.title;
 		},
@@ -275,8 +293,83 @@
 	};
 	ss.registerGenericClass(global, 'MorseCode.CsJs.UI.Binding$1', $MorseCode_CsJs_UI_Binding$1, 1);
 	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.IApplication
+	var $MorseCode_CsJs_UI_IApplication = function() {
+	};
+	$MorseCode_CsJs_UI_IApplication.prototype = { get_skin: null, set_skin: null };
+	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.UI.IBinding
 	var $MorseCode_CsJs_UI_IBinding = function() {
+	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.ISkin
+	var $MorseCode_CsJs_UI_ISkin = function() {
+	};
+	$MorseCode_CsJs_UI_ISkin.prototype = { apply: null };
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.SkinBase
+	var $MorseCode_CsJs_UI_SkinBase = function() {
+		this.$_skinActionsByType = new (ss.makeGenericType(ss.Dictionary$2, [Function, Function]))();
+		this.$_isInitialized = false;
+	};
+	$MorseCode_CsJs_UI_SkinBase.prototype = {
+		apply: function(control, skinCategory) {
+			this.$ensureInitialized();
+			if (ss.isNullOrUndefined(control)) {
+				throw new System.InvalidOperationException.$ctor1('Argument control cannot be null.');
+			}
+			var types = new Array();
+			var currentType = ss.getInstanceType(control);
+			while (ss.isValue(currentType)) {
+				types.push(currentType);
+				currentType = ss.getBaseType(currentType);
+			}
+			while (types.length > 0) {
+				var skinAction = {};
+				if (this.$_skinActionsByType.tryGetValue(types.pop(), skinAction)) {
+					skinAction.$(control, skinCategory);
+				}
+			}
+		},
+		$ensureInitialized: function() {
+			if (!this.$_isInitialized) {
+				this.addSkinActions(ss.mkdel(this, function(skinAction) {
+					this.$_skinActionsByType.add(skinAction.get_type(), skinAction.get_skinAction());
+				}));
+				this.$_isInitialized = true;
+			}
+		},
+		addSkinActions: null,
+		createSkinAction: function(T) {
+			return function(skinAction) {
+				return new $MorseCode_CsJs_UI_SkinBase$SkinActionWithType(T, function(control, skinCategory) {
+					skinAction(ss.cast(control, T));
+				});
+			};
+		},
+		createSkinAction$1: function(T) {
+			return function(skinAction) {
+				return new $MorseCode_CsJs_UI_SkinBase$SkinActionWithType(T, function(control, skinCategory) {
+					skinAction(ss.cast(control, T), skinCategory);
+				});
+			};
+		}
+	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.SkinBase.SkinActionWithType
+	var $MorseCode_CsJs_UI_SkinBase$SkinActionWithType = function(type, skinAction) {
+		this.$_type = null;
+		this.$_skinAction = null;
+		this.$_type = type;
+		this.$_skinAction = skinAction;
+	};
+	$MorseCode_CsJs_UI_SkinBase$SkinActionWithType.prototype = {
+		get_type: function() {
+			return this.$_type;
+		},
+		get_skinAction: function() {
+			return this.$_skinAction;
+		}
 	};
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.UI.Styles
@@ -561,9 +654,12 @@
 		createControl: function(node, childControlsById) {
 			return new $MorseCode_CsJs_UI_Controls_Button();
 		},
-		parseAttribute: function(control, name, value, childControlsById) {
+		parseAttributeAfterSkin: function(name, value, childControlsById, addPostSkinAction) {
+			ss.makeGenericType($MorseCode_CsJs_UI_Controls_ControlParserBase$1, [$MorseCode_CsJs_UI_Controls_Button]).prototype.parseAttributeAfterSkin.call(this, name, value, childControlsById, addPostSkinAction);
 			if (name.toLowerCase() === 'text') {
-				control.set_text(value);
+				addPostSkinAction(function(control) {
+					control.set_text(value);
+				});
 			}
 		}
 	};
@@ -657,8 +753,16 @@
 	// MorseCode.CsJs.UI.Controls.ControlBase
 	var $MorseCode_CsJs_UI_Controls_ControlBase = function() {
 		this.$_bindings = [];
+		this.$_isSetup = false;
 		this.$_elementsCreated = false;
+		this.$_isSkinApplied = false;
+		this.$_skin = null;
+		this.$_skinCategory = null;
+		this.$_postSkinActions = [];
 		this.$1$ParentField = null;
+		this.$1$BeforeSkinField = null;
+		this.$1$AfterSkinField = null;
+		this.$1$AfterPostSkinMarkupField = null;
 	};
 	$MorseCode_CsJs_UI_Controls_ControlBase.prototype = {
 		get_parent: function() {
@@ -667,6 +771,28 @@
 		set_parent: function(value) {
 			this.$1$ParentField = value;
 		},
+		$addPostSkinAction: function(T) {
+			return function(postSkinAction) {
+				if (this.$_isSkinApplied) {
+					postSkinAction(ss.cast(this, T));
+				}
+				else {
+					ss.add(this.$_postSkinActions, ss.mkdel(this, function() {
+						postSkinAction(ss.cast(this, T));
+					}));
+				}
+			};
+		},
+		ensureSetup: function() {
+			if (!this.$_isSetup) {
+				this.setup();
+				this.$_isSetup = true;
+			}
+		},
+		setup: function() {
+			this.ensureElementsCreated();
+			this.ensureSkinApplied();
+		},
 		ensureElementsCreated: function() {
 			if (!this.$_elementsCreated) {
 				this.createElements();
@@ -674,7 +800,81 @@
 			}
 		},
 		createElements: null,
+		get_skin: function() {
+			return this.$_skin;
+		},
+		set_skin: function(value) {
+			if (this.$_isSkinApplied) {
+				throw new System.InvalidOperationException.$ctor1('Skin cannot be changed after it has been applied.');
+			}
+			this.$_skin = value;
+		},
+		get_skinCategory: function() {
+			return this.$_skinCategory;
+		},
+		set_skinCategory: function(value) {
+			if (this.$_isSkinApplied) {
+				throw new System.InvalidOperationException.$ctor1('SkinCategory cannot be changed after it has been applied.');
+			}
+			this.$_skinCategory = value;
+		},
+		$getEffectiveSkin: function() {
+			return this.get_skin() || $MorseCode_CsJs_UI_Application.get_current().get_skin();
+		},
+		ensureSkinApplied: function() {
+			if (!this.$_isSkinApplied) {
+				this.onBeforeSkin();
+				var skin = this.$getEffectiveSkin();
+				if (ss.isValue(skin)) {
+					skin.apply(this, this.get_skinCategory());
+				}
+				this.onAfterSkin();
+				for (var $t1 = 0; $t1 < this.$_postSkinActions.length; $t1++) {
+					var postSkinAction = this.$_postSkinActions[$t1];
+					postSkinAction();
+				}
+				this.onAfterPostSkinMarkup();
+				this.$_isSkinApplied = true;
+			}
+		},
+		add_beforeSkin: function(value) {
+			this.$1$BeforeSkinField = ss.delegateCombine(this.$1$BeforeSkinField, value);
+		},
+		remove_beforeSkin: function(value) {
+			this.$1$BeforeSkinField = ss.delegateRemove(this.$1$BeforeSkinField, value);
+		},
+		onBeforeSkin: function() {
+			var handler = this.$1$BeforeSkinField;
+			if (!ss.staticEquals(handler, null)) {
+				handler(this, ss.EventArgs.Empty);
+			}
+		},
+		add_afterSkin: function(value) {
+			this.$1$AfterSkinField = ss.delegateCombine(this.$1$AfterSkinField, value);
+		},
+		remove_afterSkin: function(value) {
+			this.$1$AfterSkinField = ss.delegateRemove(this.$1$AfterSkinField, value);
+		},
+		onAfterSkin: function() {
+			var handler = this.$1$AfterSkinField;
+			if (!ss.staticEquals(handler, null)) {
+				handler(this, ss.EventArgs.Empty);
+			}
+		},
+		add_afterPostSkinMarkup: function(value) {
+			this.$1$AfterPostSkinMarkupField = ss.delegateCombine(this.$1$AfterPostSkinMarkupField, value);
+		},
+		remove_afterPostSkinMarkup: function(value) {
+			this.$1$AfterPostSkinMarkupField = ss.delegateRemove(this.$1$AfterPostSkinMarkupField, value);
+		},
+		onAfterPostSkinMarkup: function() {
+			var handler = this.$1$AfterPostSkinMarkupField;
+			if (!ss.staticEquals(handler, null)) {
+				handler(this, ss.EventArgs.Empty);
+			}
+		},
 		$getRootElementsInternal: function() {
+			this.ensureSetup();
 			this.ensureElementsCreated();
 			return this.getRootElements();
 		},
@@ -797,12 +997,21 @@
 				var control = this.createControl(node, childControlsById);
 				for (var i = 0; i < node.attributes.length; i++) {
 					var attr = node.attributes[i];
-					this.parseAttribute(control, attr.nodeName, attr.nodeValue, childControlsById);
+					this.parseAttributeBeforeSkin(control, attr.nodeName, attr.nodeValue, childControlsById);
+					this.parseAttributeAfterSkin(attr.nodeName, attr.nodeValue, childControlsById, function(postSkinAction) {
+						control.$addPostSkinAction(T).call(control, postSkinAction);
+					});
 				}
 				return control;
 			},
 			createControl: null,
-			parseAttribute: null
+			parseAttributeBeforeSkin: function(control, name, value, childControlsById) {
+				if (name === 'skincategory') {
+					control.set_skinCategory(value);
+				}
+			},
+			parseAttributeAfterSkin: function(name, value, childControlsById, addPostSkinAction) {
+			}
 		};
 		ss.registerGenericClassInstance($type, $MorseCode_CsJs_UI_Controls_ControlParserBase$1, [T], function() {
 			return null;
@@ -846,6 +1055,7 @@
 	var $MorseCode_CsJs_UI_Controls_DropDown = function() {
 		this.$_items = null;
 		this.$_select = null;
+		this.$_styles = new $MorseCode_CsJs_UI_Styles();
 		this.$2$SelectedIndexChangedField = null;
 		$MorseCode_CsJs_UI_Controls_ControlBase.call(this);
 		this.$_items = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableCollection$1, [$MorseCode_CsJs_UI_Controls_DropDownItem]))();
@@ -856,12 +1066,16 @@
 	$MorseCode_CsJs_UI_Controls_DropDown.prototype = {
 		createElements: function() {
 			this.$_select = document.createElement('select');
+			this.$_styles.attachToElement(this.$_select);
 			$(this.$_select).change(ss.mkdel(this, function(e) {
 				this.onSelectedIndexChanged();
 			}));
 		},
 		getRootElements: function() {
 			return [this.$_select];
+		},
+		get_styles: function() {
+			return this.$_styles;
 		},
 		get_items: function() {
 			return this.$_items;
@@ -997,7 +1211,13 @@
 		createControl: function(node, childControlsById) {
 			return new $MorseCode_CsJs_UI_Controls_DropDown();
 		},
-		parseAttribute: function(control, name, value, childControlsById) {
+		parseAttributeAfterSkin: function(name, value, childControlsById, addPostSkinAction) {
+			ss.makeGenericType($MorseCode_CsJs_UI_Controls_ControlParserBase$1, [$MorseCode_CsJs_UI_Controls_DropDown]).prototype.parseAttributeAfterSkin.call(this, name, value, childControlsById, addPostSkinAction);
+			if (name.toLowerCase() === 'style') {
+				addPostSkinAction(function(control) {
+					control.get_styles().$parseStyleString(value);
+				});
+			}
 		}
 	};
 	////////////////////////////////////////////////////////////////////////////////
@@ -1056,9 +1276,12 @@
 				controls.addRange($MorseCode_CsJs_UI_Controls_MarkupParser.parseNodes(node.childNodes, childControlsById));
 			});
 		},
-		parseAttribute: function(control, name, value, childControlsById) {
+		parseAttributeAfterSkin: function(name, value, childControlsById, addPostSkinAction) {
+			ss.makeGenericType($MorseCode_CsJs_UI_Controls_ControlParserBase$1, [$MorseCode_CsJs_UI_Controls_HtmlControl]).prototype.parseAttributeAfterSkin.call(this, name, value, childControlsById, addPostSkinAction);
 			if (name.toLowerCase() === 'style') {
-				control.get_styles().$parseStyleString(value);
+				addPostSkinAction(function(control) {
+					control.get_styles().$parseStyleString(value);
+				});
 			}
 		}
 	};
@@ -1070,6 +1293,7 @@
 	// MorseCode.CsJs.UI.Controls.IControl
 	var $MorseCode_CsJs_UI_Controls_IControl = function() {
 	};
+	$MorseCode_CsJs_UI_Controls_IControl.prototype = { add_beforeSkin: null, remove_beforeSkin: null, add_afterSkin: null, remove_afterSkin: null, add_afterPostSkinMarkup: null, remove_afterPostSkinMarkup: null };
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.UI.Controls.IControlParser
 	var $MorseCode_CsJs_UI_Controls_IControlParser = function() {
@@ -1141,12 +1365,17 @@
 		createControl: function(node, childControlsById) {
 			return new $MorseCode_CsJs_UI_Controls_Label();
 		},
-		parseAttribute: function(control, name, value, childControlsById) {
+		parseAttributeAfterSkin: function(name, value, childControlsById, addPostSkinAction) {
+			ss.makeGenericType($MorseCode_CsJs_UI_Controls_ControlParserBase$1, [$MorseCode_CsJs_UI_Controls_Label]).prototype.parseAttributeAfterSkin.call(this, name, value, childControlsById, addPostSkinAction);
 			if (name.toLowerCase() === 'style') {
-				control.get_styles().$parseStyleString(value);
+				addPostSkinAction(function(control) {
+					control.get_styles().$parseStyleString(value);
+				});
 			}
-			if (name.toLowerCase() === 'text') {
-				control.set_text(value);
+			else if (name.toLowerCase() === 'text') {
+				addPostSkinAction(function(control1) {
+					control1.set_text(value);
+				});
 			}
 		}
 	};
@@ -1338,12 +1567,17 @@
 				controls.addRange($MorseCode_CsJs_UI_Controls_MarkupParser.parseNodes(node.childNodes, childControlsById));
 			});
 		},
-		parseAttribute: function(control, name, value, childControlsById) {
+		parseAttributeAfterSkin: function(name, value, childControlsById, addPostSkinAction) {
+			ss.makeGenericType($MorseCode_CsJs_UI_Controls_ControlParserBase$1, [$MorseCode_CsJs_UI_Controls_Panel]).prototype.parseAttributeAfterSkin.call(this, name, value, childControlsById, addPostSkinAction);
 			if (name.toLowerCase() === 'style') {
-				control.get_styles().$parseStyleString(value);
+				addPostSkinAction(function(control) {
+					control.get_styles().$parseStyleString(value);
+				});
 			}
 			else if (name.toLowerCase() === 'useslidevisibilitytransition') {
-				control.set_useSlideVisibilityTransition(ss.isValue(value) && value.toLowerCase() === 'true');
+				addPostSkinAction(function(control1) {
+					control1.set_useSlideVisibilityTransition(ss.isValue(value) && value.toLowerCase() === 'true');
+				});
 			}
 		}
 	};
@@ -1556,15 +1790,18 @@
 	$MorseCode_CsJs_UI_Controls_TextBox$Parser.prototype = {
 		createControl: function(node, childControlsById) {
 			return new $MorseCode_CsJs_UI_Controls_TextBox();
-		},
-		parseAttribute: function(control, name, value, childControlsById) {
 		}
 	};
 	ss.registerClass(null, 'MorseCode.$CsJs.UI.ApplicationBase$ApplicationPage', $MorseCode_$CsJs_UI_ApplicationBase$ApplicationPage);
 	ss.registerInterface(global, 'MorseCode.CsJs.UI.IBinding', $MorseCode_CsJs_UI_IBinding, [ss.IDisposable]);
 	ss.registerInterface(null, 'MorseCode.$CsJs.UI.Controls.TextBox$ITextBoxTextBinding', $MorseCode_$CsJs_UI_Controls_TextBox$ITextBoxTextBinding, [ss.IDisposable, $MorseCode_CsJs_UI_IBinding]);
-	ss.registerClass(global, 'MorseCode.CsJs.UI.ApplicationBase', $MorseCode_CsJs_UI_ApplicationBase);
+	ss.registerClass(global, 'MorseCode.CsJs.UI.Application', $MorseCode_CsJs_UI_Application);
+	ss.registerInterface(global, 'MorseCode.CsJs.UI.IApplication', $MorseCode_CsJs_UI_IApplication);
+	ss.registerClass(global, 'MorseCode.CsJs.UI.ApplicationBase', $MorseCode_CsJs_UI_ApplicationBase, null, [$MorseCode_CsJs_UI_IApplication]);
 	ss.registerClass(global, 'MorseCode.CsJs.UI.ApplicationBase$PageRegistrationHelper', $MorseCode_CsJs_UI_ApplicationBase$PageRegistrationHelper);
+	ss.registerInterface(global, 'MorseCode.CsJs.UI.ISkin', $MorseCode_CsJs_UI_ISkin);
+	ss.registerClass(global, 'MorseCode.CsJs.UI.SkinBase', $MorseCode_CsJs_UI_SkinBase, null, [$MorseCode_CsJs_UI_ISkin]);
+	ss.registerClass(global, 'MorseCode.CsJs.UI.SkinBase$SkinActionWithType', $MorseCode_CsJs_UI_SkinBase$SkinActionWithType);
 	ss.registerClass(global, 'MorseCode.CsJs.UI.Styles', $MorseCode_CsJs_UI_Styles, null, [ss.IEnumerable, ss.IEnumerable]);
 	ss.registerClass(global, 'MorseCode.CsJs.UI.VirtualPathUtility', $MorseCode_CsJs_UI_VirtualPathUtility);
 	ss.registerClass(global, 'MorseCode.CsJs.UI.WindowTimer', $MorseCode_CsJs_UI_WindowTimer, null, [MorseCode.CsJs.Common.ITimer]);
@@ -1594,6 +1831,7 @@
 	ss.registerClass(global, 'MorseCode.CsJs.UI.Controls.Panel$Parser', $MorseCode_CsJs_UI_Controls_Panel$Parser, ss.makeGenericType($MorseCode_CsJs_UI_Controls_ControlParserBase$1, [$MorseCode_CsJs_UI_Controls_Panel]), [$MorseCode_CsJs_UI_Controls_IControlParser]);
 	ss.registerClass(global, 'MorseCode.CsJs.UI.Controls.TextBox', $MorseCode_CsJs_UI_Controls_TextBox, $MorseCode_CsJs_UI_Controls_ControlBase, [ss.IDisposable, $MorseCode_CsJs_UI_Controls_IControl], { attr: [new $MorseCode_CsJs_UI_Controls_ControlParserAttribute($MorseCode_CsJs_UI_Controls_TextBox$Parser)] });
 	ss.registerClass(global, 'MorseCode.CsJs.UI.Controls.TextBox$Parser', $MorseCode_CsJs_UI_Controls_TextBox$Parser, ss.makeGenericType($MorseCode_CsJs_UI_Controls_ControlParserBase$1, [$MorseCode_CsJs_UI_Controls_TextBox]), [$MorseCode_CsJs_UI_Controls_IControlParser]);
+	$MorseCode_CsJs_UI_Application.$1$CurrentField = null;
 	$MorseCode_CsJs_UI_WindowTimerFactory.$instanceLazy = null;
 	$MorseCode_CsJs_UI_WindowTimerFactory.$instanceLazy = new ss.Lazy(function() {
 		return new $MorseCode_CsJs_UI_WindowTimerFactory();

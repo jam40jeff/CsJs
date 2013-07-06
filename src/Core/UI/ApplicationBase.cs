@@ -7,7 +7,12 @@ using MorseCode.CsJs.ViewModel;
 
 namespace MorseCode.CsJs.UI
 {
-    public abstract class ApplicationBase
+    public static class Application
+    {
+        public static IApplication Current { get; set; }
+    }
+
+    public abstract class ApplicationBase : IApplication
     {
         private readonly Dictionary<Type, ApplicationPage> _applicationPages = new Dictionary<Type, ApplicationPage>();
         private readonly PageRegistrationHelper _pageRegistrationHelper;
@@ -20,7 +25,11 @@ namespace MorseCode.CsJs.UI
         {
             _applicationViewModel = new Lazy<ApplicationViewModelBase>(CreateApplicationViewModel);
             _pageRegistrationHelper = new PageRegistrationHelper(this);
+
+            Application.Current = this;
         }
+
+        public ISkin Skin { get; set; }
 
         public string Title
         {
@@ -106,7 +115,7 @@ namespace MorseCode.CsJs.UI
 
             public void WithBinding<TDataContext>(Action<TPage, TDataContext> bind)
             {
-                _application._applicationPages.Add(typeof (TDataContext), new ApplicationPage(_createPage, (p, d) => bind((TPage) p, (TDataContext) d)));
+                _application._applicationPages.Add(typeof(TDataContext), new ApplicationPage(_createPage, (p, d) => bind((TPage)p, (TDataContext)d)));
             }
         }
 

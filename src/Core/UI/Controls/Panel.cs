@@ -104,15 +104,17 @@ namespace MorseCode.CsJs.UI.Controls
                 return new Panel(controls => controls.AddRange(MarkupParser.ParseNodes(node.ChildNodes, childControlsById)));
             }
 
-            protected override void ParseAttribute(Panel control, string name, string value, Dictionary<string, ControlBase> childControlsById)
+            protected override void ParseAttributeAfterSkin(string name, string value, Dictionary<string, ControlBase> childControlsById, Action<Action<Panel>> addPostSkinAction)
             {
+                base.ParseAttributeAfterSkin(name, value, childControlsById, addPostSkinAction);
+
                 if (name.ToLower() == "style")
                 {
-                    control.Styles.ParseStyleString(value);
+                    addPostSkinAction(control => control.Styles.ParseStyleString(value));
                 }
                 else if (name.ToLower() == "useslidevisibilitytransition")
                 {
-                    control.UseSlideVisibilityTransition = value != null && value.ToLower() == "true";
+                    addPostSkinAction(control => control.UseSlideVisibilityTransition = value != null && value.ToLower() == "true");
                 }
             }
         }

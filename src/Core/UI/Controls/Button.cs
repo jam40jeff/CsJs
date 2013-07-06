@@ -92,11 +92,13 @@ namespace MorseCode.CsJs.UI.Controls
                 return new Button();
             }
 
-            protected override void ParseAttribute(Button control, string name, string value, Dictionary<string, ControlBase> childControlsById)
+            protected override void ParseAttributeAfterSkin(string name, string value, Dictionary<string, ControlBase> childControlsById, Action<Action<Button>> addPostSkinAction)
             {
+                base.ParseAttributeAfterSkin(name, value, childControlsById, addPostSkinAction);
+
                 if (name.ToLower() == "text")
                 {
-                    control.Text = value;
+                    addPostSkinAction(control => control.Text = value);
                 }
             }
         }

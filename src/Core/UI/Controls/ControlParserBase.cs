@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace MorseCode.CsJs.UI.Controls
@@ -11,13 +12,24 @@ namespace MorseCode.CsJs.UI.Controls
             for (int i = 0; i < node.Attributes.Count; i++)
             {
                 XmlAttribute attr = (XmlAttribute)node.Attributes[i];
-                ParseAttribute(control, attr.Name, attr.Value, childControlsById);
+                ParseAttributeBeforeSkin(control, attr.Name, attr.Value, childControlsById);
+                ParseAttributeAfterSkin(attr.Name, attr.Value, childControlsById, postSkinAction => control.AddPostSkinAction(postSkinAction));
             }
             return control;
         }
 
         protected abstract T CreateControl(XmlNode node, Dictionary<string, ControlBase> childControlsById);
 
-        protected abstract void ParseAttribute(T control, string name, string value, Dictionary<string, ControlBase> childControlsById);
+        protected virtual void ParseAttributeBeforeSkin(T control, string name, string value, Dictionary<string, ControlBase> childControlsById)
+        {
+            if (name == "skincategory")
+            {
+                control.SkinCategory = value;
+            }
+        }
+
+        protected virtual void ParseAttributeAfterSkin(string name, string value, Dictionary<string, ControlBase> childControlsById, Action<Action<T>> addPostSkinAction)
+        {
+        }
     }
 }

@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Html;
 using System.Xml;
 using MorseCode.CsJs.Common.Observable;
-using MorseCode.CsJs.ViewModel;
 
 namespace MorseCode.CsJs.UI.Controls
 {
-// ReSharper disable RedundantNameQualifier
-    [ControlParser(typeof(Label.Parser))]
-// ReSharper restore RedundantNameQualifier
+    // ReSharper disable RedundantNameQualifier
+    [ControlParser(typeof (Label.Parser))]
+    // ReSharper restore RedundantNameQualifier
     public class Label : ControlBase
     {
         private Element _span;
@@ -24,19 +23,35 @@ namespace MorseCode.CsJs.UI.Controls
 
         protected override IEnumerable<Element> GetRootElements()
         {
-            return new[] { _span };
+            return new[] {_span};
         }
 
         public string Text
         {
-            get { EnsureElementsCreated(); return _span.InnerText; }
-            set { EnsureElementsCreated(); _span.InnerText = value; }
+            get
+            {
+                EnsureElementsCreated();
+                return _span.InnerText;
+            }
+            set
+            {
+                EnsureElementsCreated();
+                _span.InnerText = value;
+            }
         }
 
         public string InnerHtml
         {
-            get { EnsureElementsCreated(); return _span.InnerHTML; }
-            set { EnsureElementsCreated(); _span.InnerHTML = value; }
+            get
+            {
+                EnsureElementsCreated();
+                return _span.InnerHTML;
+            }
+            set
+            {
+                EnsureElementsCreated();
+                _span.InnerHTML = value;
+            }
         }
 
         public void BindText<T>(IReadableObservableProperty<T> dataContext, Func<T, IReadableObservableProperty<string>> getTextProperty)
@@ -45,12 +60,12 @@ namespace MorseCode.CsJs.UI.Controls
             CreateOneWayBinding(
                 dataContext,
                 d =>
-                {
-                    Action updateControl = () => Text = getTextProperty(d).Value ?? string.Empty;
-                    updateControlEventHandler = (sender, args) => updateControl();
-                    getTextProperty(d).Changed += updateControlEventHandler;
-                    updateControl();
-                },
+                    {
+                        Action updateControl = () => Text = getTextProperty(d).Value ?? string.Empty;
+                        updateControlEventHandler = (sender, args) => updateControl();
+                        getTextProperty(d).Changed += updateControlEventHandler;
+                        updateControl();
+                    },
                 d => getTextProperty(d).Changed -= updateControlEventHandler);
         }
 
@@ -66,16 +81,17 @@ namespace MorseCode.CsJs.UI.Controls
                 return new Label();
             }
 
-            protected override void ParseAttribute(Label control, string name, string value, Dictionary<string, ControlBase> childControlsById)
+            protected override void ParseAttributeAfterSkin(string name, string value, Dictionary<string, ControlBase> childControlsById, Action<Action<Label>> addPostSkinAction)
             {
+                base.ParseAttributeAfterSkin(name, value, childControlsById, addPostSkinAction);
+
                 if (name.ToLower() == "style")
                 {
-                    control.Styles.ParseStyleString(value);
+                    addPostSkinAction(control => control.Styles.ParseStyleString(value));
                 }
-
-                if (name.ToLower() == "text")
+                else if (name.ToLower() == "text")
                 {
-                    control.Text = value;
+                    addPostSkinAction(control => control.Text = value);
                 }
             }
         }
