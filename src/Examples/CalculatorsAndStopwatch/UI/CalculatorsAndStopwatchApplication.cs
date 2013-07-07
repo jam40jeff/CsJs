@@ -36,14 +36,14 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
         {
             //NOTE: normally the following line would be used when the skin is contained within one class, however this example is testing the ability to override control skin actions by providing
             //separate skin actions below
-            //addSkinAction(CreateSkinAction<DropDown>((control, skinCategory) => control.Styles.AddOrSet("color", skinCategory == "Lighter" ? "gray" : "blue")));
-            addSkinAction(CreateSkinAction<DropDown>((control, skinCategory) => control.Styles.AddOrSet("color", "yellow")));
-            addSkinAction(CreateSkinAction<DropDown>((control, skinCategory) => control.Styles.AddOrSet("color", "blue")));
-            addSkinAction(CreateSkinAction<DropDown>((control, skinCategory) =>
+            //addSkinAction(CreateSkinAction<DropDown>(control => control.Styles.AddOrSet("color", control.SkinCategory == "Lighter" ? "gray" : "blue")));
+            addSkinAction(CreateSkinAction<DropDown>(control => control.Styles.AddOrSet("color", "yellow")));
+            addSkinAction(CreateSkinAction<DropDown>(control => control.Styles.AddOrSet("color", "blue")));
+            addSkinAction(CreateSkinAction<DropDown>(control =>
                 {
-                    if (skinCategory == "Lighter")
+                    if (control.SkinCategory == "Lighter")
                     {
-                        control.Styles.AddOrSet("color", skinCategory == "Lighter" ? "gray" : "blue");
+                        control.Styles.AddOrSet("color", control.SkinCategory == "Lighter" ? "gray" : "blue");
                     }
                 }));
         }

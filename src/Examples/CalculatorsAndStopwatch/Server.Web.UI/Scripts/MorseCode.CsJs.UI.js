@@ -313,7 +313,7 @@
 		this.$_isInitialized = false;
 	};
 	$MorseCode_CsJs_UI_SkinBase.prototype = {
-		apply: function(control, skinCategory) {
+		apply: function(control) {
 			this.$ensureInitialized();
 			if (ss.isNullOrUndefined(control)) {
 				throw new System.InvalidOperationException.$ctor1('Argument control cannot be null.');
@@ -328,7 +328,7 @@
 				var skinActions = {};
 				if (this.$_skinActionsByType.tryGetValue(types.pop(), skinActions)) {
 					skinActions.$.forEach(function(skinAction) {
-						skinAction(control, skinCategory);
+						skinAction(control);
 					});
 				}
 			}
@@ -349,15 +349,8 @@
 		addSkinActions: null,
 		createSkinAction: function(T) {
 			return function(skinAction) {
-				return new $MorseCode_CsJs_UI_SkinBase$SkinActionWithType(T, function(control, skinCategory) {
+				return new $MorseCode_CsJs_UI_SkinBase$SkinActionWithType(T, function(control) {
 					skinAction(ss.cast(control, T));
-				});
-			};
-		},
-		createSkinAction$1: function(T) {
-			return function(skinAction) {
-				return new $MorseCode_CsJs_UI_SkinBase$SkinActionWithType(T, function(control, skinCategory) {
-					skinAction(ss.cast(control, T), skinCategory);
 				});
 			};
 		}
@@ -765,6 +758,7 @@
 		this.$_isSkinApplied = false;
 		this.$_skin = null;
 		this.$_skinCategory = null;
+		this.$_id = null;
 		this.$_postSkinActions = [];
 		this.$1$ParentField = null;
 		this.$1$BeforeSkinField = null;
@@ -816,6 +810,15 @@
 			}
 			this.$_skin = value;
 		},
+		get_id: function() {
+			return this.$_id;
+		},
+		set_id: function(value) {
+			if (this.$_isSkinApplied) {
+				throw new System.InvalidOperationException.$ctor1('Id cannot be changed after it has been applied.');
+			}
+			this.$_id = value;
+		},
 		get_skinCategory: function() {
 			return this.$_skinCategory;
 		},
@@ -833,7 +836,7 @@
 				this.onBeforeSkin();
 				var skin = this.$getEffectiveSkin();
 				if (ss.isValue(skin)) {
-					skin.apply(this, this.get_skinCategory());
+					skin.apply(this);
 				}
 				this.onAfterSkin();
 				for (var $t1 = 0; $t1 < this.$_postSkinActions.length; $t1++) {
@@ -1005,15 +1008,16 @@
 				for (var i = 0; i < node.attributes.length; i++) {
 					var attr = node.attributes[i];
 					this.parseAttributeBeforeSkin(control, attr.nodeName, attr.nodeValue, childControlsById);
-					this.parseAttributeAfterSkin(attr.nodeName, attr.nodeValue, childControlsById, function(postSkinAction) {
-						control.$addPostSkinAction(T).call(control, postSkinAction);
-					});
+					this.parseAttributeAfterSkin(attr.nodeName, attr.nodeValue, childControlsById, ss.mkdel(control, control.$addPostSkinAction(T)));
 				}
 				return control;
 			},
 			createControl: null,
 			parseAttributeBeforeSkin: function(control, name, value, childControlsById) {
-				if (name === 'skincategory') {
+				if (name === 'id') {
+					control.set_id(value);
+				}
+				else if (name === 'skincategory') {
 					control.set_skinCategory(value);
 				}
 			},
@@ -1300,7 +1304,7 @@
 	// MorseCode.CsJs.UI.Controls.IControl
 	var $MorseCode_CsJs_UI_Controls_IControl = function() {
 	};
-	$MorseCode_CsJs_UI_Controls_IControl.prototype = { add_beforeSkin: null, remove_beforeSkin: null, add_afterSkin: null, remove_afterSkin: null, add_afterPostSkinMarkup: null, remove_afterPostSkinMarkup: null };
+	$MorseCode_CsJs_UI_Controls_IControl.prototype = { add_beforeSkin: null, remove_beforeSkin: null, add_afterSkin: null, remove_afterSkin: null, add_afterPostSkinMarkup: null, remove_afterPostSkinMarkup: null, get_id: null, set_id: null, get_skinCategory: null, set_skinCategory: null };
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.UI.Controls.IControlParser
 	var $MorseCode_CsJs_UI_Controls_IControlParser = function() {
@@ -1396,7 +1400,10 @@
 		$type.prototype = {
 			createChildControls: function() {
 				this.$_childControlsById = new (ss.makeGenericType(ss.Dictionary$2, [String, $MorseCode_CsJs_UI_Controls_ControlBase]))();
-				var document = $.parseXML('<root>' + this.get_markup() + '</root>');
+				var document = $.parseXML(this.get_markup());
+				if (document.documentElement.nodeName !== 'control') {
+					throw new System.InvalidOperationException.$ctor1('A <control> element must be the root node of a markup control.');
+				}
 				this.get_controls().addRange($MorseCode_CsJs_UI_Controls_MarkupParser.parseNodes(document.documentElement.childNodes, this.$_childControlsById));
 				this.setupControls();
 			},

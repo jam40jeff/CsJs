@@ -118,7 +118,7 @@
 				return this.findControl(MorseCode.CsJs.UI.Controls.Label).call(this, '_largeResultLabel');
 			},
 			get_markup: function() {
-				return '<declare type="CalculatorControl" />\r\n\r\n<control type="MorseCode.CsJs.UI.Controls.Panel" style="padding: 15px; background-color: rgb(255,255,192);">\r\n  <control type="MorseCode.CsJs.UI.Controls.Label" text="Update In Real-Time: " />\r\n  <control type="MorseCode.CsJs.UI.Controls.DropDown" controlid="_updateInRealTime" style="color: red;" />\r\n</control>\r\n<control type="MorseCode.CsJs.UI.Controls.Panel" controlid="_simulateLatencyPanel" style="padding: 15px; background-color: rgb(192,192,255);">\r\n  <control type="MorseCode.CsJs.UI.Controls.Label" text="Simulate Latency: " />\r\n  <control type="MorseCode.CsJs.UI.Controls.DropDown" controlid="_simulateLatency" />\r\n</control>\r\n<control type="MorseCode.CsJs.UI.Controls.Panel" style="padding: 15px; background-color: rgb(128,128,128);">\r\n  <control type="MorseCode.CsJs.UI.Controls.DropDown" controlid="_function" skincategory="Lighter" />\r\n</control>\r\n<control type="MorseCode.CsJs.UI.Controls.Panel" style="padding: 15px; background-color: rgb(192,192,192);">\r\n  <control type="MorseCode.CsJs.UI.Controls.TextBox" controlid="_operand1" />\r\n  <control type="MorseCode.CsJs.UI.Controls.Label" controlid="_operator" style="padding-left: 5px; padding-right: 5px;" />\r\n  <control type="MorseCode.CsJs.UI.Controls.TextBox" controlid="_operand2" />\r\n  <control type="MorseCode.CsJs.UI.Controls.Label" controlid="_equals" style="padding-left: 5px;" />\r\n  <control type="MorseCode.CsJs.UI.Controls.Label" controlid="_result" style="padding-left: 5px;" />\r\n</control>\r\n<control type="MorseCode.CsJs.UI.Controls.Panel" controlid="_largeResultPanel" style="border: 1px dashed gray;">\r\n  <table style="width: 100%;">\r\n    <tr>\r\n      <td style="height: 150px; vertical-align: middle; text-align: center;">\r\n        <control type="MorseCode.CsJs.UI.Controls.Label" controlid="_largeResultLabel" style="font-family: Arial;" />\r\n      </td>\r\n    </tr>\r\n  </table>\r\n</control>';
+				return '<control classname="MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.CalculatorControl">\r\n  <control type="MorseCode.CsJs.UI.Controls.Panel" style="padding: 15px; background-color: rgb(255,255,192);">\r\n    <control type="MorseCode.CsJs.UI.Controls.Label" text="Update In Real-Time: " />\r\n    <control type="MorseCode.CsJs.UI.Controls.DropDown" controlid="_updateInRealTime" style="color: red;" />\r\n  </control>\r\n  <control type="MorseCode.CsJs.UI.Controls.Panel" controlid="_simulateLatencyPanel" style="padding: 15px; background-color: rgb(192,192,255);">\r\n    <control type="MorseCode.CsJs.UI.Controls.Label" text="Simulate Latency: " />\r\n    <control type="MorseCode.CsJs.UI.Controls.DropDown" controlid="_simulateLatency" />\r\n  </control>\r\n  <control type="MorseCode.CsJs.UI.Controls.Panel" style="padding: 15px; background-color: rgb(128,128,128);">\r\n    <control type="MorseCode.CsJs.UI.Controls.DropDown" controlid="_function" skincategory="Lighter" />\r\n  </control>\r\n  <control type="MorseCode.CsJs.UI.Controls.Panel" style="padding: 15px; background-color: rgb(192,192,192);">\r\n    <control type="MorseCode.CsJs.UI.Controls.TextBox" controlid="_operand1" />\r\n    <control type="MorseCode.CsJs.UI.Controls.Label" controlid="_operator" style="padding-left: 5px; padding-right: 5px;" />\r\n    <control type="MorseCode.CsJs.UI.Controls.TextBox" controlid="_operand2" />\r\n    <control type="MorseCode.CsJs.UI.Controls.Label" controlid="_equals" style="padding-left: 5px;" />\r\n    <control type="MorseCode.CsJs.UI.Controls.Label" controlid="_result" style="padding-left: 5px;" />\r\n  </control>\r\n  <control type="MorseCode.CsJs.UI.Controls.Panel" controlid="_largeResultPanel" style="border: 1px dashed gray;">\r\n    <table style="width: 100%;">\r\n      <tr>\r\n        <td style="height: 150px; vertical-align: middle; text-align: center;">\r\n          <control type="MorseCode.CsJs.UI.Controls.Label" controlid="_largeResultLabel" style="font-family: Arial;" />\r\n        </td>\r\n      </tr>\r\n    </table>\r\n  </control>\r\n</control>';
 			}
 		};
 		ss.registerGenericClassInstance($type, $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorControlBase$1, [T], function() {
@@ -248,16 +248,16 @@
 		addSkinActions: function(addSkinAction) {
 			//NOTE: normally the following line would be used when the skin is contained within one class, however this example is testing the ability to override control skin actions by providing
 			//separate skin actions below
-			//addSkinAction(CreateSkinAction<DropDown>((control, skinCategory) => control.Styles.AddOrSet("color", skinCategory == "Lighter" ? "gray" : "blue")));
-			addSkinAction(this.createSkinAction$1(MorseCode.CsJs.UI.Controls.DropDown).call(this, function(control, skinCategory) {
+			//addSkinAction(CreateSkinAction<DropDown>(control => control.Styles.AddOrSet("color", control.SkinCategory == "Lighter" ? "gray" : "blue")));
+			addSkinAction(this.createSkinAction(MorseCode.CsJs.UI.Controls.DropDown).call(this, function(control) {
 				control.get_styles().addOrSet('color', 'yellow');
 			}));
-			addSkinAction(this.createSkinAction$1(MorseCode.CsJs.UI.Controls.DropDown).call(this, function(control1, skinCategory1) {
+			addSkinAction(this.createSkinAction(MorseCode.CsJs.UI.Controls.DropDown).call(this, function(control1) {
 				control1.get_styles().addOrSet('color', 'blue');
 			}));
-			addSkinAction(this.createSkinAction$1(MorseCode.CsJs.UI.Controls.DropDown).call(this, function(control2, skinCategory2) {
-				if (skinCategory2 === 'Lighter') {
-					control2.get_styles().addOrSet('color', ((skinCategory2 === 'Lighter') ? 'gray' : 'blue'));
+			addSkinAction(this.createSkinAction(MorseCode.CsJs.UI.Controls.DropDown).call(this, function(control2) {
+				if (control2.get_skinCategory() === 'Lighter') {
+					control2.get_styles().addOrSet('color', ((control2.get_skinCategory() === 'Lighter') ? 'gray' : 'blue'));
 				}
 			}));
 		}
@@ -361,7 +361,7 @@
 				return this.findControl(MorseCode.CsJs.UI.Controls.Button).call(this, '_resetButton');
 			},
 			get_markup: function() {
-				return '<declare type="StopwatchControl" />\r\n\r\n<div style="background-color: black; padding: 75px;">\r\n  <div>\r\n    <control type="MorseCode.CsJs.UI.Controls.DropDown" controlid="_viewModeDropDown" />\r\n  </div>\r\n  <div>\r\n    <control type="MorseCode.CsJs.UI.Controls.Label" controlid="_timeLabel" style="color: rgb(128,0,0); font-family: Arial; font-size: 96pt;" />\r\n  </div>\r\n  <div>\r\n    <control type="MorseCode.CsJs.UI.Controls.Button" controlid="_startButton" text="Start" style="padding-right: 5px;" />\r\n    <control type="MorseCode.CsJs.UI.Controls.Button" controlid="_stopButton" text="Stop" style="padding-right: 5px;" />\r\n    <control type="MorseCode.CsJs.UI.Controls.Button" controlid="_resetButton" text="Reset" />\r\n  </div>\r\n</div>';
+				return '<control classname="MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.StopwatchControl">\r\n  <div style="background-color: black; padding: 75px;">\r\n    <div>\r\n      <control type="MorseCode.CsJs.UI.Controls.DropDown" controlid="_viewModeDropDown" />\r\n    </div>\r\n    <div>\r\n      <control type="MorseCode.CsJs.UI.Controls.Label" controlid="_timeLabel" style="color: rgb(128,0,0); font-family: Arial; font-size: 96pt;" />\r\n    </div>\r\n    <div>\r\n      <control type="MorseCode.CsJs.UI.Controls.Button" controlid="_startButton" text="Start" style="padding-right: 5px;" />\r\n      <control type="MorseCode.CsJs.UI.Controls.Button" controlid="_stopButton" text="Stop" style="padding-right: 5px;" />\r\n      <control type="MorseCode.CsJs.UI.Controls.Button" controlid="_resetButton" text="Reset" />\r\n    </div>\r\n  </div>\r\n</control>';
 			}
 		};
 		ss.registerGenericClassInstance($type, $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_StopwatchControlBase$1, [T], function() {

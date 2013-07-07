@@ -13,7 +13,7 @@ namespace MorseCode.CsJs.UI.Controls
             {
                 XmlAttribute attr = (XmlAttribute)node.Attributes[i];
                 ParseAttributeBeforeSkin(control, attr.Name, attr.Value, childControlsById);
-                ParseAttributeAfterSkin(attr.Name, attr.Value, childControlsById, postSkinAction => control.AddPostSkinAction(postSkinAction));
+                ParseAttributeAfterSkin(attr.Name, attr.Value, childControlsById, control.AddPostSkinAction);
             }
             return control;
         }
@@ -22,7 +22,11 @@ namespace MorseCode.CsJs.UI.Controls
 
         protected virtual void ParseAttributeBeforeSkin(T control, string name, string value, Dictionary<string, ControlBase> childControlsById)
         {
-            if (name == "skincategory")
+            if (name == "id")
+            {
+                control.Id = value;
+            }
+            else if (name == "skincategory")
             {
                 control.SkinCategory = value;
             }

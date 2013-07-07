@@ -35,12 +35,12 @@ namespace MorseCode.CsJs.Tools.VSIXExtension.MarkupGeneratorPackage
         {
             progress.Progress(0, 100);
             XmlDocument doc = new XmlDocument();
-            doc.LoadXml("<root>" + inputFileContents + "</root>");
-            XmlNode registerNode = doc.SelectSingleNode("/root/declare");
+            doc.LoadXml(inputFileContents);
+            XmlNode controlNode = doc.SelectSingleNode("/control");
             string fullClassName = defaultNamespace + "." + Path.GetFileNameWithoutExtension(inputFilePath);
-            if (registerNode != null)
+            if (controlNode != null)
             {
-                XmlAttribute classNameAttribute = registerNode.Attributes == null ? null : registerNode.Attributes["classname"];
+                XmlAttribute classNameAttribute = controlNode.Attributes == null ? null : controlNode.Attributes["classname"];
                 if (classNameAttribute != null)
                 {
                     fullClassName = classNameAttribute.Value;
@@ -54,7 +54,7 @@ namespace MorseCode.CsJs.Tools.VSIXExtension.MarkupGeneratorPackage
             contents.AppendLine("{");
             contents.AppendLine("\tpublic abstract class " + className + "Base<T> : global::" + typeof (MarkupControlBase<>).Namespace + ".MarkupControlBase<T>");
             contents.AppendLine("\t{");
-            IEnumerable<ElementTypeAndId> elements = ((IEnumerable) doc.SelectNodes("/root//@controlid") ?? new XmlAttribute[0]).Cast<XmlAttribute>().Select(a =>
+            IEnumerable<ElementTypeAndId> elements = ((IEnumerable) doc.SelectNodes("/control//@controlid") ?? new XmlAttribute[0]).Cast<XmlAttribute>().Select(a =>
                 {
                     string id = a.Value;
                     XmlElement element = a.OwnerElement;

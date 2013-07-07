@@ -58,12 +58,13 @@
   <ItemGroup>
     <None Include="CalculatorControl.mc">
       <Generator>MarkupGenerator</Generator>
-      <LastGenOutput>CalculatorControl.generated.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>CalculatorControl.generated.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
     <None Include="StopwatchControl.mc">
       <Generator>MarkupGenerator</Generator>
+      <SubType>Designer</SubType>
       <LastGenOutput>StopwatchControl.generated.cs</LastGenOutput>
     </None>
   </ItemGroup>
@@ -79,6 +80,10 @@
     </Reference>
     <Reference Include="MorseCode.CsJs.ViewModel">
       <HintPath>..\..\..\..\bin\MorseCode.CsJs.ViewModel.dll</HintPath>
+    </Reference>
+    <Reference Include="MorseCode.CsJs.Xml, Version=1.0.0.0, Culture=neutral, PublicKeyToken=4b95f88f1fed5cde, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\bin\MorseCode.CsJs.Xml.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>$(SolutionDir)packages\Saltarelle.Runtime.2.2.0\tools\Assemblies\mscorlib.dll</HintPath>

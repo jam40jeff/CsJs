@@ -1,2 +1,2 @@
-﻿<declare type="$safeitemrootname$" />
-
+﻿<control classname="$rootnamespace$.$safeitemrootname$">
+</control>

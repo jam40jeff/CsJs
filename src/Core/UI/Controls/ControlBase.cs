@@ -16,6 +16,8 @@ namespace MorseCode.CsJs.UI.Controls
         private ISkin _skin;
         private string _skinCategory;
 
+        private string _id;
+
         private readonly List<Action> _postSkinActions = new List<Action>();
 
         public virtual CompositeControlBase Parent { get; set; }
@@ -71,6 +73,19 @@ namespace MorseCode.CsJs.UI.Controls
             }
         }
 
+        public string Id
+        {
+            get { return _id; }
+            set
+            {
+                if (_isSkinApplied)
+                {
+                    throw new InvalidOperationException("Id cannot be changed after it has been applied.");
+                }
+                _id = value;
+            }
+        }
+
         public string SkinCategory
         {
             get { return _skinCategory; }
@@ -98,7 +113,7 @@ namespace MorseCode.CsJs.UI.Controls
                 ISkin skin = GetEffectiveSkin();
                 if (skin != null)
                 {
-                    skin.Apply(this, SkinCategory);
+                    skin.Apply(this);
                 }
 
                 OnAfterSkin();
