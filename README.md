@@ -10,7 +10,7 @@ CsJs is built to be a strongly-typed MVVM framework which allows all coding to b
 
 The Views are written by combining Controls together to form Pages.  The Pages are registered with an Application.  The Application lives within a single ASPX page, making this a Single-Page Application framework.
 
-Views may be coded in C# or using a markup model similar to ASPX.  Bindings are always done in the code of the Control.  (All Controls have code.  Markup is simply run through a custom tool which generates the code to create the Control.)  This allows for an easy and less error-prone method of binding than the declarative binding found in so many other frameworks.
+Views may be coded in C# or using a markup model similar to ASPX.  Bindings are always done in the code of the Control.  (All Controls have code.  Markup is simply run through a custom tool which generates the code to create the Control.)  This allows for an easy, strongly-typed, and less error-prone method of binding than the declarative binding found in so many other frameworks.
 
 ViewModels are also written in C# but transpiled into JavaScript to run in the browser.  A base framework has been started, including IObservable<T> objects such as ObservableProperty<T>, CalculatedProperty<T>, AsyncCalculatedProperty<T> and more.
 
