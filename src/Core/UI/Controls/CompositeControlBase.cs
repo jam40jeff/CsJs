@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Html;
 using System.Linq;
-using MorseCode.CsJs.Common;
 
 namespace MorseCode.CsJs.UI.Controls
 {
@@ -43,12 +42,12 @@ namespace MorseCode.CsJs.UI.Controls
             }
         }
 
-        public ControlCollection Controls
+        protected IEnumerable<IControl> Controls
         {
             get { return _controls; }
         }
 
-        internal override IEnumerable<Element> GetRootElementsInternal()
+        public override IEnumerable<Element> GetRootElementsInternal()
         {
             EnsureChildControlsCreated();
 
@@ -61,12 +60,12 @@ namespace MorseCode.CsJs.UI.Controls
 
             if (!_childControlsCreated)
             {
-                CreateChildControls();
+                CreateChildControls(_controls);
                 _childControlsCreated = true;
             }
         }
 
-        protected abstract void CreateChildControls();
+        protected abstract void CreateChildControls(ControlCollection controls);
 
         internal Element GetChildElementContainerInternal()
         {
@@ -80,8 +79,8 @@ namespace MorseCode.CsJs.UI.Controls
         {
             base.OnDispose();
 
-            List<ControlBase> controls = Controls.ToList();
-            Controls.Clear();
+            List<ControlBase> controls = _controls.ToList();
+            _controls.Clear();
             foreach (ControlBase control in controls)
             {
                 control.Dispose();

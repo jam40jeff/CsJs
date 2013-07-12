@@ -42,6 +42,7 @@
     <Compile Include="CalculatorPage.cs" />
     <Compile Include="CalculatorsAndStopwatchApplication.cs" />
     <Compile Include="CalculatorsAndStopwatchPage.cs" />
+    <Compile Include="GridPage.cs" />
     <Compile Include="NavigationControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StopwatchControl.cs">

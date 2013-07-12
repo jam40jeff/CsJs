@@ -688,7 +688,7 @@
 	$MorseCode_CsJs_UI_Controls_CompositeControlBase.prototype = {
 		$changeControl: function(control, add) {
 			var container = this.$getChildElementContainerInternal();
-			var rootElements = control.$getRootElementsInternal();
+			var rootElements = control.getRootElementsInternal();
 			if (ss.isValue(rootElements)) {
 				var $t1 = ss.getEnumerator(rootElements);
 				try {
@@ -710,14 +710,14 @@
 		get_controls: function() {
 			return this.$_controls;
 		},
-		$getRootElementsInternal: function() {
+		getRootElementsInternal: function() {
 			this.ensureChildControlsCreated();
-			return $MorseCode_CsJs_UI_Controls_ControlBase.prototype.$getRootElementsInternal.call(this);
+			return $MorseCode_CsJs_UI_Controls_ControlBase.prototype.getRootElementsInternal.call(this);
 		},
 		ensureChildControlsCreated: function() {
 			this.ensureElementsCreated();
 			if (!this.$_childControlsCreated) {
-				this.createChildControls();
+				this.createChildControls(this.$_controls);
 				this.$_childControlsCreated = true;
 			}
 		},
@@ -729,8 +729,8 @@
 		getChildElementContainer: null,
 		onDispose: function() {
 			$MorseCode_CsJs_UI_Controls_ControlBase.prototype.onDispose.call(this);
-			var controls = Enumerable.from(this.get_controls()).toArray();
-			this.get_controls().clear();
+			var controls = Enumerable.from(this.$_controls).toArray();
+			this.$_controls.clear();
 			for (var $t1 = 0; $t1 < controls.length; $t1++) {
 				var control = controls[$t1];
 				control.dispose();
@@ -883,7 +883,7 @@
 				handler(this, ss.EventArgs.Empty);
 			}
 		},
-		$getRootElementsInternal: function() {
+		getRootElementsInternal: function() {
 			this.ensureSetup();
 			this.ensureElementsCreated();
 			return this.getRootElements();
@@ -1259,8 +1259,8 @@
 		this.$_createChildControls = createChildControls;
 	};
 	$MorseCode_CsJs_UI_Controls_HtmlControl.prototype = {
-		createChildControls: function() {
-			this.$_createChildControls(this.get_controls());
+		createChildControls: function(controls) {
+			this.$_createChildControls(controls);
 		},
 		createElements: function() {
 			this.$_element = document.createElement(this.$_tagName);
@@ -1304,7 +1304,7 @@
 	// MorseCode.CsJs.UI.Controls.IControl
 	var $MorseCode_CsJs_UI_Controls_IControl = function() {
 	};
-	$MorseCode_CsJs_UI_Controls_IControl.prototype = { add_beforeSkin: null, remove_beforeSkin: null, add_afterSkin: null, remove_afterSkin: null, add_afterPostSkinMarkup: null, remove_afterPostSkinMarkup: null, get_id: null, set_id: null, get_skinCategory: null, set_skinCategory: null };
+	$MorseCode_CsJs_UI_Controls_IControl.prototype = { add_beforeSkin: null, remove_beforeSkin: null, add_afterSkin: null, remove_afterSkin: null, add_afterPostSkinMarkup: null, remove_afterPostSkinMarkup: null, get_id: null, set_id: null, get_skinCategory: null, set_skinCategory: null, getRootElementsInternal: null };
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.UI.Controls.IControlParser
 	var $MorseCode_CsJs_UI_Controls_IControlParser = function() {
@@ -1348,10 +1348,17 @@
 		},
 		bindText: function(T) {
 			return function(dataContext, getTextProperty) {
+				this.bindText$1(T, String).call(this, dataContext, getTextProperty, function(v) {
+					return v;
+				});
+			};
+		},
+		bindText$1: function(T, TProperty) {
+			return function(dataContext, getTextProperty, formatString) {
 				var updateControlEventHandler = null;
 				this.createOneWayBinding(T).call(this, dataContext, ss.mkdel(this, function(d) {
 					var updateControl = ss.mkdel(this, function() {
-						this.set_text(ss.coalesce(getTextProperty(d).get_value(), ''));
+						this.set_text(ss.coalesce(formatString(getTextProperty(d).get_value()), ''));
 					});
 					updateControlEventHandler = function(sender, args) {
 						updateControl();
@@ -1398,13 +1405,13 @@
 			ss.makeGenericType($MorseCode_CsJs_UI_Controls_PlaceHolderCompositeControlBase$1, [T]).call(this);
 		};
 		$type.prototype = {
-			createChildControls: function() {
+			createChildControls: function(controls) {
 				this.$_childControlsById = new (ss.makeGenericType(ss.Dictionary$2, [String, $MorseCode_CsJs_UI_Controls_ControlBase]))();
 				var document = $.parseXML(this.get_markup());
 				if (document.documentElement.nodeName !== 'control') {
 					throw new System.InvalidOperationException.$ctor1('A <control> element must be the root node of a markup control.');
 				}
-				this.get_controls().addRange($MorseCode_CsJs_UI_Controls_MarkupParser.parseNodes(document.documentElement.childNodes, this.$_childControlsById));
+				controls.addRange($MorseCode_CsJs_UI_Controls_MarkupParser.parseNodes(document.documentElement.childNodes, this.$_childControlsById));
 				this.setupControls();
 			},
 			findControl: function(TControl) {
@@ -1513,8 +1520,8 @@
 		this.$_createChildControls = createChildControls;
 	};
 	$MorseCode_CsJs_UI_Controls_Panel.prototype = {
-		createChildControls: function() {
-			this.$_createChildControls(this.get_controls());
+		createChildControls: function(controls) {
+			this.$_createChildControls(controls);
 		},
 		createElements: function() {
 			this.$_div = document.createElement('div');
@@ -1597,21 +1604,63 @@
 	};
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.UI.Controls.PlaceHolderCompositeControlBase
+	var $MorseCode_CsJs_UI_Controls_PlaceHolderCompositeControlBase = function() {
+		this.$_tempElement = null;
+		$MorseCode_CsJs_UI_Controls_CompositeControlBase.call(this);
+	};
+	$MorseCode_CsJs_UI_Controls_PlaceHolderCompositeControlBase.prototype = {
+		createElements: function() {
+			this.$_tempElement = document.createElement('div');
+		},
+		getChildElementContainer: function() {
+			return (ss.isNullOrUndefined(this.get_parent()) ? this.$_tempElement : this.get_parent().$getChildElementContainerInternal());
+		},
+		getRootElements: function() {
+			return null;
+		},
+		get_parent: function() {
+			return $MorseCode_CsJs_UI_Controls_ControlBase.prototype.get_parent.call(this);
+		},
+		set_parent: function(value) {
+			this.ensureChildControlsCreated();
+			var oldContainer = this.$getChildElementContainerInternal();
+			$MorseCode_CsJs_UI_Controls_ControlBase.prototype.set_parent.call(this, value);
+			var container = this.$getChildElementContainerInternal();
+			if (ss.referenceEquals(oldContainer, container)) {
+				return;
+			}
+			var $t1 = ss.getEnumerator(this.get_controls());
+			try {
+				while ($t1.moveNext()) {
+					var control = $t1.current();
+					var children = control.getRootElementsInternal();
+					var $t2 = ss.getEnumerator(children);
+					try {
+						while ($t2.moveNext()) {
+							var child = $t2.current();
+							container.appendChild(child);
+							if (oldContainer.contains(child)) {
+								oldContainer.removeChild(child);
+							}
+						}
+					}
+					finally {
+						$t2.dispose();
+					}
+				}
+			}
+			finally {
+				$t1.dispose();
+			}
+		}
+	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.Controls.PlaceHolderCompositeControlBase
 	var $MorseCode_CsJs_UI_Controls_PlaceHolderCompositeControlBase$1 = function(T) {
 		var $type = function() {
-			this.$_tempElement = null;
-			$MorseCode_CsJs_UI_Controls_CompositeControlBase.call(this);
+			$MorseCode_CsJs_UI_Controls_PlaceHolderCompositeControlBase.call(this);
 		};
 		$type.prototype = {
-			createElements: function() {
-				this.$_tempElement = document.createElement('div');
-			},
-			getChildElementContainer: function() {
-				return (ss.isNullOrUndefined(this.get_parent()) ? this.$_tempElement : this.get_parent().$getChildElementContainerInternal());
-			},
-			getRootElements: function() {
-				return null;
-			},
 			bindDataContext: function(TDataContext) {
 				return function(dataContext, getDataContext) {
 					this.ensureChildControlsCreated();
@@ -1638,45 +1687,10 @@
 					this.bindControls(thisDataContext);
 				};
 			},
-			bindControls: null,
-			get_parent: function() {
-				return $MorseCode_CsJs_UI_Controls_ControlBase.prototype.get_parent.call(this);
-			},
-			set_parent: function(value) {
-				this.ensureChildControlsCreated();
-				var oldContainer = this.$getChildElementContainerInternal();
-				$MorseCode_CsJs_UI_Controls_ControlBase.prototype.set_parent.call(this, value);
-				var container = this.$getChildElementContainerInternal();
-				if (ss.referenceEquals(oldContainer, container)) {
-					return;
-				}
-				var $t1 = this.get_controls().getEnumerator();
-				try {
-					while ($t1.moveNext()) {
-						var control = $t1.current();
-						var children = control.$getRootElementsInternal();
-						var $t2 = ss.getEnumerator(children);
-						try {
-							while ($t2.moveNext()) {
-								var child = $t2.current();
-								container.appendChild(child);
-								if (oldContainer.contains(child)) {
-									oldContainer.removeChild(child);
-								}
-							}
-						}
-						finally {
-							$t2.dispose();
-						}
-					}
-				}
-				finally {
-					$t1.dispose();
-				}
-			}
+			bindControls: null
 		};
 		ss.registerGenericClassInstance($type, $MorseCode_CsJs_UI_Controls_PlaceHolderCompositeControlBase$1, [T], function() {
-			return $MorseCode_CsJs_UI_Controls_CompositeControlBase;
+			return $MorseCode_CsJs_UI_Controls_PlaceHolderCompositeControlBase;
 		}, function() {
 			return [ss.IDisposable, $MorseCode_CsJs_UI_Controls_IControl, $MorseCode_CsJs_UI_Controls_ICompositeControl];
 		});
@@ -1806,6 +1820,358 @@
 			return new $MorseCode_CsJs_UI_Controls_TextBox();
 		}
 	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.Controls.Grid.Grid
+	var $MorseCode_CsJs_UI_Controls_Grid_Grid = function() {
+		this.$_table = null;
+		this.$_header = null;
+		this.$_body = null;
+		this.$_footer = null;
+		$MorseCode_CsJs_UI_Controls_ControlBase.call(this);
+	};
+	$MorseCode_CsJs_UI_Controls_Grid_Grid.prototype = {
+		createElements: function() {
+			this.$_table = $('<table border="1" cellspacing="0" cellpadding="5"><thead></thead><tbody></tbody><tfoot></tfoot></table>')[0];
+			this.$_header = this.$_table.tHead;
+			this.$_body = this.$_table.tBodies[0];
+			this.$_footer = this.$_table.tFoot;
+		},
+		getRootElements: function() {
+			return [this.$_table];
+		},
+		bindData: function(TDataContext, T) {
+			return function(dataContext, getData, getColumns) {
+				var columns = [];
+				var items = [];
+				var dataBindHeader = ss.mkdel(this, function() {
+					var tableHeader = document.createElement('thead');
+					var headerRow = document.createElement('tr');
+					tableHeader.appendChild(headerRow);
+					for (var $t1 = 0; $t1 < columns.length; $t1++) {
+						var column = columns[$t1];
+						var headerCell = document.createElement('th');
+						headerRow.appendChild(headerCell);
+						if (!ss.isNullOrEmptyString(column.get_headerText())) {
+							$(headerCell).text(column.get_headerText());
+						}
+					}
+					this.$_table.replaceChild(tableHeader, this.$_header);
+					this.$_header = tableHeader;
+				});
+				var dataBindItems = ss.mkdel(this, function() {
+					var tableBody = document.createElement('tbody');
+					var rowIndex = 0;
+					for (var $t2 = 0; $t2 < items.length; $t2++) {
+						var item = items[$t2];
+						var row = document.createElement('tr');
+						tableBody.appendChild(row);
+						for (var $t3 = 0; $t3 < columns.length; $t3++) {
+							var column1 = columns[$t3];
+							var cell = row.insertCell();
+							var cellControl = column1.createControl(rowIndex, item);
+							var rootElements = cellControl.getRootElementsInternal();
+							if (ss.isValue(rootElements)) {
+								var $t4 = ss.getEnumerator(rootElements);
+								try {
+									while ($t4.moveNext()) {
+										var element = $t4.current();
+										cell.appendChild(element);
+									}
+								}
+								finally {
+									$t4.dispose();
+								}
+							}
+						}
+						rowIndex++;
+					}
+					this.$_table.replaceChild(tableBody, this.$_body);
+					this.$_body = tableBody;
+				});
+				var setItems = function(i) {
+					ss.clear(items);
+					ss.arrayAddRange(items, i);
+					dataBindItems();
+				};
+				var setColumns = function(c) {
+					ss.clear(columns);
+					ss.arrayAddRange(columns, c);
+					dataBindHeader();
+					dataBindItems();
+				};
+				var updateControlColumnsEventHandler = null;
+				this.createOneWayBinding(TDataContext).call(this, dataContext, function(d) {
+					var updateControl = function() {
+						setColumns(getColumns(d));
+					};
+					updateControlColumnsEventHandler = function(sender, args) {
+						updateControl();
+					};
+					//getTextProperty(d).Changed += updateControlColumnsEventHandler;
+					updateControl();
+				}, function(d1) {
+				});
+				//getTextProperty(d).Changed -= updateControlColumnsEventHandler);
+				var updateControlDataEventHandler = null;
+				this.createOneWayBinding(TDataContext).call(this, dataContext, function(d2) {
+					var updateControl1 = function() {
+						setItems(getData(d2));
+					};
+					updateControlDataEventHandler = function(sender1, args1) {
+						updateControl1();
+					};
+					//getTextProperty(d).Changed += updateControlDataEventHandler;
+					updateControl1();
+				}, function(d3) {
+				});
+				//getTextProperty(d).Changed -= updateControlDataEventHandler);
+			};
+		}
+	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.Controls.Grid.Grid.Parser
+	var $MorseCode_CsJs_UI_Controls_Grid_Grid$Parser = function() {
+		ss.makeGenericType($MorseCode_CsJs_UI_Controls_ControlParserBase$1, [$MorseCode_CsJs_UI_Controls_Grid_Grid]).call(this);
+	};
+	$MorseCode_CsJs_UI_Controls_Grid_Grid$Parser.prototype = {
+		createControl: function(node, childControlsById) {
+			return new $MorseCode_CsJs_UI_Controls_Grid_Grid();
+		}
+	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.Controls.Grid.GridBooleanBoundColumnDisplayMode
+	var $MorseCode_CsJs_UI_Controls_Grid_GridBooleanBoundColumnDisplayMode = function() {
+	};
+	$MorseCode_CsJs_UI_Controls_Grid_GridBooleanBoundColumnDisplayMode.prototype = { checkBox: 0, text: 1 };
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.Controls.Grid.GridBoundBooleanColumn
+	var $MorseCode_CsJs_UI_Controls_Grid_GridBoundBooleanColumn$1 = function(T) {
+		var $type = function(propertyExpression) {
+			this.$_displayMode = 0;
+			this.$_trueText = 'Y';
+			this.$_falseText = 'N';
+			ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_GridBoundColumnBase$2, [T, Boolean]).call(this, propertyExpression);
+		};
+		$type.prototype = {
+			createControl: function(rowIndex, item) {
+				if (this.get_displayMode() === 0) {
+					var label = new $MorseCode_CsJs_UI_Controls_Label();
+					label.set_text('Checkbox coming soon!');
+					return label;
+				}
+				else {
+					var label1 = new $MorseCode_CsJs_UI_Controls_Label();
+					label1.bindText$1(T, Boolean).call(label1, new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [T]))(item), ss.mkdel(this, function(d) {
+						return this.get_propertyExpression().getProperty(d);
+					}), ss.mkdel(this, function(v) {
+						return (v ? this.get_trueText() : this.get_falseText());
+					}));
+					return label1;
+				}
+			},
+			get_displayMode: function() {
+				return this.$_displayMode;
+			},
+			set_displayMode: function(value) {
+				this.$_displayMode = value;
+				//TODO: refresh with templated control?
+			},
+			get_trueText: function() {
+				return this.$_trueText;
+			},
+			set_trueText: function(value) {
+				this.$_trueText = value;
+				//TODO: refresh with templated control?
+			},
+			get_falseText: function() {
+				return this.$_falseText;
+			},
+			set_falseText: function(value) {
+				this.$_falseText = value;
+				//TODO: refresh with templated control?
+			}
+		};
+		$type.$ctor1 = function(propertyExpression) {
+			this.$_displayMode = 0;
+			this.$_trueText = 'Y';
+			this.$_falseText = 'N';
+			ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_GridBoundColumnBase$2, [T, Boolean]).$ctor1.call(this, propertyExpression);
+		};
+		$type.$ctor1.prototype = $type.prototype;
+		ss.registerGenericClassInstance($type, $MorseCode_CsJs_UI_Controls_Grid_GridBoundBooleanColumn$1, [T], function() {
+			return ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_GridBoundColumnBase$2, [T, Boolean]);
+		}, function() {
+			return [$MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn, ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn$1, [T]), $MorseCode_CsJs_UI_Controls_Grid_IGridColumn, ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_IGridColumn$1, [T]), ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn$2, [T, Boolean]), $MorseCode_CsJs_UI_Controls_Grid_IGridBoundTextColumn, ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_IGridBoundTextColumn$1, [T]), ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_IGridBoundTextColumn$2, [T, Boolean])];
+		});
+		return $type;
+	};
+	ss.registerGenericClass(global, 'MorseCode.CsJs.UI.Controls.Grid.GridBoundBooleanColumn$1', $MorseCode_CsJs_UI_Controls_Grid_GridBoundBooleanColumn$1, 1);
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.Controls.Grid.GridBoundColumnBase
+	var $MorseCode_CsJs_UI_Controls_Grid_GridBoundColumnBase$2 = function(T, TProperty) {
+		var $type = function(propertyExpression) {
+			this.$_propertyExpression = null;
+			this.$1$HeaderTextField = null;
+			this.$_propertyExpression = propertyExpression;
+		};
+		$type.prototype = {
+			get_headerText: function() {
+				return this.$1$HeaderTextField;
+			},
+			set_headerText: function(value) {
+				this.$1$HeaderTextField = value;
+			},
+			createControl: null,
+			get_propertyExpression: function() {
+				return this.$_propertyExpression;
+			}
+		};
+		$type.$ctor1 = function(propertyExpression) {
+			$type.call(this, ss.makeGenericType(MorseCode.CsJs.Common.Property.PropertyExpressionFactory$1, [T]).createPropertyExpression(ss.makeGenericType(MorseCode.CsJs.Common.Observable.IReadableObservableProperty$1, [TProperty])).call(null, propertyExpression));
+		};
+		$type.$ctor1.prototype = $type.prototype;
+		ss.registerGenericClassInstance($type, $MorseCode_CsJs_UI_Controls_Grid_GridBoundColumnBase$2, [T, TProperty], function() {
+			return null;
+		}, function() {
+			return [$MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn, ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn$1, [T]), $MorseCode_CsJs_UI_Controls_Grid_IGridColumn, ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_IGridColumn$1, [T]), ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn$2, [T, TProperty])];
+		});
+		return $type;
+	};
+	ss.registerGenericClass(global, 'MorseCode.CsJs.UI.Controls.Grid.GridBoundColumnBase$2', $MorseCode_CsJs_UI_Controls_Grid_GridBoundColumnBase$2, 2);
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.Controls.Grid.GridBoundTextColumn
+	var $MorseCode_CsJs_UI_Controls_Grid_GridBoundTextColumn$2 = function(T, TProperty) {
+		var $type = function(propertyExpression) {
+			$type.$ctor2.call(this, propertyExpression, function(v) {
+				return MorseCode.CsJs.Common.FrameworkUtility.safeToString(v);
+			});
+		};
+		$type.prototype = {
+			createControl: function(rowIndex, item) {
+				var label = new $MorseCode_CsJs_UI_Controls_Label();
+				label.bindText$1(T, TProperty).call(label, new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [T]))(item), ss.mkdel(this, function(d) {
+					return this.get_propertyExpression().getProperty(d);
+				}), this.$_formatString);
+				return label;
+			}
+		};
+		$type.$ctor1 = function(propertyExpression) {
+			$type.$ctor3.call(this, propertyExpression, function(v) {
+				return MorseCode.CsJs.Common.FrameworkUtility.safeToString(v);
+			});
+		};
+		$type.$ctor3 = function(propertyExpression, formatString) {
+			this.$_formatString = null;
+			ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_GridBoundColumnBase$2, [T, TProperty]).$ctor1.call(this, propertyExpression);
+			this.$_formatString = formatString;
+		};
+		$type.$ctor2 = function(propertyExpression, formatString) {
+			this.$_formatString = null;
+			ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_GridBoundColumnBase$2, [T, TProperty]).call(this, propertyExpression);
+			this.$_formatString = formatString;
+		};
+		$type.$ctor1.prototype = $type.$ctor3.prototype = $type.$ctor2.prototype = $type.prototype;
+		ss.registerGenericClassInstance($type, $MorseCode_CsJs_UI_Controls_Grid_GridBoundTextColumn$2, [T, TProperty], function() {
+			return ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_GridBoundColumnBase$2, [T, TProperty]);
+		}, function() {
+			return [$MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn, ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn$1, [T]), $MorseCode_CsJs_UI_Controls_Grid_IGridColumn, ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_IGridColumn$1, [T]), ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn$2, [T, TProperty]), $MorseCode_CsJs_UI_Controls_Grid_IGridBoundTextColumn, ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_IGridBoundTextColumn$1, [T]), ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_IGridBoundTextColumn$2, [T, TProperty])];
+		});
+		return $type;
+	};
+	ss.registerGenericClass(global, 'MorseCode.CsJs.UI.Controls.Grid.GridBoundTextColumn$2', $MorseCode_CsJs_UI_Controls_Grid_GridBoundTextColumn$2, 2);
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.Controls.Grid.GridColumnBase
+	var $MorseCode_CsJs_UI_Controls_Grid_GridColumnBase$1 = function(T) {
+		var $type = function() {
+			this.$1$HeaderTextField = null;
+		};
+		$type.prototype = {
+			get_headerText: function() {
+				return this.$1$HeaderTextField;
+			},
+			set_headerText: function(value) {
+				this.$1$HeaderTextField = value;
+			},
+			createControl: null
+		};
+		ss.registerGenericClassInstance($type, $MorseCode_CsJs_UI_Controls_Grid_GridColumnBase$1, [T], function() {
+			return null;
+		}, function() {
+			return [$MorseCode_CsJs_UI_Controls_Grid_IGridColumn, ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_IGridColumn$1, [T])];
+		});
+		return $type;
+	};
+	ss.registerGenericClass(global, 'MorseCode.CsJs.UI.Controls.Grid.GridColumnBase$1', $MorseCode_CsJs_UI_Controls_Grid_GridColumnBase$1, 1);
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.Controls.Grid.IGridBoundColumn
+	var $MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn = function() {
+	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.Controls.Grid.IGridBoundColumn
+	var $MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn$1 = function(T) {
+		var $type = function() {
+		};
+		ss.registerGenericInterfaceInstance($type, $MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn$1, [T], function() {
+			return [$MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn];
+		});
+		return $type;
+	};
+	ss.registerGenericInterface(global, 'MorseCode.CsJs.UI.Controls.Grid.IGridBoundColumn$1', $MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn$1, 1);
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.Controls.Grid.IGridBoundColumn
+	var $MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn$2 = function(T, TProperty) {
+		var $type = function() {
+		};
+		$type.prototype = { get_propertyExpression: null };
+		ss.registerGenericInterfaceInstance($type, $MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn$2, [T, TProperty], function() {
+			return [$MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn, ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn$1, [T]), $MorseCode_CsJs_UI_Controls_Grid_IGridColumn, ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_IGridColumn$1, [T])];
+		});
+		return $type;
+	};
+	ss.registerGenericInterface(global, 'MorseCode.CsJs.UI.Controls.Grid.IGridBoundColumn$2', $MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn$2, 2);
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.Controls.Grid.IGridBoundTextColumn
+	var $MorseCode_CsJs_UI_Controls_Grid_IGridBoundTextColumn = function() {
+	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.Controls.Grid.IGridBoundTextColumn
+	var $MorseCode_CsJs_UI_Controls_Grid_IGridBoundTextColumn$1 = function(T) {
+		var $type = function() {
+		};
+		ss.registerGenericInterfaceInstance($type, $MorseCode_CsJs_UI_Controls_Grid_IGridBoundTextColumn$1, [T], function() {
+			return [$MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn, $MorseCode_CsJs_UI_Controls_Grid_IGridBoundTextColumn, ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn$1, [T])];
+		});
+		return $type;
+	};
+	ss.registerGenericInterface(global, 'MorseCode.CsJs.UI.Controls.Grid.IGridBoundTextColumn$1', $MorseCode_CsJs_UI_Controls_Grid_IGridBoundTextColumn$1, 1);
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.Controls.Grid.IGridBoundTextColumn
+	var $MorseCode_CsJs_UI_Controls_Grid_IGridBoundTextColumn$2 = function(T, TProperty) {
+		var $type = function() {
+		};
+		ss.registerGenericInterfaceInstance($type, $MorseCode_CsJs_UI_Controls_Grid_IGridBoundTextColumn$2, [T, TProperty], function() {
+			return [$MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn, $MorseCode_CsJs_UI_Controls_Grid_IGridBoundTextColumn, ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn$1, [T]), ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_IGridBoundTextColumn$1, [T]), $MorseCode_CsJs_UI_Controls_Grid_IGridColumn, ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_IGridColumn$1, [T]), ss.makeGenericType($MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn$2, [T, TProperty])];
+		});
+		return $type;
+	};
+	ss.registerGenericInterface(global, 'MorseCode.CsJs.UI.Controls.Grid.IGridBoundTextColumn$2', $MorseCode_CsJs_UI_Controls_Grid_IGridBoundTextColumn$2, 2);
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.Controls.Grid.IGridColumn
+	var $MorseCode_CsJs_UI_Controls_Grid_IGridColumn = function() {
+	};
+	$MorseCode_CsJs_UI_Controls_Grid_IGridColumn.prototype = { get_headerText: null, set_headerText: null };
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.UI.Controls.Grid.IGridColumn
+	var $MorseCode_CsJs_UI_Controls_Grid_IGridColumn$1 = function(T) {
+		var $type = function() {
+		};
+		$type.prototype = { createControl: null };
+		ss.registerGenericInterfaceInstance($type, $MorseCode_CsJs_UI_Controls_Grid_IGridColumn$1, [T], function() {
+			return [$MorseCode_CsJs_UI_Controls_Grid_IGridColumn];
+		});
+		return $type;
+	};
+	ss.registerGenericInterface(global, 'MorseCode.CsJs.UI.Controls.Grid.IGridColumn$1', $MorseCode_CsJs_UI_Controls_Grid_IGridColumn$1, 1);
 	ss.registerClass(null, 'MorseCode.$CsJs.UI.ApplicationBase$ApplicationPage', $MorseCode_$CsJs_UI_ApplicationBase$ApplicationPage);
 	ss.registerInterface(global, 'MorseCode.CsJs.UI.IBinding', $MorseCode_CsJs_UI_IBinding, [ss.IDisposable]);
 	ss.registerInterface(null, 'MorseCode.$CsJs.UI.Controls.TextBox$ITextBoxTextBinding', $MorseCode_$CsJs_UI_Controls_TextBox$ITextBoxTextBinding, [ss.IDisposable, $MorseCode_CsJs_UI_IBinding]);
@@ -1843,8 +2209,15 @@
 	ss.registerClass(global, 'MorseCode.CsJs.UI.Controls.MarkupParser', $MorseCode_CsJs_UI_Controls_MarkupParser);
 	ss.registerClass(global, 'MorseCode.CsJs.UI.Controls.Panel', $MorseCode_CsJs_UI_Controls_Panel, $MorseCode_CsJs_UI_Controls_CompositeControlBase, [ss.IDisposable, $MorseCode_CsJs_UI_Controls_IControl, $MorseCode_CsJs_UI_Controls_ICompositeControl], { attr: [new $MorseCode_CsJs_UI_Controls_ControlParserAttribute($MorseCode_CsJs_UI_Controls_Panel$Parser)] });
 	ss.registerClass(global, 'MorseCode.CsJs.UI.Controls.Panel$Parser', $MorseCode_CsJs_UI_Controls_Panel$Parser, ss.makeGenericType($MorseCode_CsJs_UI_Controls_ControlParserBase$1, [$MorseCode_CsJs_UI_Controls_Panel]), [$MorseCode_CsJs_UI_Controls_IControlParser]);
+	ss.registerClass(global, 'MorseCode.CsJs.UI.Controls.PlaceHolderCompositeControlBase', $MorseCode_CsJs_UI_Controls_PlaceHolderCompositeControlBase, $MorseCode_CsJs_UI_Controls_CompositeControlBase, [ss.IDisposable, $MorseCode_CsJs_UI_Controls_IControl, $MorseCode_CsJs_UI_Controls_ICompositeControl]);
 	ss.registerClass(global, 'MorseCode.CsJs.UI.Controls.TextBox', $MorseCode_CsJs_UI_Controls_TextBox, $MorseCode_CsJs_UI_Controls_ControlBase, [ss.IDisposable, $MorseCode_CsJs_UI_Controls_IControl], { attr: [new $MorseCode_CsJs_UI_Controls_ControlParserAttribute($MorseCode_CsJs_UI_Controls_TextBox$Parser)] });
 	ss.registerClass(global, 'MorseCode.CsJs.UI.Controls.TextBox$Parser', $MorseCode_CsJs_UI_Controls_TextBox$Parser, ss.makeGenericType($MorseCode_CsJs_UI_Controls_ControlParserBase$1, [$MorseCode_CsJs_UI_Controls_TextBox]), [$MorseCode_CsJs_UI_Controls_IControlParser]);
+	ss.registerClass(global, 'MorseCode.CsJs.UI.Controls.Grid.Grid', $MorseCode_CsJs_UI_Controls_Grid_Grid, $MorseCode_CsJs_UI_Controls_ControlBase, [ss.IDisposable, $MorseCode_CsJs_UI_Controls_IControl], { attr: [new $MorseCode_CsJs_UI_Controls_ControlParserAttribute($MorseCode_CsJs_UI_Controls_Grid_Grid$Parser)] });
+	ss.registerClass(global, 'MorseCode.CsJs.UI.Controls.Grid.Grid$Parser', $MorseCode_CsJs_UI_Controls_Grid_Grid$Parser, ss.makeGenericType($MorseCode_CsJs_UI_Controls_ControlParserBase$1, [$MorseCode_CsJs_UI_Controls_Grid_Grid]), [$MorseCode_CsJs_UI_Controls_IControlParser]);
+	ss.registerEnum(global, 'MorseCode.CsJs.UI.Controls.Grid.GridBooleanBoundColumnDisplayMode', $MorseCode_CsJs_UI_Controls_Grid_GridBooleanBoundColumnDisplayMode);
+	ss.registerInterface(global, 'MorseCode.CsJs.UI.Controls.Grid.IGridBoundColumn', $MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn);
+	ss.registerInterface(global, 'MorseCode.CsJs.UI.Controls.Grid.IGridBoundTextColumn', $MorseCode_CsJs_UI_Controls_Grid_IGridBoundTextColumn, [$MorseCode_CsJs_UI_Controls_Grid_IGridBoundColumn]);
+	ss.registerInterface(global, 'MorseCode.CsJs.UI.Controls.Grid.IGridColumn', $MorseCode_CsJs_UI_Controls_Grid_IGridColumn);
 	$MorseCode_CsJs_UI_Application.$1$CurrentField = null;
 	$MorseCode_CsJs_UI_WindowTimerFactory.$instanceLazy = null;
 	$MorseCode_CsJs_UI_WindowTimerFactory.$instanceLazy = new ss.Lazy(function() {

@@ -42,10 +42,12 @@
     <Compile Include="CalculatorViewModel.cs" />
     <Compile Include="CalculatorViewModelBase.cs" />
     <Compile Include="CalculatorPageViewModel.cs" />
+    <Compile Include="GridPageViewModel.cs" />
     <Compile Include="ICalculatorViewModel.cs" />
     <Compile Include="IWebServiceClientFactory.cs" />
     <Compile Include="RemoteCalculatorViewModel.cs" />
     <Compile Include="NavigationViewModel.cs" />
+    <Compile Include="SampleItem.cs" />
     <Compile Include="WebServiceClientFactory.cs" />
     <Compile Include="StopwatchPageViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

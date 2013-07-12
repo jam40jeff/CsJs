@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Html;
 
 namespace MorseCode.CsJs.UI.Controls
 {
@@ -10,5 +12,7 @@ namespace MorseCode.CsJs.UI.Controls
 
         string Id { get; set; }
         string SkinCategory { get; set; }
+
+        IEnumerable<Element> GetRootElementsInternal();
     }
 }

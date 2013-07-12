@@ -11,7 +11,7 @@ namespace MorseCode.CsJs.Common.Observable
             SetInitialValue(value);
         }
 
-        T IObservableProperty<T>.Value
+        T IProperty<T>.Value
         {
             get { return GetValue(); }
             set { SetValue(value); }

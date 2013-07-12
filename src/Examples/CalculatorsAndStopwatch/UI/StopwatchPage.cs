@@ -14,13 +14,13 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
             get { return "Stopwatch"; }
         }
 
-        protected override void CreateChildControls()
+        protected override void CreateChildControls(ControlCollection controls)
         {
             _navigationControl = new NavigationControl();
-            Controls.Add(_navigationControl);
+            controls.Add(_navigationControl);
 
             _stopwatchControl = new StopwatchControl();
-            Controls.Add(_stopwatchControl);
+            controls.Add(_stopwatchControl);
         }
 
         protected override void BindControls(IReadableObservableProperty<StopwatchPageViewModel> dataContext)

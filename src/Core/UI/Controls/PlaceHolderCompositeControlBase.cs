@@ -5,7 +5,7 @@ using MorseCode.CsJs.Common.Observable;
 
 namespace MorseCode.CsJs.UI.Controls
 {
-    public abstract class PlaceHolderCompositeControlBase<T> : CompositeControlBase
+    public abstract class PlaceHolderCompositeControlBase : CompositeControlBase
     {
         private Element _tempElement;
 
@@ -23,36 +23,6 @@ namespace MorseCode.CsJs.UI.Controls
         {
             return null;
         }
-
-        public void BindDataContext<TDataContext>(IReadableObservableProperty<TDataContext> dataContext, Func<TDataContext, T> getDataContext)
-        {
-            EnsureChildControlsCreated();
-
-            BindControls(new ReadOnlyProperty<T>(getDataContext(dataContext.Value)));
-        }
-
-        public void BindDataContext<TDataContext>(IReadableObservableProperty<TDataContext> dataContext, Func<TDataContext, IReadableObservableProperty<T>> getDataContext)
-        {
-            EnsureChildControlsCreated();
-
-            ObservableProperty<T> thisDataContext = new ObservableProperty<T>(getDataContext(dataContext.Value).Value);
-
-            EventHandler updateControlEventHandler = null;
-            CreateOneWayBinding(
-                dataContext,
-                d =>
-                {
-                    Action updateControl = () => thisDataContext.Value = getDataContext(d).Value;
-                    updateControlEventHandler = (sender, args) => updateControl();
-                    getDataContext(d).Changed += updateControlEventHandler;
-                    updateControl();
-                },
-                d => getDataContext(d).Changed -= updateControlEventHandler);
-
-            BindControls(thisDataContext);
-        }
-
-        protected abstract void BindControls(IReadableObservableProperty<T> dataContext);
 
         public override CompositeControlBase Parent
         {
@@ -86,5 +56,38 @@ namespace MorseCode.CsJs.UI.Controls
                 }
             }
         }
+    }
+
+    public abstract class PlaceHolderCompositeControlBase<T> : PlaceHolderCompositeControlBase
+    {
+        public void BindDataContext<TDataContext>(IReadableObservableProperty<TDataContext> dataContext, Func<TDataContext, T> getDataContext)
+        {
+            EnsureChildControlsCreated();
+
+            BindControls(new ReadOnlyProperty<T>(getDataContext(dataContext.Value)));
+        }
+
+        public void BindDataContext<TDataContext>(IReadableObservableProperty<TDataContext> dataContext, Func<TDataContext, IReadableObservableProperty<T>> getDataContext)
+        {
+            EnsureChildControlsCreated();
+
+            ObservableProperty<T> thisDataContext = new ObservableProperty<T>(getDataContext(dataContext.Value).Value);
+
+            EventHandler updateControlEventHandler = null;
+            CreateOneWayBinding(
+                dataContext,
+                d =>
+                {
+                    Action updateControl = () => thisDataContext.Value = getDataContext(d).Value;
+                    updateControlEventHandler = (sender, args) => updateControl();
+                    getDataContext(d).Changed += updateControlEventHandler;
+                    updateControl();
+                },
+                d => getDataContext(d).Changed -= updateControlEventHandler);
+
+            BindControls(thisDataContext);
+        }
+
+        protected abstract void BindControls(IReadableObservableProperty<T> dataContext);
     }
 }

@@ -1,6 +1,8 @@
-﻿using MorseCode.CsJs.Common.Observable;
+﻿using System.Collections.Generic;
+using MorseCode.CsJs.Common.Observable;
 using MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel;
 using MorseCode.CsJs.UI.Controls;
+using MorseCode.CsJs.UI.Controls.Grid;
 
 namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
 {
@@ -14,13 +16,13 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
             get { return "Calculator"; }
         }
 
-        protected override void CreateChildControls()
+        protected override void CreateChildControls(ControlCollection controls)
         {
             _navigationControl = new NavigationControl();
-            Controls.Add(_navigationControl);
+            controls.Add(_navigationControl);
 
             _calculatorControl = new CalculatorControl();
-            Controls.Add(_calculatorControl);
+            controls.Add(_calculatorControl);
         }
 
         protected override void BindControls(IReadableObservableProperty<CalculatorPageViewModel> dataContext)

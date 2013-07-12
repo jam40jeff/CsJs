@@ -162,7 +162,7 @@ namespace MorseCode.CsJs.UI.Controls
             }
         }
 
-        internal virtual IEnumerable<Element> GetRootElementsInternal()
+        public virtual IEnumerable<Element> GetRootElementsInternal()
         {
             EnsureSetup();
             EnsureElementsCreated();

@@ -9,7 +9,7 @@ namespace MorseCode.CsJs.UI.Controls
     {
         private Dictionary<string, ControlBase> _childControlsById;
 
-        protected override sealed void CreateChildControls()
+        protected override sealed void CreateChildControls(ControlCollection controls)
         {
             _childControlsById = new Dictionary<string, ControlBase>();
             XmlDocument document = jQuery.ParseXml(Markup);
@@ -17,7 +17,7 @@ namespace MorseCode.CsJs.UI.Controls
             {
                 throw new InvalidOperationException("A <control> element must be the root node of a markup control.");
             }
-            Controls.AddRange(MarkupParser.ParseNodes(document.DocumentElement.ChildNodes, _childControlsById));
+            controls.AddRange(MarkupParser.ParseNodes(document.DocumentElement.ChildNodes, _childControlsById));
             SetupControls();
         }
 

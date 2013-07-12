@@ -7,7 +7,7 @@ using MorseCode.CsJs.Common.Observable;
 namespace MorseCode.CsJs.UI.Controls
 {
     // ReSharper disable RedundantNameQualifier
-    [ControlParser(typeof (Label.Parser))]
+    [ControlParser(typeof(Label.Parser))]
     // ReSharper restore RedundantNameQualifier
     public class Label : ControlBase
     {
@@ -23,7 +23,7 @@ namespace MorseCode.CsJs.UI.Controls
 
         protected override IEnumerable<Element> GetRootElements()
         {
-            return new[] {_span};
+            return new[] { _span };
         }
 
         public string Text
@@ -56,16 +56,21 @@ namespace MorseCode.CsJs.UI.Controls
 
         public void BindText<T>(IReadableObservableProperty<T> dataContext, Func<T, IReadableObservableProperty<string>> getTextProperty)
         {
+            BindText(dataContext, getTextProperty, v => v);
+        }
+
+        public void BindText<T, TProperty>(IReadableObservableProperty<T> dataContext, Func<T, IReadableObservableProperty<TProperty>> getTextProperty, Func<TProperty, string> formatString)
+        {
             EventHandler updateControlEventHandler = null;
             CreateOneWayBinding(
                 dataContext,
                 d =>
-                    {
-                        Action updateControl = () => Text = getTextProperty(d).Value ?? string.Empty;
-                        updateControlEventHandler = (sender, args) => updateControl();
-                        getTextProperty(d).Changed += updateControlEventHandler;
-                        updateControl();
-                    },
+                {
+                    Action updateControl = () => Text = formatString(getTextProperty(d).Value) ?? string.Empty;
+                    updateControlEventHandler = (sender, args) => updateControl();
+                    getTextProperty(d).Changed += updateControlEventHandler;
+                    updateControl();
+                },
                 d => getTextProperty(d).Changed -= updateControlEventHandler);
         }
 

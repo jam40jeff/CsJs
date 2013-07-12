@@ -26,9 +26,9 @@ namespace MorseCode.CsJs.UI.Controls
             _createChildControls = createChildControls;
         }
 
-        protected override void CreateChildControls()
+        protected override void CreateChildControls(ControlCollection controls)
         {
-            _createChildControls(Controls);
+            _createChildControls(controls);
         }
 
         protected override void CreateElements()

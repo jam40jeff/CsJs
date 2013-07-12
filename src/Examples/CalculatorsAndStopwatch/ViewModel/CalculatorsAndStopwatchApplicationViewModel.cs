@@ -28,5 +28,20 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel
         {
             CurrentViewModelInternal.Value = new StopwatchPageViewModel(this);
         }
+
+        public void NavigateToCalculatorPage()
+        {
+            CurrentViewModelInternal.Value = new CalculatorPageViewModel(this);
+        }
+
+        public void NavigateToGridPage()
+        {
+            CurrentViewModelInternal.Value = new GridPageViewModel(this);
+        }
+
+        public void NavigateToCalculatorsAndStopwatchPage()
+        {
+            CurrentViewModelInternal.Value = new CalculatorsAndStopwatchPageViewModel(this);
+        }
     }
 }

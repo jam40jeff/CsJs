@@ -17,28 +17,28 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
             get { return "Calculators and Stopwatch"; }
         }
 
-        protected override void CreateChildControls()
+        protected override void CreateChildControls(ControlCollection controls)
         {
             _navigationControl = new NavigationControl();
-            Controls.Add(_navigationControl);
+            controls.Add(_navigationControl);
 
-            HtmlControl div = new HtmlControl("div", controls =>
-            {
-                _switchCalculators = new Button();
-                _switchCalculators.Text = "Switch Calculators";
-                controls.Add(_switchCalculators);
+            HtmlControl div = new HtmlControl("div", c =>
+                {
+                    _switchCalculators = new Button();
+                    _switchCalculators.Text = "Switch Calculators";
+                    c.Add(_switchCalculators);
 
-                _calculatorLabel = new Label();
-                _calculatorLabel.Styles.AddOrSet("padding-left", "15px");
-                controls.Add(_calculatorLabel);
-            });
-            Controls.Add(div);
+                    _calculatorLabel = new Label();
+                    _calculatorLabel.Styles.AddOrSet("padding-left", "15px");
+                    c.Add(_calculatorLabel);
+                });
+            controls.Add(div);
 
             _calculatorControl = new CalculatorControl();
-            Controls.Add(_calculatorControl);
+            controls.Add(_calculatorControl);
 
             _stopwatchControl = new StopwatchControl();
-            Controls.Add(_stopwatchControl);
+            controls.Add(_stopwatchControl);
         }
 
         protected override void BindControls(IReadableObservableProperty<CalculatorsAndStopwatchPageViewModel> dataContext)

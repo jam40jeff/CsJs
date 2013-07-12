@@ -8,11 +8,11 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
     {
         private Button _switchButton;
 
-        protected override void CreateChildControls()
+        protected override void CreateChildControls(ControlCollection controls)
         {
             _switchButton = new Button();
             _switchButton.Text = "Switch Pages";
-            Controls.Add(new HtmlControl("div", controls => controls.Add(_switchButton)));
+            controls.Add(new HtmlControl("div", c => c.Add(_switchButton)));
         }
 
         protected override void BindControls(IReadableObservableProperty<NavigationViewModel> dataContext)

@@ -1,4 +1,6 @@
-﻿namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel
+﻿using System;
+
+namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel
 {
     public class NavigationViewModel
     {
@@ -11,7 +13,23 @@
 
         public void SwitchPages()
         {
-            _applicationViewModel.NavigateToStopwatchPage();
+            Type currentViewModelType = _applicationViewModel.CurrentViewModel.Value.GetType();
+            if (currentViewModelType == typeof (CalculatorsAndStopwatchPageViewModel))
+            {
+                _applicationViewModel.NavigateToCalculatorPage();
+            }
+            else if (currentViewModelType == typeof(CalculatorPageViewModel))
+            {
+                _applicationViewModel.NavigateToStopwatchPage();
+            }
+            else if (currentViewModelType == typeof(StopwatchPageViewModel))
+            {
+                _applicationViewModel.NavigateToGridPage();
+            }
+            else if (currentViewModelType == typeof(GridPageViewModel))
+            {
+                _applicationViewModel.NavigateToCalculatorsAndStopwatchPage();
+            }
         }
     }
 }

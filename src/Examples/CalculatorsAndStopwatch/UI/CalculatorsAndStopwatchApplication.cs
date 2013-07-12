@@ -27,6 +27,7 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
             pageRegistrationHelper.RegisterPage(() => new CalculatorsAndStopwatchPage()).WithBinding<CalculatorsAndStopwatchPageViewModel>((p, d) => p.BindDataContext(d));
             pageRegistrationHelper.RegisterPage(() => new CalculatorPage()).WithBinding<CalculatorPageViewModel>((p, d) => p.BindDataContext(d));
             pageRegistrationHelper.RegisterPage(() => new StopwatchPage()).WithBinding<StopwatchPageViewModel>((p, d) => p.BindDataContext(d));
+            pageRegistrationHelper.RegisterPage(() => new GridPage()).WithBinding<GridPageViewModel>((p, d) => p.BindDataContext(d));
         }
     }
 

@@ -101,9 +101,22 @@
 	var $MorseCode_CsJs_Common_StaticReflection$1 = function(T) {
 		var $type = function() {
 		};
+		$type.getPropertyInfo = function(TProperty) {
+			return function(propertyExpression) {
+				var memberExpression;
+				var unaryExpression = ss.safeCast(propertyExpression.body, ss.isValue(propertyExpression.body) && [4, 10, 11, 28, 29, 30, 34, 40, 44, 49, 54, 60, 62, 77, 78, 79, 80, 82, 83, 84].indexOf(propertyExpression.body.ntype) >= 0);
+				if (ss.isValue(unaryExpression)) {
+					memberExpression = ss.cast(unaryExpression.operand, ss.isValue(unaryExpression.operand) && unaryExpression.operand.ntype === 23);
+				}
+				else {
+					memberExpression = ss.cast(propertyExpression.body, ss.isValue(propertyExpression.body) && propertyExpression.body.ntype === 23);
+				}
+				return ss.cast(memberExpression.member, ss.isValue(memberExpression.member) && memberExpression.member.type === 16);
+			};
+		};
 		$type.getPropertyName = function(TProperty) {
-			return function(propertyPathExpression) {
-				return ss.cast(propertyPathExpression.body, ss.isValue(propertyPathExpression.body) && propertyPathExpression.body.ntype === 23).member.name;
+			return function(propertyExpression) {
+				return $type.getPropertyInfo(TProperty).call(null, propertyExpression).name;
 			};
 		};
 		ss.registerGenericClassInstance($type, $MorseCode_CsJs_Common_StaticReflection$1, [T], function() {
@@ -418,13 +431,24 @@
 	var $MorseCode_CsJs_Common_Observable_IObservableProperty$1 = function(T) {
 		var $type = function() {
 		};
-		$type.prototype = { get_value$1: null, set_value$1: null };
 		ss.registerGenericInterfaceInstance($type, $MorseCode_CsJs_Common_Observable_IObservableProperty$1, [T], function() {
-			return [ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), $MorseCode_CsJs_Common_Observable_IObservable, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IWritableProperty$1, [T])];
+			return [ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), $MorseCode_CsJs_Common_Observable_IObservable, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IWritableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IProperty$1, [T])];
 		});
 		return $type;
 	};
 	ss.registerGenericInterface(global, 'MorseCode.CsJs.Common.Observable.IObservableProperty$1', $MorseCode_CsJs_Common_Observable_IObservableProperty$1, 1);
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.Observable.IProperty
+	var $MorseCode_CsJs_Common_Observable_IProperty$1 = function(T) {
+		var $type = function() {
+		};
+		$type.prototype = { get_value$1: null, set_value$1: null };
+		ss.registerGenericInterfaceInstance($type, $MorseCode_CsJs_Common_Observable_IProperty$1, [T], function() {
+			return [ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IWritableProperty$1, [T])];
+		});
+		return $type;
+	};
+	ss.registerGenericInterface(global, 'MorseCode.CsJs.Common.Observable.IProperty$1', $MorseCode_CsJs_Common_Observable_IProperty$1, 1);
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Common.Observable.IReadableObservableProperty
 	var $MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1 = function(T) {
@@ -607,7 +631,7 @@
 		ss.registerGenericClassInstance($type, $MorseCode_CsJs_Common_Observable_ObservableProperty$1, [T], function() {
 			return ss.makeGenericType($MorseCode_CsJs_Common_Observable_ObservablePropertyBase$1, [T]);
 		}, function() {
-			return [ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), $MorseCode_CsJs_Common_Observable_IObservable, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IWritableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IObservableProperty$1, [T])];
+			return [ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), $MorseCode_CsJs_Common_Observable_IObservable, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IWritableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IObservableProperty$1, [T])];
 		});
 		return $type;
 	};
@@ -687,6 +711,81 @@
 	};
 	ss.registerGenericClass(global, 'MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1', $MorseCode_CsJs_Common_Observable_ReadOnlyProperty$1, 1);
 	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.Property.IPropertyExpression
+	var $MorseCode_CsJs_Common_Property_IPropertyExpression = function() {
+	};
+	$MorseCode_CsJs_Common_Property_IPropertyExpression.prototype = { get_propertyName: null };
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.Property.IPropertyExpression
+	var $MorseCode_CsJs_Common_Property_IPropertyExpression$1 = function(T) {
+		var $type = function() {
+		};
+		ss.registerGenericInterfaceInstance($type, $MorseCode_CsJs_Common_Property_IPropertyExpression$1, [T], function() {
+			return [$MorseCode_CsJs_Common_Property_IPropertyExpression];
+		});
+		return $type;
+	};
+	ss.registerGenericInterface(global, 'MorseCode.CsJs.Common.Property.IPropertyExpression$1', $MorseCode_CsJs_Common_Property_IPropertyExpression$1, 1);
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.Property.IPropertyExpression
+	var $MorseCode_CsJs_Common_Property_IPropertyExpression$2 = function(T, TProperty) {
+		var $type = function() {
+		};
+		$type.prototype = { getProperty: null };
+		ss.registerGenericInterfaceInstance($type, $MorseCode_CsJs_Common_Property_IPropertyExpression$2, [T, TProperty], function() {
+			return [$MorseCode_CsJs_Common_Property_IPropertyExpression, ss.makeGenericType($MorseCode_CsJs_Common_Property_IPropertyExpression$1, [T])];
+		});
+		return $type;
+	};
+	ss.registerGenericInterface(global, 'MorseCode.CsJs.Common.Property.IPropertyExpression$2', $MorseCode_CsJs_Common_Property_IPropertyExpression$2, 2);
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.Property.PropertyExpression
+	var $MorseCode_CsJs_Common_Property_PropertyExpression$2 = function(T, TProperty) {
+		var $type = function(propertyName, getProperty) {
+			this.$_propertyName = null;
+			this.$_getProperty = null;
+			this.$_propertyName = propertyName;
+			this.$_getProperty = getProperty;
+		};
+		$type.prototype = {
+			get_propertyName: function() {
+				return this.$_propertyName;
+			},
+			getProperty: function(item) {
+				return this.$_getProperty(item);
+			}
+		};
+		ss.registerGenericClassInstance($type, $MorseCode_CsJs_Common_Property_PropertyExpression$2, [T, TProperty], function() {
+			return null;
+		}, function() {
+			return [$MorseCode_CsJs_Common_Property_IPropertyExpression, ss.makeGenericType($MorseCode_CsJs_Common_Property_IPropertyExpression$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Property_IPropertyExpression$2, [T, TProperty])];
+		});
+		return $type;
+	};
+	ss.registerGenericClass(global, 'MorseCode.CsJs.Common.Property.PropertyExpression$2', $MorseCode_CsJs_Common_Property_PropertyExpression$2, 2);
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.Property.PropertyExpressionFactory
+	var $MorseCode_CsJs_Common_Property_PropertyExpressionFactory$1 = function(T) {
+		var $type = function() {
+		};
+		$type.createPropertyExpression = function(TProperty) {
+			return function(propertyExpression) {
+				var property = ss.makeGenericType($MorseCode_CsJs_Common_StaticReflection$1, [T]).getPropertyInfo(TProperty).call(null, propertyExpression);
+				var getProperty = function(item) {
+					return ss.cast(ss.midel(property.getter, item)(), TProperty);
+				};
+				return new (ss.makeGenericType($MorseCode_CsJs_Common_Property_PropertyExpression$2, [T, TProperty]))(property.name, getProperty);
+			};
+		};
+		ss.registerGenericClassInstance($type, $MorseCode_CsJs_Common_Property_PropertyExpressionFactory$1, [T], function() {
+			return null;
+		}, function() {
+			return [];
+		});
+		return $type;
+	};
+	ss.registerGenericClass(global, 'MorseCode.CsJs.Common.Property.PropertyExpressionFactory$1', $MorseCode_CsJs_Common_Property_PropertyExpressionFactory$1, 1);
+	////////////////////////////////////////////////////////////////////////////////
 	// System.InvalidOperationException
 	var $System_InvalidOperationException = function() {
 		ss.Exception.call(this);
@@ -718,6 +817,7 @@
 	ss.registerClass(global, 'MorseCode.CsJs.Common.UnhandledEnumValueException', $MorseCode_CsJs_Common_UnhandledEnumValueException, ss.Exception);
 	ss.registerClass(global, 'MorseCode.CsJs.Common.UnhandledEnumValueExceptionFactory', $MorseCode_CsJs_Common_UnhandledEnumValueExceptionFactory);
 	ss.registerInterface(global, 'MorseCode.CsJs.Common.Observable.IObservable', $MorseCode_CsJs_Common_Observable_IObservable);
+	ss.registerInterface(global, 'MorseCode.CsJs.Common.Property.IPropertyExpression', $MorseCode_CsJs_Common_Property_IPropertyExpression);
 	ss.registerClass(global, 'System.InvalidOperationException', $System_InvalidOperationException, ss.Exception);
 	ss.registerClass(global, 'System.NotImplementedException', $System_NotImplementedException, ss.Exception);
 	$MorseCode_CsJs_Common_StringUtility.$keyString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';

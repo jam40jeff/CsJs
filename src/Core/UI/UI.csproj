@@ -48,6 +48,14 @@
     <Compile Include="Controls\ControlParserAttribute.cs" />
     <Compile Include="Controls\ControlParserBase.cs" />
     <Compile Include="Controls\DropDown.cs" />
+    <Compile Include="Controls\Grid\Grid.cs" />
+    <Compile Include="Controls\Grid\GridBoundBooleanColumn.cs" />
+    <Compile Include="Controls\Grid\GridBoundColumnBase.cs" />
+    <Compile Include="Controls\Grid\GridBoundTextColumn.cs" />
+    <Compile Include="Controls\Grid\IGridBoundTextColumn.cs" />
+    <Compile Include="Controls\Grid\GridColumnBase.cs" />
+    <Compile Include="Controls\Grid\IGridBoundColumn.cs" />
+    <Compile Include="Controls\Grid\IGridColumn.cs" />
     <Compile Include="Controls\HtmlControl.cs" />
     <Compile Include="Controls\ICompositeControl.cs" />
     <Compile Include="Controls\IControl.cs" />
