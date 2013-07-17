@@ -25,20 +25,13 @@ namespace MorseCode.CsJs.UI.Controls
         private void ChangeControl(ControlBase control, bool add)
         {
             Element container = GetChildElementContainerInternal();
-            IEnumerable<Element> rootElements = control.GetRootElementsInternal();
-            if (rootElements != null)
+            if (add)
             {
-                foreach (Element element in rootElements)
-                {
-                    if (add)
-                    {
-                        container.AppendChild(element);
-                    }
-                    else
-                    {
-                        container.RemoveChild(element);
-                    }
-                }
+                control.AddControlTo(container);
+            }
+            else
+            {
+                control.RemoveControlFrom(container);
             }
         }
 
@@ -47,11 +40,23 @@ namespace MorseCode.CsJs.UI.Controls
             get { return _controls; }
         }
 
-        public override IEnumerable<Element> GetRootElementsInternal()
+        internal void RemoveChildControl(ControlBase control)
+        {
+            _controls.Remove(control);
+        }
+
+        public override void AddControlTo(Element container)
         {
             EnsureChildControlsCreated();
 
-            return base.GetRootElementsInternal();
+            base.AddControlTo(container);
+        }
+
+        public override void RemoveControlFrom(Element container)
+        {
+            EnsureChildControlsCreated();
+
+            base.RemoveControlFrom(container);
         }
 
         protected void EnsureChildControlsCreated()

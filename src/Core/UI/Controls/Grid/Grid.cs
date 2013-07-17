@@ -79,14 +79,7 @@ namespace MorseCode.CsJs.UI.Controls.Grid
                         {
                             Element cell = row.InsertCell();
                             IControl cellControl = column.CreateControl(rowIndex, item);
-                            IEnumerable<Element> rootElements = cellControl.GetRootElementsInternal();
-                            if (rootElements != null)
-                            {
-                                foreach (Element element in rootElements)
-                                {
-                                    cell.AppendChild(element);
-                                }
-                            }
+                            cellControl.AddControlTo(cell);
                         }
                         rowIndex++;
                     }

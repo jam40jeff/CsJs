@@ -19,8 +19,20 @@ namespace MorseCode.CsJs.UI.Controls
         private string _id;
 
         private readonly List<Action> _postSkinActions = new List<Action>();
+        private CompositeControlBase _parent;
 
-        public virtual CompositeControlBase Parent { get; set; }
+        internal CompositeControlBase Parent
+        {
+            get { return _parent; }
+            set
+            {
+                if (_parent != null && value != null)
+                {
+                    _parent.RemoveChildControl(this);
+                }
+                _parent = value;
+            }
+        }
 
         internal void AddPostSkinAction<T>(Action<T> postSkinAction) where T : ControlBase
         {
@@ -162,11 +174,32 @@ namespace MorseCode.CsJs.UI.Controls
             }
         }
 
-        public virtual IEnumerable<Element> GetRootElementsInternal()
+        public virtual void AddControlTo(Element container)
         {
             EnsureSetup();
             EnsureElementsCreated();
-            return GetRootElements();
+            IEnumerable<Element> rootElements = GetRootElements();
+            if (rootElements != null)
+            {
+                foreach (Element element in rootElements)
+                {
+                    container.AppendChild(element);
+                }
+            }
+        }
+
+        public virtual void RemoveControlFrom(Element container)
+        {
+            EnsureSetup();
+            EnsureElementsCreated();
+            IEnumerable<Element> rootElements = GetRootElements();
+            if (rootElements != null)
+            {
+                foreach (Element element in rootElements)
+                {
+                    container.RemoveChild(element);
+                }
+            }
         }
 
         protected abstract IEnumerable<Element> GetRootElements();

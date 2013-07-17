@@ -688,31 +688,26 @@
 	$MorseCode_CsJs_UI_Controls_CompositeControlBase.prototype = {
 		$changeControl: function(control, add) {
 			var container = this.$getChildElementContainerInternal();
-			var rootElements = control.getRootElementsInternal();
-			if (ss.isValue(rootElements)) {
-				var $t1 = ss.getEnumerator(rootElements);
-				try {
-					while ($t1.moveNext()) {
-						var element = $t1.current();
-						if (add) {
-							container.appendChild(element);
-						}
-						else {
-							container.removeChild(element);
-						}
-					}
-				}
-				finally {
-					$t1.dispose();
-				}
+			if (add) {
+				control.addControlTo(container);
+			}
+			else {
+				control.removeControlFrom(container);
 			}
 		},
 		get_controls: function() {
 			return this.$_controls;
 		},
-		getRootElementsInternal: function() {
+		$removeChildControl: function(control) {
+			this.$_controls.remove(control);
+		},
+		addControlTo: function(container) {
 			this.ensureChildControlsCreated();
-			return $MorseCode_CsJs_UI_Controls_ControlBase.prototype.getRootElementsInternal.call(this);
+			$MorseCode_CsJs_UI_Controls_ControlBase.prototype.addControlTo.call(this, container);
+		},
+		removeControlFrom: function(container) {
+			this.ensureChildControlsCreated();
+			$MorseCode_CsJs_UI_Controls_ControlBase.prototype.removeControlFrom.call(this, container);
 		},
 		ensureChildControlsCreated: function() {
 			this.ensureElementsCreated();
@@ -760,17 +755,20 @@
 		this.$_skinCategory = null;
 		this.$_id = null;
 		this.$_postSkinActions = [];
-		this.$1$ParentField = null;
+		this.$_parent = null;
 		this.$1$BeforeSkinField = null;
 		this.$1$AfterSkinField = null;
 		this.$1$AfterPostSkinMarkupField = null;
 	};
 	$MorseCode_CsJs_UI_Controls_ControlBase.prototype = {
-		get_parent: function() {
-			return this.$1$ParentField;
+		get_$parent: function() {
+			return this.$_parent;
 		},
-		set_parent: function(value) {
-			this.$1$ParentField = value;
+		set_$parent: function(value) {
+			if (ss.isValue(this.$_parent) && ss.isValue(value)) {
+				this.$_parent.$removeChildControl(this);
+			}
+			this.$_parent = value;
 		},
 		$addPostSkinAction: function(T) {
 			return function(postSkinAction) {
@@ -883,10 +881,39 @@
 				handler(this, ss.EventArgs.Empty);
 			}
 		},
-		getRootElementsInternal: function() {
+		addControlTo: function(container) {
 			this.ensureSetup();
 			this.ensureElementsCreated();
-			return this.getRootElements();
+			var rootElements = this.getRootElements();
+			if (ss.isValue(rootElements)) {
+				var $t1 = ss.getEnumerator(rootElements);
+				try {
+					while ($t1.moveNext()) {
+						var element = $t1.current();
+						container.appendChild(element);
+					}
+				}
+				finally {
+					$t1.dispose();
+				}
+			}
+		},
+		removeControlFrom: function(container) {
+			this.ensureSetup();
+			this.ensureElementsCreated();
+			var rootElements = this.getRootElements();
+			if (ss.isValue(rootElements)) {
+				var $t1 = ss.getEnumerator(rootElements);
+				try {
+					while ($t1.moveNext()) {
+						var element = $t1.current();
+						container.removeChild(element);
+					}
+				}
+				finally {
+					$t1.dispose();
+				}
+			}
 		},
 		getRootElements: null,
 		createOneWayBinding: function(T) {
@@ -934,7 +961,7 @@
 	$MorseCode_CsJs_UI_Controls_ControlCollection.prototype = {
 		onItemAdded: function(item) {
 			ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableCollection$1, [$MorseCode_CsJs_UI_Controls_ControlBase]).prototype.onItemAdded.call(this, item);
-			item.set_parent(this.$_owner);
+			item.set_$parent(this.$_owner);
 			this.onControlAdded(new $MorseCode_CsJs_UI_Controls_ControlAddedEventArgs(item));
 		},
 		onControlAdded: function(e) {
@@ -950,7 +977,7 @@
 		},
 		onItemRemoved: function(item) {
 			ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableCollection$1, [$MorseCode_CsJs_UI_Controls_ControlBase]).prototype.onItemRemoved.call(this, item);
-			item.set_parent(null);
+			item.set_$parent(null);
 			this.onControlRemoved(new $MorseCode_CsJs_UI_Controls_ControlRemovedEventArgs(item));
 		},
 		onControlRemoved: function(e) {
@@ -967,10 +994,10 @@
 		onItemsReset: function(oldItems, newItems) {
 			ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableCollection$1, [$MorseCode_CsJs_UI_Controls_ControlBase]).prototype.onItemsReset.call(this, oldItems, newItems);
 			Enumerable.from(oldItems).forEach(function(i) {
-				i.set_parent(null);
+				i.set_$parent(null);
 			});
 			Enumerable.from(newItems).forEach(ss.mkdel(this, function(i1) {
-				i1.set_parent(this.$_owner);
+				i1.set_$parent(this.$_owner);
 			}));
 			this.onControlsReset(new $MorseCode_CsJs_UI_Controls_ControlsResetEventArgs(oldItems, newItems));
 		},
@@ -1304,7 +1331,7 @@
 	// MorseCode.CsJs.UI.Controls.IControl
 	var $MorseCode_CsJs_UI_Controls_IControl = function() {
 	};
-	$MorseCode_CsJs_UI_Controls_IControl.prototype = { add_beforeSkin: null, remove_beforeSkin: null, add_afterSkin: null, remove_afterSkin: null, add_afterPostSkinMarkup: null, remove_afterPostSkinMarkup: null, get_id: null, set_id: null, get_skinCategory: null, set_skinCategory: null, getRootElementsInternal: null };
+	$MorseCode_CsJs_UI_Controls_IControl.prototype = { add_beforeSkin: null, remove_beforeSkin: null, add_afterSkin: null, remove_afterSkin: null, add_afterPostSkinMarkup: null, remove_afterPostSkinMarkup: null, get_id: null, set_id: null, get_skinCategory: null, set_skinCategory: null, addControlTo: null, removeControlFrom: null };
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.UI.Controls.IControlParser
 	var $MorseCode_CsJs_UI_Controls_IControlParser = function() {
@@ -1613,40 +1640,24 @@
 			this.$_tempElement = document.createElement('div');
 		},
 		getChildElementContainer: function() {
-			return (ss.isNullOrUndefined(this.get_parent()) ? this.$_tempElement : this.get_parent().$getChildElementContainerInternal());
+			return (ss.isNullOrUndefined(this.get_$parent()) ? this.$_tempElement : this.get_$parent().$getChildElementContainerInternal());
 		},
 		getRootElements: function() {
-			return null;
+			throw new ss.NotSupportedException();
 		},
-		get_parent: function() {
-			return $MorseCode_CsJs_UI_Controls_ControlBase.prototype.get_parent.call(this);
+		addControlTo: function(container) {
+			this.$switchContainer(container, this.$_tempElement);
 		},
-		set_parent: function(value) {
-			this.ensureChildControlsCreated();
-			var oldContainer = this.$getChildElementContainerInternal();
-			$MorseCode_CsJs_UI_Controls_ControlBase.prototype.set_parent.call(this, value);
-			var container = this.$getChildElementContainerInternal();
-			if (ss.referenceEquals(oldContainer, container)) {
-				return;
-			}
+		removeControlFrom: function(container) {
+			this.$switchContainer(this.$_tempElement, container);
+		},
+		$switchContainer: function(container, oldContainer) {
 			var $t1 = ss.getEnumerator(this.get_controls());
 			try {
 				while ($t1.moveNext()) {
 					var control = $t1.current();
-					var children = control.getRootElementsInternal();
-					var $t2 = ss.getEnumerator(children);
-					try {
-						while ($t2.moveNext()) {
-							var child = $t2.current();
-							container.appendChild(child);
-							if (oldContainer.contains(child)) {
-								oldContainer.removeChild(child);
-							}
-						}
-					}
-					finally {
-						$t2.dispose();
-					}
+					control.removeControlFrom(oldContainer);
+					control.addControlTo(container);
 				}
 			}
 			finally {
@@ -1869,19 +1880,7 @@
 							var column1 = columns[$t3];
 							var cell = row.insertCell();
 							var cellControl = column1.createControl(rowIndex, item);
-							var rootElements = cellControl.getRootElementsInternal();
-							if (ss.isValue(rootElements)) {
-								var $t4 = ss.getEnumerator(rootElements);
-								try {
-									while ($t4.moveNext()) {
-										var element = $t4.current();
-										cell.appendChild(element);
-									}
-								}
-								finally {
-									$t4.dispose();
-								}
-							}
+							cellControl.addControlTo(cell);
 						}
 						rowIndex++;
 					}

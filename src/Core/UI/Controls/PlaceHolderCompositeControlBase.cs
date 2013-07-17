@@ -21,39 +21,25 @@ namespace MorseCode.CsJs.UI.Controls
 
         protected override sealed IEnumerable<Element> GetRootElements()
         {
-            return null;
+            throw new NotSupportedException();
         }
 
-        public override CompositeControlBase Parent
+        public override void AddControlTo(Element container)
         {
-            get { return base.Parent; }
-            set
+            SwitchContainer(container, _tempElement);
+        }
+
+        public override void RemoveControlFrom(Element container)
+        {
+            SwitchContainer(_tempElement, container);
+        }
+
+        private void SwitchContainer(Element container, Element oldContainer)
+        {
+            foreach (ControlBase control in Controls)
             {
-                EnsureChildControlsCreated();
-
-                Element oldContainer = GetChildElementContainerInternal();
-
-                base.Parent = value;
-
-                Element container = GetChildElementContainerInternal();
-
-                if (ReferenceEquals(oldContainer, container))
-                {
-                    return;
-                }
-
-                foreach (ControlBase control in Controls)
-                {
-                    IEnumerable<Element> children = control.GetRootElementsInternal();
-                    foreach (Element child in children)
-                    {
-                        container.AppendChild(child);
-                        if (oldContainer.Contains(child))
-                        {
-                            oldContainer.RemoveChild(child);
-                        }
-                    }
-                }
+                control.RemoveControlFrom(oldContainer);
+                control.AddControlTo(container);
             }
         }
     }
