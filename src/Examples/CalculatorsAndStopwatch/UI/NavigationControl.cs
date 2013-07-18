@@ -11,7 +11,7 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
         protected override void CreateChildControls(ControlCollection controls)
         {
             _switchButton = new Button();
-            _switchButton.Text = "Switch Pages";
+            _switchButton.SetText("Switch Pages");
             controls.Add(new HtmlControl("div", c => c.Add(_switchButton)));
         }
 

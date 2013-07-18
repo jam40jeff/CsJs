@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace MorseCode.CsJs.Common.Observable
 {
-    public class ObservableCollection<T> : IList<T>, IObservable
+    public class ObservableCollection<T> : IObservableCollection<T>
     {
         private readonly List<T> _items;
 

@@ -9,6 +9,8 @@ namespace MorseCode.CsJs.UI.Controls
     {
         private Element _tempElement;
 
+        private Element _lastContainer;
+
         protected override sealed void CreateElements()
         {
             _tempElement = Document.CreateElement("div");
@@ -16,7 +18,8 @@ namespace MorseCode.CsJs.UI.Controls
 
         protected override sealed Element GetChildElementContainer()
         {
-            return Parent == null ? _tempElement : Parent.GetChildElementContainerInternal();
+            _lastContainer = Parent == null ? _tempElement : Parent.GetChildElementContainerInternal();
+            return _lastContainer;
         }
 
         protected override sealed IEnumerable<Element> GetRootElements()
@@ -26,12 +29,24 @@ namespace MorseCode.CsJs.UI.Controls
 
         public override void AddControlTo(Element container)
         {
-            SwitchContainer(container, _tempElement);
+            EnsureChildControlsCreated();
+
+            if (container != _lastContainer)
+            {
+                SwitchContainer(container, _lastContainer);
+                _lastContainer = container;
+            }
         }
 
         public override void RemoveControlFrom(Element container)
         {
-            SwitchContainer(_tempElement, container);
+            EnsureChildControlsCreated();
+
+            if (_tempElement != _lastContainer)
+            {
+                SwitchContainer(_tempElement, _lastContainer);
+                _lastContainer = _tempElement;
+            }
         }
 
         private void SwitchContainer(Element container, Element oldContainer)
@@ -46,6 +61,8 @@ namespace MorseCode.CsJs.UI.Controls
 
     public abstract class PlaceHolderCompositeControlBase<T> : PlaceHolderCompositeControlBase
     {
+        private IBinding _dataContextBinding;
+
         public void BindDataContext<TDataContext>(IReadableObservableProperty<TDataContext> dataContext, Func<TDataContext, T> getDataContext)
         {
             EnsureChildControlsCreated();
@@ -55,12 +72,14 @@ namespace MorseCode.CsJs.UI.Controls
 
         public void BindDataContext<TDataContext>(IReadableObservableProperty<TDataContext> dataContext, Func<TDataContext, IReadableObservableProperty<T>> getDataContext)
         {
+            EnsureUnbound(_dataContextBinding);
+
             EnsureChildControlsCreated();
 
             ObservableProperty<T> thisDataContext = new ObservableProperty<T>(getDataContext(dataContext.Value).Value);
 
             EventHandler updateControlEventHandler = null;
-            CreateOneWayBinding(
+            _dataContextBinding = CreateOneWayBinding(
                 dataContext,
                 d =>
                 {
@@ -70,6 +89,7 @@ namespace MorseCode.CsJs.UI.Controls
                     updateControl();
                 },
                 d => getDataContext(d).Changed -= updateControlEventHandler);
+            AddBinding(_dataContextBinding);
 
             BindControls(thisDataContext);
         }

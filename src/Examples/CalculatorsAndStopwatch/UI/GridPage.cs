@@ -35,15 +35,43 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
         {
             _navigationControl.BindDataContext(dataContext, d => d.NavigationViewModel);
 
-            _grid.BindData(dataContext, d => d.Items, d => new List<IGridColumn<SampleItem>>
+            _grid.BindData(dataContext, d => d.Items, d => new ReadOnlyProperty<List<IGridColumn<SampleItemCollectionItem>>>(new List<IGridColumn<SampleItemCollectionItem>>
                 {
                     new GridBoundTextColumn<SampleItem, int>(o => o.Id, v => "ID #" + v) {HeaderText = "ID"},
                     new GridBoundTextColumn<SampleItem, string>(o => o.Name) {HeaderText = "Name"},
                     new GridBoundTextColumn<SampleItem, string>(o => o.Something) {HeaderText = "Something Else"},
                     new GridBoundBooleanColumn<SampleItem>(o => o.Boolean) {HeaderText = "A Boolean Value!", DisplayMode = GridBooleanBoundColumnDisplayMode.Text},
                     new GridBoundBooleanColumn<SampleItem>(o => o.Boolean) {HeaderText = "A Boolean Value With Custom Text", DisplayMode = GridBooleanBoundColumnDisplayMode.Text, TrueText = "Absolutely", FalseText = "No Way"},
-                    new GridBoundBooleanColumn<SampleItem>(o => o.Boolean) {HeaderText = "Boolean With Checkbox", DisplayMode = GridBooleanBoundColumnDisplayMode.CheckBox}
-                });
+                    new GridBoundBooleanColumn<SampleItem>(o => o.Boolean) {HeaderText = "Boolean With Checkbox", DisplayMode = GridBooleanBoundColumnDisplayMode.CheckBox},
+                    new SampleGridColumn {HeaderText = "Custom Column"},
+                    new GridButtonColumn<SampleItemCollectionItem>((item, button) => button.BindText(item, d2 => d2.Id, v => "Delete Row With ID " + v), item => item.Delete) {HeaderText = "Delete"}
+                }));
+        }
+
+        private class SampleGridColumn : GridColumnBase<SampleItem>
+        {
+            public override IControl CreateControl(int rowIndex, IReadableObservableProperty<SampleItem> item)
+            {
+                Panel panel = new Panel(c =>
+                    {
+                        Panel topPanel = new Panel(controls =>
+                            {
+                                Label label = new Label();
+                                label.BindText(item, d => d.Id, v => "Line one shows the ID: " + v);
+                                controls.Add(label);
+                            });
+                        c.Add(topPanel);
+
+                        Panel bottomPanel = new Panel(controls =>
+                            {
+                                Label label = new Label();
+                                label.BindText(item, d => d.Name, v => "Line two shows the name: " + v);
+                                controls.Add(label);
+                            });
+                        c.Add(bottomPanel);
+                    });
+                return panel;
+            }
         }
     }
 }

@@ -46,10 +46,12 @@
     <Compile Include="Observable\AsyncCalculatedProperty.cs" />
     <Compile Include="Observable\CalculatedProperty.cs" />
     <Compile Include="Observable\IObservable.cs" />
+    <Compile Include="Observable\IObservableCollection.cs" />
     <Compile Include="Observable\IObservableProperty.cs" />
     <Compile Include="Observable\IProperty.cs" />
     <Compile Include="Observable\IReadableObservableProperty.cs" />
     <Compile Include="Observable\IReadableProperty.cs" />
+    <Compile Include="Observable\IReadOnlyProperty.cs" />
     <Compile Include="Observable\IWritableProperty.cs" />
     <Compile Include="Observable\ObservableCollection.cs" />
     <Compile Include="Observable\ObservableProperty.cs" />

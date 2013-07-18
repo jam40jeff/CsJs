@@ -204,24 +204,32 @@ namespace MorseCode.CsJs.UI.Controls
 
         protected abstract IEnumerable<Element> GetRootElements();
 
-        protected void CreateOneWayBinding<T>(IReadableObservableProperty<T> dataContext, Action<T> bindToDataContext, Action<T> unbindFromDataContext)
+        protected IBinding CreateOneWayBinding<T>(IReadableObservableProperty<T> dataContext, Action<T> bindToDataContext, Action<T> unbindFromDataContext)
         {
-            _bindings.Add(new Binding<T>(dataContext, bindToDataContext, unbindFromDataContext, d => { }, d => { }));
+            return new Binding<T>(dataContext, bindToDataContext, unbindFromDataContext, d => { }, d => { });
         }
 
-        protected void CreateOneWayToSourceBinding<T>(IReadableObservableProperty<T> dataContext, Action<T> bindToControl, Action<T> unbindFromControl)
+        protected IBinding CreateOneWayToSourceBinding<T>(IReadableObservableProperty<T> dataContext, Action<T> bindToControl, Action<T> unbindFromControl)
         {
-            _bindings.Add(new Binding<T>(dataContext, d => { }, d => { }, bindToControl, unbindFromControl));
+            return new Binding<T>(dataContext, d => { }, d => { }, bindToControl, unbindFromControl);
         }
 
-        protected void CreateTwoWayBinding<T>(IReadableObservableProperty<T> dataContext, Action<T> bindToDataContext, Action<T> unbindFromDataContext, Action<T> bindToControl, Action<T> unbindFromControl)
+        protected IBinding CreateTwoWayBinding<T>(IReadableObservableProperty<T> dataContext, Action<T> bindToDataContext, Action<T> unbindFromDataContext, Action<T> bindToControl, Action<T> unbindFromControl)
         {
-            _bindings.Add(new Binding<T>(dataContext, bindToDataContext, unbindFromDataContext, bindToControl, unbindFromControl));
+            return new Binding<T>(dataContext, bindToDataContext, unbindFromDataContext, bindToControl, unbindFromControl);
         }
 
         protected void AddBinding(IBinding binding)
         {
             _bindings.Add(binding);
+        }
+
+        protected void EnsureUnbound(IBinding binding)
+        {
+            if (binding != null)
+            {
+                throw new NotSupportedException("Item is already bound.");
+            }
         }
 
         public void Dispose()

@@ -8,7 +8,7 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
     {
         protected override void SetupControls()
         {
-            _equals.Text = "=";
+            _equals.SetText("=");
             _largeResultPanel.Styles.AddOrSet("margin", "50px");
             _largeResultPanel.Styles.AddOrSet("padding", "50px");
             _largeResultLabel.Styles.AddOrSet("font-size", "72pt");

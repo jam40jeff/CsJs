@@ -8,7 +8,7 @@ using jQueryApi;
 namespace MorseCode.CsJs.UI.Controls
 {
     // ReSharper disable RedundantNameQualifier
-    [ControlParser(typeof (Panel.Parser))]
+    [ControlParser(typeof(Panel.Parser))]
     // ReSharper restore RedundantNameQualifier
     public class Panel : CompositeControlBase
     {
@@ -20,6 +20,8 @@ namespace MorseCode.CsJs.UI.Controls
         private readonly Styles _styles = new Styles();
 
         private bool _useSlideVisibilityTransition;
+
+        private IBinding _visibleBinding;
 
         public Panel(Action<ControlCollection> createChildControls)
         {
@@ -45,7 +47,7 @@ namespace MorseCode.CsJs.UI.Controls
 
         protected override IEnumerable<Element> GetRootElements()
         {
-            return new[] {_div};
+            return new[] { _div };
         }
 
         public Styles Styles
@@ -53,7 +55,7 @@ namespace MorseCode.CsJs.UI.Controls
             get { return _styles; }
         }
 
-        public bool Visible
+        private bool Visible
         {
             get { return _divJQuery.Is(":visible"); }
             set
@@ -84,17 +86,20 @@ namespace MorseCode.CsJs.UI.Controls
 
         public void BindVisible<T>(IReadableObservableProperty<T> dataContext, Func<T, IReadableObservableProperty<bool>> getVisibleProperty)
         {
+            EnsureUnbound(_visibleBinding);
+
             EventHandler updateControlEventHandler = null;
-            CreateOneWayBinding(
+            _visibleBinding = CreateOneWayBinding(
                 dataContext,
                 d =>
-                    {
-                        Action updateControl = () => Visible = getVisibleProperty(d).Value;
-                        updateControlEventHandler = (sender, args) => updateControl();
-                        getVisibleProperty(d).Changed += updateControlEventHandler;
-                        updateControl();
-                    },
+                {
+                    Action updateControl = () => Visible = getVisibleProperty(d).Value;
+                    updateControlEventHandler = (sender, args) => updateControl();
+                    getVisibleProperty(d).Changed += updateControlEventHandler;
+                    updateControl();
+                },
                 d => getVisibleProperty(d).Changed -= updateControlEventHandler);
+            AddBinding(_visibleBinding);
         }
 
         public class Parser : ControlParserBase<Panel>

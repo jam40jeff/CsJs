@@ -14,8 +14,10 @@ namespace MorseCode.CsJs.UI.Controls
     {
         private InputElement _input;
 
-        private ITextBoxTextBinding _textBoxTextBinding;
+        private ITextBoxTextBinding _textBinding;
         private bool _updateTextBindingWhileChanging;
+
+        private IBinding _updateTextBindingWhileChangingBinding;
 
         protected override void CreateElements()
         {
@@ -30,7 +32,7 @@ namespace MorseCode.CsJs.UI.Controls
             return new[] { _input };
         }
 
-        public string Text
+        private string Text
         {
             get
             {
@@ -40,16 +42,11 @@ namespace MorseCode.CsJs.UI.Controls
             set
             {
                 EnsureElementsCreated();
-                if (_input.Value != value)
-                {
-                    _input.Value = value;
-                    OnTextChanging();
-                    OnTextChanged();
-                }
+                _input.Value = value;
             }
         }
 
-        public bool UpdateTextBindingWhileChanging
+        private bool UpdateTextBindingWhileChanging
         {
             get { return _updateTextBindingWhileChanging; }
             set
@@ -57,15 +54,15 @@ namespace MorseCode.CsJs.UI.Controls
                 if (_updateTextBindingWhileChanging != value)
                 {
                     _updateTextBindingWhileChanging = value;
-                    if (_textBoxTextBinding != null)
+                    if (_textBinding != null)
                     {
-                        _textBoxTextBinding.UpdateWhileChanging = value;
+                        _textBinding.UpdateWhileChanging = value;
                     }
                 }
             }
         }
 
-        public event EventHandler TextChanging;
+        private event EventHandler TextChanging;
 
         protected void OnTextChanging()
         {
@@ -75,7 +72,7 @@ namespace MorseCode.CsJs.UI.Controls
             }
         }
 
-        public event EventHandler TextChanged;
+        private event EventHandler TextChanged;
 
         protected void OnTextChanged()
         {
@@ -92,13 +89,13 @@ namespace MorseCode.CsJs.UI.Controls
 
         public void BindText<T>(IReadableObservableProperty<T> dataContext, Func<T, IObservableProperty<string>> getTextProperty, bool updateTextBindingWhileChanging)
         {
-            if (_textBoxTextBinding != null)
+            if (_textBinding != null)
             {
                 throw new NotSupportedException("Bind may not be called twice on TextBox.");
             }
 
             EventHandler updateControlEventHandler = null;
-            _textBoxTextBinding = new TextBoxTextBinding<T>(
+            _textBinding = new TextBoxTextBinding<T>(
                 this,
                 getTextProperty,
                 dataContext,
@@ -111,13 +108,23 @@ namespace MorseCode.CsJs.UI.Controls
                 },
                 d => getTextProperty(d).Changed -= updateControlEventHandler,
                 updateTextBindingWhileChanging);
-            AddBinding(_textBoxTextBinding);
+            AddBinding(_textBinding);
+        }
+
+        public void SetUpdateTextBindingWhileChanging(bool updateTextBindingWhileChanging)
+        {
+            EnsureUnbound(_updateTextBindingWhileChangingBinding);
+
+            _updateTextBindingWhileChangingBinding = StaticBinding.Instance;
+            UpdateTextBindingWhileChanging = updateTextBindingWhileChanging;
         }
 
         public void BindUpdateTextBindingWhileChanging<T>(IReadableObservableProperty<T> dataContext, Func<T, IReadableObservableProperty<bool>> getUpdateTextBindingWhileChangingProperty)
         {
+            EnsureUnbound(_updateTextBindingWhileChangingBinding);
+
             EventHandler updateControlEventHandler = null;
-            CreateOneWayBinding(
+            _updateTextBindingWhileChangingBinding = CreateOneWayBinding(
                 dataContext,
                 d =>
                 {
@@ -127,6 +134,7 @@ namespace MorseCode.CsJs.UI.Controls
                     updateControl();
                 },
                 d => getUpdateTextBindingWhileChangingProperty(d).Changed -= updateControlEventHandler);
+            AddBinding(_updateTextBindingWhileChangingBinding);
         }
 
         private interface ITextBoxTextBinding : IBinding
@@ -212,10 +220,15 @@ namespace MorseCode.CsJs.UI.Controls
                 return new TextBox();
             }
 
-            //protected override void ParseAttribute(TextBox control, string name, string value, Dictionary<string, ControlBase> childControlsById)
-            //{
-            //    base.ParseAttribute(control, name, value, childControlsById);
-            //}
+            protected override void ParseAttributeAfterSkin(string name, string value, Dictionary<string, ControlBase> childControlsById, Action<Action<TextBox>> addPostSkinAction)
+            {
+                base.ParseAttributeAfterSkin(name, value, childControlsById, addPostSkinAction);
+
+                if (name.ToLower() == "Updatetextbindingwhilechanging")
+                {
+                    addPostSkinAction(control => control.SetUpdateTextBindingWhileChanging(value != null && value.ToLower() == "true"));
+                }
+            }
         }
     }
 }

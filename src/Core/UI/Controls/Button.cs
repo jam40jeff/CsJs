@@ -15,6 +15,10 @@ namespace MorseCode.CsJs.UI.Controls
         private Element _button;
         private jQueryObject _buttonJQuery;
 
+        private IBinding _clickActionBinding;
+        private IBinding _textBinding;
+        private IBinding _visibleBinding;
+
         protected override void CreateElements()
         {
             _button = Document.CreateElement("button");
@@ -27,7 +31,7 @@ namespace MorseCode.CsJs.UI.Controls
             return new[] { _button };
         }
 
-        public string Text
+        private string Text
         {
             get
             {
@@ -41,13 +45,13 @@ namespace MorseCode.CsJs.UI.Controls
             }
         }
 
-        public bool Visible
+        private bool Visible
         {
             get { return _buttonJQuery.Is(":visible"); }
             set { _button.Style.Display = value ? string.Empty : "none"; }
         }
 
-        public event EventHandler Click;
+        private event EventHandler Click;
 
         protected void OnClick()
         {
@@ -59,8 +63,10 @@ namespace MorseCode.CsJs.UI.Controls
 
         public void BindClickAction<T>(IReadableObservableProperty<T> dataContext, Func<T, Action> getClickAction)
         {
+            EnsureUnbound(_clickActionBinding);
+
             EventHandler updateDataContextEventHandler = null;
-            CreateOneWayToSourceBinding(
+            _clickActionBinding = CreateOneWayToSourceBinding(
                 dataContext,
                 d =>
                 {
@@ -68,12 +74,46 @@ namespace MorseCode.CsJs.UI.Controls
                     Click += updateDataContextEventHandler;
                 },
                 d => Click -= updateDataContextEventHandler);
+            AddBinding(_clickActionBinding);
+        }
+
+        public void SetText(string text)
+        {
+            EnsureUnbound(_textBinding);
+
+            _textBinding = StaticBinding.Instance;
+            Text = text;
+        }
+
+        public void BindText<T>(IReadableObservableProperty<T> dataContext, Func<T, IReadableObservableProperty<string>> getTextProperty)
+        {
+            BindText(dataContext, getTextProperty, v => v);
+        }
+
+        public void BindText<T, TProperty>(IReadableObservableProperty<T> dataContext, Func<T, IReadableObservableProperty<TProperty>> getTextProperty, Func<TProperty, string> formatString)
+        {
+            EnsureUnbound(_textBinding);
+
+            EventHandler updateControlEventHandler = null;
+            _textBinding = CreateOneWayBinding(
+                dataContext,
+                d =>
+                {
+                    Action updateControl = () => Text = formatString(getTextProperty(d).Value) ?? string.Empty;
+                    updateControlEventHandler = (sender, args) => updateControl();
+                    getTextProperty(d).Changed += updateControlEventHandler;
+                    updateControl();
+                },
+                d => getTextProperty(d).Changed -= updateControlEventHandler);
+            AddBinding(_textBinding);
         }
 
         public void BindVisible<T>(IReadableObservableProperty<T> dataContext, Func<T, IReadableObservableProperty<bool>> getVisibleProperty)
         {
+            EnsureUnbound(_visibleBinding);
+
             EventHandler updateControlEventHandler = null;
-            CreateOneWayBinding(
+            _visibleBinding = CreateOneWayBinding(
                 dataContext,
                 d =>
                 {
@@ -83,6 +123,7 @@ namespace MorseCode.CsJs.UI.Controls
                     updateControl();
                 },
                 d => getVisibleProperty(d).Changed -= updateControlEventHandler);
+            AddBinding(_visibleBinding);
         }
 
         public class Parser : ControlParserBase<Button>
@@ -98,7 +139,7 @@ namespace MorseCode.CsJs.UI.Controls
 
                 if (name.ToLower() == "text")
                 {
-                    addPostSkinAction(control => control.Text = value);
+                    addPostSkinAction(control => control.SetText(value));
                 }
             }
         }

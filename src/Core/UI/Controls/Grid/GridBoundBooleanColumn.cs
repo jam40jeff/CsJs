@@ -21,20 +21,18 @@ namespace MorseCode.CsJs.UI.Controls.Grid
         {
         }
 
-        public override IControl CreateControl(int rowIndex, T item)
+        public override IControl CreateControl(int rowIndex, IReadableObservableProperty<T> item)
         {
             if (DisplayMode == GridBooleanBoundColumnDisplayMode.CheckBox)
             {
-                Label label = new Label();
-                label.Text = "Checkbox coming soon!";
-                return label;
+                CheckBox checkBox = new CheckBox();
+                checkBox.BindDisabledChecked(item, d => PropertyExpression.GetProperty(d));
+                return checkBox;
             }
-            else
-            {
-                Label label = new Label();
-                label.BindText(new ReadOnlyProperty<T>(item), d => PropertyExpression.GetProperty(d), v => v ? TrueText : FalseText);
-                return label;
-            }
+
+            Label label = new Label();
+            label.BindText(item, d => PropertyExpression.GetProperty(d), v => v ? TrueText : FalseText);
+            return label;
         }
 
         public GridBooleanBoundColumnDisplayMode DisplayMode

@@ -19,6 +19,9 @@ namespace MorseCode.CsJs.UI.Controls
 
         private readonly Styles _styles = new Styles();
 
+        private IBinding _itemsBinding;
+        private IBinding _selectionBinding;
+
         public DropDown()
         {
             _items = new ObservableCollection<DropDownItem>();
@@ -42,7 +45,7 @@ namespace MorseCode.CsJs.UI.Controls
             get { return _styles; }
         }
 
-        public ObservableCollection<DropDownItem> Items
+        private ObservableCollection<DropDownItem> Items
         {
             get { return _items; }
         }
@@ -63,7 +66,7 @@ namespace MorseCode.CsJs.UI.Controls
             }
         }
 
-        public int SelectedIndex
+        private int SelectedIndex
         {
             get
             {
@@ -81,7 +84,7 @@ namespace MorseCode.CsJs.UI.Controls
             }
         }
 
-        public event EventHandler SelectedIndexChanged;
+        private event EventHandler SelectedIndexChanged;
 
         protected void OnSelectedIndexChanged()
         {
@@ -93,8 +96,11 @@ namespace MorseCode.CsJs.UI.Controls
 
         public void BindItemsAndSelection<TDataContext, T>(IReadableObservableProperty<TDataContext> dataContext, Func<TDataContext, ObservableCollection<T>> getItems, Func<TDataContext, IObservableProperty<T?>> getSelectedItemProperty, Func<T, string> getValue, Func<T, string> getText) where T : struct
         {
+            EnsureUnbound(_itemsBinding);
+            EnsureUnbound(_selectionBinding);
+
             EventHandler updateControlItemsEventHandler = null;
-            CreateOneWayBinding(
+            _itemsBinding = CreateOneWayBinding(
                 dataContext,
                 d =>
                 {
@@ -108,10 +114,11 @@ namespace MorseCode.CsJs.UI.Controls
                     updateControl();
                 },
                 d => getItems(d).Changed -= updateControlItemsEventHandler);
+            AddBinding(_itemsBinding);
 
             EventHandler updateDataContextSelectedItemEventHandler = null;
             EventHandler updateControlSelectedItemEventHandler = null;
-            CreateTwoWayBinding(
+            _selectionBinding = CreateTwoWayBinding(
                 dataContext,
                 d =>
                 {
@@ -143,6 +150,7 @@ namespace MorseCode.CsJs.UI.Controls
                     SelectedIndexChanged += updateDataContextSelectedItemEventHandler;
                 },
                 d => SelectedIndexChanged -= updateDataContextSelectedItemEventHandler);
+            AddBinding(_selectionBinding);
         }
 
         public void BindItemsAndSelection<TDataContext, T>(IReadableObservableProperty<TDataContext> dataContext, Func<TDataContext, ObservableCollection<T>> getItems, Func<TDataContext, IObservableProperty<T>> getSelectedItemProperty, Func<T, string> getValue, Func<T, string> getText) where T : class

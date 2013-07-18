@@ -15,6 +15,8 @@ namespace MorseCode.CsJs.UI.Controls
 
         private readonly Styles _styles = new Styles();
 
+        private IBinding _textBinding;
+
         protected override void CreateElements()
         {
             _span = Document.CreateElement("span");
@@ -26,7 +28,7 @@ namespace MorseCode.CsJs.UI.Controls
             return new[] { _span };
         }
 
-        public string Text
+        private string Text
         {
             get
             {
@@ -40,7 +42,7 @@ namespace MorseCode.CsJs.UI.Controls
             }
         }
 
-        public string InnerHtml
+        private string InnerHtml
         {
             get
             {
@@ -54,6 +56,14 @@ namespace MorseCode.CsJs.UI.Controls
             }
         }
 
+        public void SetText(string text)
+        {
+            EnsureUnbound(_textBinding);
+
+            _textBinding = StaticBinding.Instance;
+            Text = text;
+        }
+
         public void BindText<T>(IReadableObservableProperty<T> dataContext, Func<T, IReadableObservableProperty<string>> getTextProperty)
         {
             BindText(dataContext, getTextProperty, v => v);
@@ -61,8 +71,10 @@ namespace MorseCode.CsJs.UI.Controls
 
         public void BindText<T, TProperty>(IReadableObservableProperty<T> dataContext, Func<T, IReadableObservableProperty<TProperty>> getTextProperty, Func<TProperty, string> formatString)
         {
+            EnsureUnbound(_textBinding);
+
             EventHandler updateControlEventHandler = null;
-            CreateOneWayBinding(
+            _textBinding = CreateOneWayBinding(
                 dataContext,
                 d =>
                 {
@@ -72,6 +84,38 @@ namespace MorseCode.CsJs.UI.Controls
                     updateControl();
                 },
                 d => getTextProperty(d).Changed -= updateControlEventHandler);
+            AddBinding(_textBinding);
+        }
+
+        public void SetHtml(string html)
+        {
+            EnsureUnbound(_textBinding);
+
+            _textBinding = StaticBinding.Instance;
+            InnerHtml = html;
+        }
+
+        public void BindHtml<T>(IReadableObservableProperty<T> dataContext, Func<T, IReadableObservableProperty<string>> getHtmlProperty)
+        {
+            BindHtml(dataContext, getHtmlProperty, v => v);
+        }
+
+        public void BindHtml<T, TProperty>(IReadableObservableProperty<T> dataContext, Func<T, IReadableObservableProperty<TProperty>> getHtmlProperty, Func<TProperty, string> formatString)
+        {
+            EnsureUnbound(_textBinding);
+
+            EventHandler updateControlEventHandler = null;
+            _textBinding = CreateOneWayBinding(
+                dataContext,
+                d =>
+                {
+                    Action updateControl = () => InnerHtml = formatString(getHtmlProperty(d).Value) ?? string.Empty;
+                    updateControlEventHandler = (sender, args) => updateControl();
+                    getHtmlProperty(d).Changed += updateControlEventHandler;
+                    updateControl();
+                },
+                d => getHtmlProperty(d).Changed -= updateControlEventHandler);
+            AddBinding(_textBinding);
         }
 
         public Styles Styles
@@ -96,7 +140,7 @@ namespace MorseCode.CsJs.UI.Controls
                 }
                 else if (name.ToLower() == "text")
                 {
-                    addPostSkinAction(control => control.Text = value);
+                    addPostSkinAction(control => control.SetText(value));
                 }
             }
         }

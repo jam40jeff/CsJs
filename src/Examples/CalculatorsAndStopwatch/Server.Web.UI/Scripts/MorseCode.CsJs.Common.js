@@ -427,6 +427,17 @@
 	};
 	$MorseCode_CsJs_Common_Observable_IObservable.prototype = { add_beforeChanged: null, remove_beforeChanged: null, add_changed: null, remove_changed: null };
 	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.Observable.IObservableCollection
+	var $MorseCode_CsJs_Common_Observable_IObservableCollection$1 = function(T) {
+		var $type = function() {
+		};
+		ss.registerGenericInterfaceInstance($type, $MorseCode_CsJs_Common_Observable_IObservableCollection$1, [T], function() {
+			return [ss.IEnumerable, ss.IEnumerable, ss.ICollection, ss.IList, $MorseCode_CsJs_Common_Observable_IObservable];
+		});
+		return $type;
+	};
+	ss.registerGenericInterface(global, 'MorseCode.CsJs.Common.Observable.IObservableCollection$1', $MorseCode_CsJs_Common_Observable_IObservableCollection$1, 1);
+	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Common.Observable.IObservableProperty
 	var $MorseCode_CsJs_Common_Observable_IObservableProperty$1 = function(T) {
 		var $type = function() {
@@ -472,6 +483,17 @@
 		return $type;
 	};
 	ss.registerGenericInterface(global, 'MorseCode.CsJs.Common.Observable.IReadableProperty$1', $MorseCode_CsJs_Common_Observable_IReadableProperty$1, 1);
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.Observable.IReadOnlyProperty
+	var $MorseCode_CsJs_Common_Observable_IReadOnlyProperty$1 = function(T) {
+		var $type = function() {
+		};
+		ss.registerGenericInterfaceInstance($type, $MorseCode_CsJs_Common_Observable_IReadOnlyProperty$1, [T], function() {
+			return [ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), $MorseCode_CsJs_Common_Observable_IObservable, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, [T])];
+		});
+		return $type;
+	};
+	ss.registerGenericInterface(global, 'MorseCode.CsJs.Common.Observable.IReadOnlyProperty$1', $MorseCode_CsJs_Common_Observable_IReadOnlyProperty$1, 1);
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Common.Observable.IWritableProperty
 	var $MorseCode_CsJs_Common_Observable_IWritableProperty$1 = function(T) {
@@ -595,7 +617,7 @@
 		ss.registerGenericClassInstance($type, $MorseCode_CsJs_Common_Observable_ObservableCollection$1, [T], function() {
 			return null;
 		}, function() {
-			return [ss.IEnumerable, ss.IEnumerable, ss.ICollection, ss.IList, $MorseCode_CsJs_Common_Observable_IObservable];
+			return [ss.IEnumerable, ss.IEnumerable, ss.ICollection, ss.IList, $MorseCode_CsJs_Common_Observable_IObservable, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IObservableCollection$1, [T])];
 		});
 		return $type;
 	};
@@ -705,7 +727,7 @@
 		ss.registerGenericClassInstance($type, $MorseCode_CsJs_Common_Observable_ReadOnlyProperty$1, [T], function() {
 			return ss.makeGenericType($MorseCode_CsJs_Common_Observable_ObservablePropertyBase$1, [T]);
 		}, function() {
-			return [ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), $MorseCode_CsJs_Common_Observable_IObservable, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, [T])];
+			return [ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), $MorseCode_CsJs_Common_Observable_IObservable, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadOnlyProperty$1, [T])];
 		});
 		return $type;
 	};

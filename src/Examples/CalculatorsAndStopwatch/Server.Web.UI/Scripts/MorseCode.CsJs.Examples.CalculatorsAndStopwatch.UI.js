@@ -1,12 +1,44 @@
 ﻿(function() {
 	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.GridPage.SampleGridColumn
+	var $MorseCode_$CsJs_Examples_CalculatorsAndStopwatch_UI_GridPage$SampleGridColumn = function() {
+		ss.makeGenericType(MorseCode.CsJs.UI.Controls.Grid.GridColumnBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem]).call(this);
+	};
+	$MorseCode_$CsJs_Examples_CalculatorsAndStopwatch_UI_GridPage$SampleGridColumn.prototype = {
+		createControl: function(rowIndex, item) {
+			var panel = new MorseCode.CsJs.UI.Controls.Panel(function(c) {
+				var topPanel = new MorseCode.CsJs.UI.Controls.Panel(function(controls) {
+					var label = new MorseCode.CsJs.UI.Controls.Label();
+					label.bindText$1(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, ss.Int32).call(label, item, function(d) {
+						return d.get_id();
+					}, function(v) {
+						return 'Line one shows the ID: ' + v;
+					});
+					controls.add(label);
+				});
+				c.add(topPanel);
+				var bottomPanel = new MorseCode.CsJs.UI.Controls.Panel(function(controls1) {
+					var label1 = new MorseCode.CsJs.UI.Controls.Label();
+					label1.bindText$1(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, String).call(label1, item, function(d1) {
+						return d1.get_name();
+					}, function(v1) {
+						return 'Line two shows the name: ' + v1;
+					});
+					controls1.add(label1);
+				});
+				c.add(bottomPanel);
+			});
+			return panel;
+		}
+	};
+	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.CalculatorControl
 	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorControl = function() {
 		ss.makeGenericType($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorControlBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.ICalculatorViewModel]).call(this);
 	};
 	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorControl.prototype = {
 		setupControls: function() {
-			this.get__equals().set_text('=');
+			this.get__equals().setText('=');
 			this.get__largeResultPanel().get_styles().addOrSet('margin', '50px');
 			this.get__largeResultPanel().get_styles().addOrSet('padding', '50px');
 			this.get__largeResultLabel().get_styles().addOrSet('font-size', '72pt');
@@ -215,7 +247,7 @@
 			controls.add(this.$_navigationControl);
 			var div = new MorseCode.CsJs.UI.Controls.HtmlControl('div', ss.mkdel(this, function(c) {
 				this.$_switchCalculators = new MorseCode.CsJs.UI.Controls.Button();
-				this.$_switchCalculators.set_text('Switch Calculators');
+				this.$_switchCalculators.setText('Switch Calculators');
 				c.add(this.$_switchCalculators);
 				this.$_calculatorLabel = new MorseCode.CsJs.UI.Controls.Label();
 				this.$_calculatorLabel.get_styles().addOrSet('padding-left', '15px');
@@ -305,9 +337,10 @@
 			this.$_navigationControl.bindDataContext(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.GridPageViewModel).call(this.$_navigationControl, dataContext, function(d) {
 				return d.get_navigationViewModel();
 			});
-			this.$_grid.bindData(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.GridPageViewModel, MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem).call(this.$_grid, dataContext, function(d1) {
+			this.$_grid.bindData(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.GridPageViewModel, MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem).call(this.$_grid, dataContext, function(d1) {
 				return d1.get_items();
 			}, function(d2) {
+				var $t34 = ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [Array]);
 				var $t1 = [];
 				var $t5 = ss.makeGenericType(MorseCode.CsJs.UI.Controls.Grid.GridBoundTextColumn$2, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, ss.Int32]);
 				var $t2 = { ntype: 38, type: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, name: 'o' };
@@ -358,7 +391,21 @@
 				$t31.set_headerText('Boolean With Checkbox');
 				$t31.set_displayMode(0);
 				ss.add($t1, $t31);
-				return $t1;
+				var $t32 = new $MorseCode_$CsJs_Examples_CalculatorsAndStopwatch_UI_GridPage$SampleGridColumn();
+				$t32.set_headerText('Custom Column');
+				ss.add($t1, $t32);
+				var $t33 = new (ss.makeGenericType(MorseCode.CsJs.UI.Controls.Grid.GridButtonColumn$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem]))(function(item, button) {
+					button.bindText$1(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem, ss.Int32).call(button, item, function(d21) {
+						return d21.get_id();
+					}, function(v1) {
+						return 'Delete Row With ID ' + v1;
+					});
+				}, function(item1) {
+					return ss.mkdel(item1, item1.delete$1);
+				});
+				$t33.set_headerText('Delete');
+				ss.add($t1, $t33);
+				return new $t34($t1);
 			});
 		}
 	};
@@ -371,7 +418,7 @@
 	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_NavigationControl.prototype = {
 		createChildControls: function(controls) {
 			this.$_switchButton = new MorseCode.CsJs.UI.Controls.Button();
-			this.$_switchButton.set_text('Switch Pages');
+			this.$_switchButton.setText('Switch Pages');
 			controls.add(new MorseCode.CsJs.UI.Controls.HtmlControl('div', ss.mkdel(this, function(c) {
 				c.add(this.$_switchButton);
 			})));
@@ -487,6 +534,7 @@
 			});
 		}
 	};
+	ss.registerClass(null, 'MorseCode.$CsJs.Examples.CalculatorsAndStopwatch.UI.GridPage$SampleGridColumn', $MorseCode_$CsJs_Examples_CalculatorsAndStopwatch_UI_GridPage$SampleGridColumn, ss.makeGenericType(MorseCode.CsJs.UI.Controls.Grid.GridColumnBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem]), [MorseCode.CsJs.UI.Controls.Grid.IGridColumn, ss.makeGenericType(MorseCode.CsJs.UI.Controls.Grid.IGridColumn$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem])]);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.CalculatorControl', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorControl, ss.makeGenericType($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorControlBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.ICalculatorViewModel]), [ss.IDisposable, MorseCode.CsJs.UI.Controls.IControl, MorseCode.CsJs.UI.Controls.ICompositeControl]);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.CalculatorPage', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorPage, ss.makeGenericType(MorseCode.CsJs.UI.Controls.PageBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorPageViewModel]), [ss.IDisposable, MorseCode.CsJs.UI.Controls.IControl, MorseCode.CsJs.UI.Controls.ICompositeControl, MorseCode.CsJs.UI.Controls.IPage]);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.CalculatorsAndStopwatchApplication', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorsAndStopwatchApplication, MorseCode.CsJs.UI.ApplicationBase, [MorseCode.CsJs.UI.IApplication]);

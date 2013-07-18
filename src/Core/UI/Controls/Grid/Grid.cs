@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Html;
+using System.Runtime.CompilerServices;
 using System.Xml;
 using MorseCode.CsJs.Common.Observable;
 using jQueryApi;
@@ -16,6 +17,9 @@ namespace MorseCode.CsJs.UI.Controls.Grid
         private Element _header;
         private Element _body;
         private Element _footer;
+
+        private IBinding _columnsBinding;
+        private IBinding _dataBinding;
 
         public class Parser : ControlParserBase<Grid>
         {
@@ -33,7 +37,7 @@ namespace MorseCode.CsJs.UI.Controls.Grid
             _footer = _table.tFoot;
         }
 
-        [System.Runtime.CompilerServices.InlineCode("{table}.tHead")]
+        [InlineCode("{table}.tHead")]
         private Element GetTHead(TableElement table)
         {
             return null;
@@ -44,8 +48,11 @@ namespace MorseCode.CsJs.UI.Controls.Grid
             return new Element[] { _table };
         }
 
-        public void BindData<TDataContext, T>(IReadableObservableProperty<TDataContext> dataContext, Func<TDataContext, IEnumerable<T>> getData, Func<TDataContext, IEnumerable<IGridColumn<T>>> getColumns)
+        public void BindData<TDataContext, T>(IReadableObservableProperty<TDataContext> dataContext, Func<TDataContext, IReadOnlyProperty<IEnumerable<T>>> getData, Func<TDataContext, IReadOnlyProperty<IEnumerable<IGridColumn<T>>>> getColumns)
         {
+            EnsureUnbound(_columnsBinding);
+            EnsureUnbound(_dataBinding);
+
             List<IGridColumn<T>> columns = new List<IGridColumn<T>>();
             List<T> items = new List<T>();
 
@@ -78,7 +85,7 @@ namespace MorseCode.CsJs.UI.Controls.Grid
                         foreach (IGridColumn<T> column in columns)
                         {
                             Element cell = row.InsertCell();
-                            IControl cellControl = column.CreateControl(rowIndex, item);
+                            IControl cellControl = column.CreateControl(rowIndex, new ReadOnlyProperty<T>(item));
                             cellControl.AddControlTo(cell);
                         }
                         rowIndex++;
@@ -102,28 +109,57 @@ namespace MorseCode.CsJs.UI.Controls.Grid
                 };
 
             EventHandler updateControlColumnsEventHandler = null;
-            CreateOneWayBinding(
+            _columnsBinding = CreateOneWayBinding(
                 dataContext,
                 d =>
                 {
-                    Action updateControl = () => setColumns(getColumns(d));
+                    IEnumerable<IGridColumn<T>> thisColumns = getColumns(d).Value;
+                    Action updateControl = () => setColumns(thisColumns);
                     updateControlColumnsEventHandler = (sender, args) => updateControl();
-                    //getTextProperty(d).Changed += updateControlColumnsEventHandler;
+                    IObservableCollection<IGridColumn<T>> observableColumns = thisColumns as IObservableCollection<IGridColumn<T>>;
+                    if (observableColumns != null)
+                    {
+                        observableColumns.Changed += updateControlColumnsEventHandler;
+                    }
                     updateControl();
                 },
-                d => { });//getTextProperty(d).Changed -= updateControlColumnsEventHandler);
+                d =>
+                {
+                    IEnumerable<IGridColumn<T>> thisColumns = getColumns(d).Value;
+                    IObservableCollection<IGridColumn<T>> observableColumns = thisColumns as IObservableCollection<IGridColumn<T>>;
+                    if (observableColumns != null)
+                    {
+                        observableColumns.Changed -= updateControlColumnsEventHandler;
+                    }
+                });
+            AddBinding(_columnsBinding);
 
             EventHandler updateControlDataEventHandler = null;
-            CreateOneWayBinding(
+            _dataBinding = CreateOneWayBinding(
                 dataContext,
                 d =>
                 {
-                    Action updateControl = () => setItems(getData(d));
+                    IEnumerable<T> thisItems = getData(d).Value;
+                    Action updateControl = () => setItems(thisItems);
                     updateControlDataEventHandler = (sender, args) => updateControl();
-                    //getTextProperty(d).Changed += updateControlDataEventHandler;
+                    IObservableCollection<T> observableItems = thisItems as IObservableCollection<T>;
+                    if (observableItems != null)
+                    {
+                        //TODO: optimize
+                        observableItems.Changed += updateControlDataEventHandler;
+                    }
                     updateControl();
                 },
-                d => { }); //getTextProperty(d).Changed -= updateControlDataEventHandler);
+                d =>
+                {
+                    IEnumerable<T> thisItems = getData(d).Value;
+                    IObservableCollection<T> observableItems = thisItems as IObservableCollection<T>;
+                    if (observableItems != null)
+                    {
+                        observableItems.Changed -= updateControlDataEventHandler;
+                    }
+                });
+            AddBinding(_dataBinding);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
             HtmlControl div = new HtmlControl("div", c =>
                 {
                     _switchCalculators = new Button();
-                    _switchCalculators.Text = "Switch Calculators";
+                    _switchCalculators.SetText("Switch Calculators");
                     c.Add(_switchCalculators);
 
                     _calculatorLabel = new Label();

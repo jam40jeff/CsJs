@@ -42,6 +42,7 @@
     <Compile Include="ApplicationBase.cs" />
     <Compile Include="Binding.cs" />
     <Compile Include="Controls\Button.cs" />
+    <Compile Include="Controls\CheckBox.cs" />
     <Compile Include="Controls\CompositeControlBase.cs" />
     <Compile Include="Controls\ControlBase.cs" />
     <Compile Include="Controls\ControlCollection.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="Controls\Grid\GridBoundBooleanColumn.cs" />
     <Compile Include="Controls\Grid\GridBoundColumnBase.cs" />
     <Compile Include="Controls\Grid\GridBoundTextColumn.cs" />
+    <Compile Include="Controls\Grid\GridButtonColumn.cs" />
     <Compile Include="Controls\Grid\IGridBoundTextColumn.cs" />
     <Compile Include="Controls\Grid\GridColumnBase.cs" />
     <Compile Include="Controls\Grid\IGridBoundColumn.cs" />
@@ -73,6 +75,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Skin.cs" />
     <Compile Include="SkinBase.cs" />
+    <Compile Include="StaticBinding.cs" />
     <Compile Include="Styles.cs" />
     <Compile Include="VirtualPathUtility.cs" />
     <Compile Include="WindowTimer.cs" />

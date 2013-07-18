@@ -32,10 +32,10 @@ namespace MorseCode.CsJs.UI.Controls.Grid
             _formatString = formatString;
         }
 
-        public override IControl CreateControl(int rowIndex, T item)
+        public override IControl CreateControl(int rowIndex, IReadableObservableProperty<T> item)
         {
             Label label = new Label();
-            label.BindText(new ReadOnlyProperty<T>(item), d => PropertyExpression.GetProperty(d), _formatString);
+            label.BindText(item, d => PropertyExpression.GetProperty(d), _formatString);
             return label;
         }
     }

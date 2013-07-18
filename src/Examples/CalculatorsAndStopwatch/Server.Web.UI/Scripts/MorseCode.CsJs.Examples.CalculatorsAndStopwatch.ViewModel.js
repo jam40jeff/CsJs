@@ -638,7 +638,9 @@
 		this.$_items = null;
 		this.$_applicationViewModel = applicationViewModel;
 		this.$_navigationViewModel = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_NavigationViewModel(this.$_applicationViewModel);
-		this.$_items = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableCollection$1, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItem]).$ctor1)([new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItem(2, 'second', 'sdkgsdgh', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItem(3, 'third', 'weuirueifsd', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItem(4, 'fourth', 'ioerhivfni', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItem(5, 'fifth', 'zdiofernwiasu', true)]);
+		this.$_items = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableCollection$1, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem])]))(new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableCollection$1, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem]))());
+		var items = [new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 2, 'second', 'sdkgsdgh', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 3, 'third', 'weuirueifsd', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 4, 'fourth', 'ioerhivfni', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 5, 'fifth', 'zdiofernwiasu', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 12, 'second', 'sdkgsdgh', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 13, 'third', 'weuirueifsd', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 14, 'fourth', 'ioerhivfni', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 15, 'fifth', 'zdiofernwiasu', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 22, 'second', 'sdkgsdgh', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 23, 'third', 'weuirueifsd', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 24, 'fourth', 'ioerhivfni', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 25, 'fifth', 'zdiofernwiasu', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 32, 'second', 'sdkgsdgh', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 33, 'third', 'weuirueifsd', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 34, 'fourth', 'ioerhivfni', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 35, 'fifth', 'zdiofernwiasu', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 42, 'second', 'sdkgsdgh', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 43, 'third', 'weuirueifsd', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 44, 'fourth', 'ioerhivfni', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 45, 'fifth', 'zdiofernwiasu', true)];
+		this.$_items.get_value().addRange(items);
 	};
 	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_GridPageViewModel.prototype = {
 		get_navigationViewModel: function() {
@@ -780,6 +782,18 @@
 		},
 		get_boolean: function() {
 			return this.$_boolean;
+		}
+	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem
+	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem = function(collection, id, name, something, boolean1) {
+		this.$_collection = null;
+		$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItem.call(this, id, name, something, boolean1);
+		this.$_collection = collection;
+	};
+	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem.prototype = {
+		delete$1: function() {
+			ss.remove(this.$_collection, this);
 		}
 	};
 	////////////////////////////////////////////////////////////////////////////////
@@ -946,6 +960,7 @@
 	ss.registerEnum(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.Operator', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_Operator);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.RemoteCalculatorViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel, $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModelBase, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_ICalculatorViewModel]);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItem);
+	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem, $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItem);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchPageViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchPageViewModel);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchViewModel);
 	ss.registerEnum(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchViewModel$ViewMode', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_StopwatchViewModel$ViewMode);
