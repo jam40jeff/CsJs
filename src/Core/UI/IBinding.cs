@@ -2,7 +2,7 @@
 
 namespace MorseCode.CsJs.UI
 {
-    public interface IBinding : IDisposable
-    {
-    }
+	public interface IBinding : IDisposable
+	{
+	}
 }

@@ -1,7 +1,7 @@
 ﻿namespace MorseCode.CsJs.UI
 {
-    public interface IApplication
-    {
-        ISkin Skin { get; set; }
-    }
+	public interface IApplication
+	{
+		ISkin Skin { get; set; }
+	}
 }

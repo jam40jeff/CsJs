@@ -13,9 +13,7 @@ using jQueryApi;
 
 namespace MorseCode.CsJs.UI.Controls.Grid
 {
-	// ReSharper disable RedundantNameQualifier
-	[ControlParser(typeof (Grid.Parser))]
-	// ReSharper restore RedundantNameQualifier
+	[ControlParser(typeof(Parser))]
 	public class Grid : ControlBase
 	{
 		private TableElement _table;
@@ -38,7 +36,7 @@ namespace MorseCode.CsJs.UI.Controls.Grid
 
 		protected override void CreateElements()
 		{
-			_table = (TableElement) jQuery.FromHtml("<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\"><thead></thead><tbody></tbody><tfoot></tfoot></table>")[0];
+			_table = (TableElement)jQuery.FromHtml("<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\"><thead></thead><tbody></tbody><tfoot></tfoot></table>")[0];
 			_header = GetTHead(_table);
 			_body = _table.tBodies[0];
 			_footer = _table.tFoot;
@@ -52,7 +50,7 @@ namespace MorseCode.CsJs.UI.Controls.Grid
 
 		protected override IEnumerable<Element> GetRootElements()
 		{
-			return new Element[] {_table};
+			return new Element[] { _table };
 		}
 
 		public void BindData<TDataContext, T>(IReadableObservableProperty<TDataContext> dataContext, Func<TDataContext, IReadOnlyProperty<IEnumerable<T>>> getData, Func<TDataContext, IReadOnlyProperty<IEnumerable<IGridColumn<T>>>> getColumns) where T : new()
@@ -112,7 +110,7 @@ namespace MorseCode.CsJs.UI.Controls.Grid
 					_columnHeaderBindings.Clear();
 
 					Element tableHeader = Document.CreateElement("thead");
-					TableRowElement headerRow = (TableRowElement) Document.CreateElement("tr");
+					TableRowElement headerRow = (TableRowElement)Document.CreateElement("tr");
 					tableHeader.AppendChild(headerRow);
 					foreach (IGridColumn<T> column in columns)
 					{
@@ -145,7 +143,7 @@ namespace MorseCode.CsJs.UI.Controls.Grid
 							{
 								headerTextSpan.Style.Cursor = "pointer";
 
-								CanvasElement canvas = (CanvasElement) Document.CreateElement("canvas");
+								CanvasElement canvas = (CanvasElement)Document.CreateElement("canvas");
 								jQueryObject canvasJQueryObject = jQuery.FromElement(canvas);
 								canvas.Width = 8;
 								canvas.Height = 8;
@@ -159,7 +157,7 @@ namespace MorseCode.CsJs.UI.Controls.Grid
 
 								SortDirection? sortDirection = null;
 
-								Action setSortExpression = () => getSortExpressions(d).Value.Reset(new[] {ColumnSortExpressionFactory<T>.CreateSortExpression(boundColumn.UniqueName, dummyItem, boundColumn.PropertyExpression, sortDirection == SortDirection.Ascending ? SortDirection.Descending : SortDirection.Ascending)});
+								Action setSortExpression = () => getSortExpressions(d).Value.Reset(new[] { ColumnSortExpressionFactory<T>.CreateSortExpression(boundColumn.UniqueName, dummyItem, boundColumn.PropertyExpression, sortDirection == SortDirection.Ascending ? SortDirection.Descending : SortDirection.Ascending) });
 								headerCellJQueryObject.Click(e => setSortExpression());
 								canvasJQueryObject.Click(e => setSortExpression());
 
@@ -234,7 +232,7 @@ namespace MorseCode.CsJs.UI.Controls.Grid
 					int rowIndex = 0;
 					foreach (T item in items)
 					{
-						TableRowElement row = (TableRowElement) Document.CreateElement("tr");
+						TableRowElement row = (TableRowElement)Document.CreateElement("tr");
 						tableBody.AppendChild(row);
 						foreach (IGridColumn<T> column in columns)
 						{

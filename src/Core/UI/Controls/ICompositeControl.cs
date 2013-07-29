@@ -1,6 +1,6 @@
 ﻿namespace MorseCode.CsJs.UI.Controls
 {
-    public interface ICompositeControl : IControl
-    {
-    }
+	public interface ICompositeControl : IControl
+	{
+	}
 }

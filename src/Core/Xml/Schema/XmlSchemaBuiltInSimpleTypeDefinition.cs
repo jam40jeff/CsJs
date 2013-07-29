@@ -1,13 +1,13 @@
 ﻿namespace MorseCode.CsJs.Xml.Schema
 {
-    public class XmlSchemaBuiltInSimpleTypeDefinition : XmlSchemaTypeDefinition, IXmlSchemaSimpleTypeDefinition
-    {
-        public string TypeName { get; set; }
-        public XmlBuiltInSimpleType Type { get; set; }
+	public class XmlSchemaBuiltInSimpleTypeDefinition : XmlSchemaTypeDefinition, IXmlSchemaSimpleTypeDefinition
+	{
+		public string TypeName { get; set; }
+		public XmlBuiltInSimpleType Type { get; set; }
 
-        public override string GetTypeName()
-        {
-            return TypeName;
-        }
-    }
+		public override string GetTypeName()
+		{
+			return TypeName;
+		}
+	}
 }

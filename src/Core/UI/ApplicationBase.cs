@@ -7,138 +7,138 @@ using MorseCode.CsJs.ViewModel;
 
 namespace MorseCode.CsJs.UI
 {
-    public static class Application
-    {
-        public static IApplication Current { get; set; }
-    }
+	public static class Application
+	{
+		public static IApplication Current { get; set; }
+	}
 
-    public abstract class ApplicationBase : IApplication
-    {
-        private readonly Dictionary<Type, ApplicationPage> _applicationPages = new Dictionary<Type, ApplicationPage>();
-        private readonly PageRegistrationHelper _pageRegistrationHelper;
+	public abstract class ApplicationBase : IApplication
+	{
+		private readonly Dictionary<Type, ApplicationPage> _applicationPages = new Dictionary<Type, ApplicationPage>();
+		private readonly PageRegistrationHelper _pageRegistrationHelper;
 
-        private readonly Lazy<ApplicationViewModelBase> _applicationViewModel;
+		private readonly Lazy<ApplicationViewModelBase> _applicationViewModel;
 
-        private IPage _currentPage;
+		private IPage _currentPage;
 
-        protected ApplicationBase()
-        {
-            _applicationViewModel = new Lazy<ApplicationViewModelBase>(CreateApplicationViewModel);
-            _pageRegistrationHelper = new PageRegistrationHelper(this);
+		protected ApplicationBase()
+		{
+			_applicationViewModel = new Lazy<ApplicationViewModelBase>(CreateApplicationViewModel);
+			_pageRegistrationHelper = new PageRegistrationHelper(this);
 
-            Application.Current = this;
-        }
+			Application.Current = this;
+		}
 
-        public ISkin Skin { get; set; }
+		public ISkin Skin { get; set; }
 
-        public string Title
-        {
-            get { return Document.Title; }
-            set { Document.Title = value; }
-        }
+		public string Title
+		{
+			get { return Document.Title; }
+			set { Document.Title = value; }
+		}
 
-        protected abstract ApplicationViewModelBase CreateApplicationViewModel();
+		protected abstract ApplicationViewModelBase CreateApplicationViewModel();
 
-        public void Initialize()
-        {
-            OnBeforeInitialize();
+		public void Initialize()
+		{
+			OnBeforeInitialize();
 
-            TimerFactory.Instance = WindowTimerFactory.Instance;
+			TimerFactory.Instance = WindowTimerFactory.Instance;
 
-            RegisterPages(_pageRegistrationHelper);
+			RegisterPages(_pageRegistrationHelper);
 
-            Window.Onerror = new ErrorHandler(_applicationViewModel.Value.ErrorHandler);
-            _applicationViewModel.Value.CurrentViewModel.Changed += CurrentViewModelChanged;
-            _applicationViewModel.Value.Initialize();
+			Window.Onerror = new ErrorHandler(_applicationViewModel.Value.ErrorHandler);
+			_applicationViewModel.Value.CurrentViewModel.Changed += CurrentViewModelChanged;
+			_applicationViewModel.Value.Initialize();
 
-            OnAfterInitialize();
-        }
+			OnAfterInitialize();
+		}
 
-        protected virtual void OnBeforeInitialize()
-        {
-        }
+		protected virtual void OnBeforeInitialize()
+		{
+		}
 
-        protected virtual void OnAfterInitialize()
-        {
-        }
+		protected virtual void OnAfterInitialize()
+		{
+		}
 
-        private void CurrentViewModelChanged(object sender, EventArgs e)
-        {
-            if (_currentPage != null)
-            {
-                _currentPage.Dispose();
-                _currentPage = null;
-            }
+		private void CurrentViewModelChanged(object sender, EventArgs e)
+		{
+			if (_currentPage != null)
+			{
+				_currentPage.Dispose();
+				_currentPage = null;
+			}
 
-            object currentViewModel = _applicationViewModel.Value.CurrentViewModel.Value;
-            if (currentViewModel != null)
-            {
-                Type currentViewModelType = currentViewModel.GetType();
-                if (!_applicationPages.ContainsKey(currentViewModelType))
-                {
-                    throw new Exception("Could not find a page with view model type " + currentViewModelType.FullName + ".");
-                }
-                ApplicationPage applicationPage = _applicationPages[currentViewModelType];
-                _currentPage = applicationPage.CreatePage();
-                Title = _currentPage.Title;
-                applicationPage.Bind(_currentPage, currentViewModel);
-            }
-        }
+			object currentViewModel = _applicationViewModel.Value.CurrentViewModel.Value;
+			if (currentViewModel != null)
+			{
+				Type currentViewModelType = currentViewModel.GetType();
+				if (!_applicationPages.ContainsKey(currentViewModelType))
+				{
+					throw new Exception("Could not find a page with view model type " + currentViewModelType.FullName + ".");
+				}
+				ApplicationPage applicationPage = _applicationPages[currentViewModelType];
+				_currentPage = applicationPage.CreatePage();
+				Title = _currentPage.Title;
+				applicationPage.Bind(_currentPage, currentViewModel);
+			}
+		}
 
-        protected abstract void RegisterPages(PageRegistrationHelper pageRegistrationHelper);
+		protected abstract void RegisterPages(PageRegistrationHelper pageRegistrationHelper);
 
-        public class PageRegistrationHelper
-        {
-            private readonly ApplicationBase _application;
+		public class PageRegistrationHelper
+		{
+			private readonly ApplicationBase _application;
 
-            internal PageRegistrationHelper(ApplicationBase application)
-            {
-                _application = application;
-            }
+			internal PageRegistrationHelper(ApplicationBase application)
+			{
+				_application = application;
+			}
 
-            public PageRegistrationHelperStep2<TPage> RegisterPage<TPage>(Func<TPage> createPage) where TPage : class, IPage
-            {
-                return new PageRegistrationHelperStep2<TPage>(_application, createPage);
-            }
-        }
+			public PageRegistrationHelperStep2<TPage> RegisterPage<TPage>(Func<TPage> createPage) where TPage : class, IPage
+			{
+				return new PageRegistrationHelperStep2<TPage>(_application, createPage);
+			}
+		}
 
-        public class PageRegistrationHelperStep2<TPage> where TPage : class, IPage
-        {
-            private readonly ApplicationBase _application;
-            private readonly Func<TPage> _createPage;
+		public class PageRegistrationHelperStep2<TPage> where TPage : class, IPage
+		{
+			private readonly ApplicationBase _application;
+			private readonly Func<TPage> _createPage;
 
-            internal PageRegistrationHelperStep2(ApplicationBase application, Func<TPage> createPage)
-            {
-                _application = application;
-                _createPage = createPage;
-            }
+			internal PageRegistrationHelperStep2(ApplicationBase application, Func<TPage> createPage)
+			{
+				_application = application;
+				_createPage = createPage;
+			}
 
-            public void WithBinding<TDataContext>(Action<TPage, TDataContext> bind)
-            {
-                _application._applicationPages.Add(typeof(TDataContext), new ApplicationPage(_createPage, (p, d) => bind((TPage)p, (TDataContext)d)));
-            }
-        }
+			public void WithBinding<TDataContext>(Action<TPage, TDataContext> bind)
+			{
+				_application._applicationPages.Add(typeof(TDataContext), new ApplicationPage(_createPage, (p, d) => bind((TPage)p, (TDataContext)d)));
+			}
+		}
 
-        private class ApplicationPage
-        {
-            private readonly Func<IPage> _createPage;
-            private readonly Action<IPage, object> _bind;
+		private class ApplicationPage
+		{
+			private readonly Func<IPage> _createPage;
+			private readonly Action<IPage, object> _bind;
 
-            public ApplicationPage(Func<IPage> createPage, Action<IPage, object> bind)
-            {
-                _createPage = createPage;
-                _bind = bind;
-            }
+			public ApplicationPage(Func<IPage> createPage, Action<IPage, object> bind)
+			{
+				_createPage = createPage;
+				_bind = bind;
+			}
 
-            public Func<IPage> CreatePage
-            {
-                get { return _createPage; }
-            }
+			public Func<IPage> CreatePage
+			{
+				get { return _createPage; }
+			}
 
-            public Action<IPage, object> Bind
-            {
-                get { return _bind; }
-            }
-        }
-    }
+			public Action<IPage, object> Bind
+			{
+				get { return _bind; }
+			}
+		}
+	}
 }

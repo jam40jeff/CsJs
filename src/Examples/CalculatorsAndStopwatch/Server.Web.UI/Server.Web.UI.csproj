@@ -66,6 +66,9 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\..\..\bin\jquery.xpath.js">
+      <Link>Scripts\jquery.xpath.js</Link>
+    </Content>
     <Content Include="..\..\..\..\bin\MorseCode.CsJs.Common.js">
       <Link>Scripts\MorseCode.CsJs.Common.js</Link>
     </Content>
@@ -81,13 +84,13 @@
     <Content Include="..\..\..\..\bin\MorseCode.CsJs.Xml.js">
       <Link>Scripts\MorseCode.CsJs.Xml.js</Link>
     </Content>
-    <Content Include="..\packages\Saltarelle.jQuery.1.9.0\jquery-1.9.1.js">
-      <Link>Scripts\jquery-1.9.1.js</Link>
+    <Content Include="..\packages\Saltarelle.jQuery.1.10.0\jquery-1.10.2.js">
+      <Link>Scripts\jquery-1.10.2.js</Link>
     </Content>
-    <Content Include="..\packages\Saltarelle.Linq.2.1.0\linq.js">
+    <Content Include="..\packages\Saltarelle.Linq.2.3.0\linq.js">
       <Link>Scripts\linq.js</Link>
     </Content>
-    <Content Include="..\packages\Saltarelle.Runtime.2.2.0\mscorlib.js">
+    <Content Include="..\packages\Saltarelle.Runtime.2.3.0\mscorlib.js">
       <Link>Scripts\mscorlib.js</Link>
     </Content>
     <Content Include="..\UI\bin\Debug\MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.js">
@@ -122,11 +125,10 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\UI\UI.csproj">
       <Project>{7a0f7ffa-ee2c-4613-83af-80b096e0c4a2}</Project>
-      <Name>MorseCode.CsJs.Examples.CnT.UI</Name>
+      <Name>UI</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

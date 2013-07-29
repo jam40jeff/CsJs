@@ -2,8 +2,8 @@ using MorseCode.CsJs.Examples.CalculatorAndStopwatch.ViewModel.CalculatorService
 
 namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel
 {
-    public interface IWebServiceClientFactory
-    {
-        CalculatorClient CreateCalculatorClient();
-    }
+	public interface IWebServiceClientFactory
+	{
+		CalculatorClient CreateCalculatorClient();
+	}
 }

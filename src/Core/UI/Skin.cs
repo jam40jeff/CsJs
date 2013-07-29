@@ -2,8 +2,8 @@
 
 namespace MorseCode.CsJs.UI
 {
-    public interface ISkin
-    {
-        void Apply(IControl control);
-    }
+	public interface ISkin
+	{
+		void Apply(IControl control);
+	}
 }

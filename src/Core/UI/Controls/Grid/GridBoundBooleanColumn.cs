@@ -47,10 +47,7 @@ namespace MorseCode.CsJs.UI.Controls.Grid
 
 		public GridBooleanBoundColumnDisplayMode DisplayMode
 		{
-			get
-			{
-				return _displayMode;
-			}
+			get { return _displayMode; }
 			set
 			{
 				_displayMode = value;
@@ -60,10 +57,7 @@ namespace MorseCode.CsJs.UI.Controls.Grid
 
 		public string TrueText
 		{
-			get
-			{
-				return _trueText;
-			}
+			get { return _trueText; }
 			set
 			{
 				_trueText = value;
@@ -73,10 +67,7 @@ namespace MorseCode.CsJs.UI.Controls.Grid
 
 		public string FalseText
 		{
-			get
-			{
-				return _falseText;
-			}
+			get { return _falseText; }
 			set
 			{
 				_falseText = value;

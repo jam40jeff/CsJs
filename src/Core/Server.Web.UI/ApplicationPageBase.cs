@@ -4,30 +4,30 @@ using MorseCode.CsJs.UI;
 
 namespace MorseCode.CsJs.Server.Web.UI
 {
-    public abstract class ApplicationPageBase<T> : Page where T : ApplicationBase, new()
-    {
-        //TODO: JAM: register scripts automatically
+	public abstract class ApplicationPageBase<T> : Page where T : ApplicationBase, new()
+	{
+		//TODO: JAM: register scripts automatically
 
-        protected bool IsDebug
-        {
-            get
-            {
+		protected bool IsDebug
+		{
+			get
+			{
 #if DEBUG
                 return true;
 #else
-                return false;
+				return false;
 #endif
-            }
-        }
+			}
+		}
 
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
+		protected override void OnLoad(EventArgs e)
+		{
+			base.OnLoad(e);
 
-            ClientScript.RegisterClientScriptBlock(typeof(ApplicationPageBase<T>), "Init", @"$(function() {
+			ClientScript.RegisterClientScriptBlock(typeof(ApplicationPageBase<T>), "Init", @"$(function() {
     " + typeof(VirtualPathUtility).FullName + @".set_applicationRootPath('" + System.Web.VirtualPathUtility.ToAbsolute("~/").Replace("'", "\\'") + @"');
     new " + typeof(T).FullName + @"().initialize();
 });", true);
-        }
-    }
+		}
+	}
 }
