@@ -4,7 +4,13 @@ namespace MorseCode.CsJs.UI.Controls.Grid
 {
     public abstract class GridColumnBase<T> : IGridColumn<T>
     {
-        public string HeaderText { get; set; }
+	    protected GridColumnBase(string uniqueName)
+	    {
+		    UniqueName = uniqueName;
+	    }
+
+	    public string UniqueName { get; set; }
+	    public string HeaderText { get; set; }
 
         public abstract IControl CreateControl(int rowIndex, IReadableObservableProperty<T> item);
     }

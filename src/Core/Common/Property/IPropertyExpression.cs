@@ -5,14 +5,15 @@
         string PropertyName { get; }
     }
 
-// ReSharper disable UnusedTypeParameter
+    // ReSharper disable UnusedTypeParameter
     public interface IPropertyExpression<in T> : IPropertyExpression
-// ReSharper restore UnusedTypeParameter
+    // ReSharper restore UnusedTypeParameter
     {
+        object GetProperty(T item);
     }
 
     public interface IPropertyExpression<in T, out TProperty> : IPropertyExpression<T>
     {
-        TProperty GetProperty(T item);
+        new TProperty GetProperty(T item);
     }
 }

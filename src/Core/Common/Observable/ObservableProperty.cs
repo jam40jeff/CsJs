@@ -22,6 +22,11 @@ namespace MorseCode.CsJs.Common.Observable
             set { SetValue(value); }
         }
 
+        T IReadableProperty<T>.Value
+        {
+            get { return GetValue(); }
+        }
+
         public new T Value
         {
             get { return GetValue(); }

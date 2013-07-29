@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using MorseCode.CsJs.Common.Observable;
-using MorseCode.CsJs.ViewModel;
 
 namespace MorseCode.CsJs.UI.Controls
 {
@@ -55,12 +54,15 @@ namespace MorseCode.CsJs.UI.Controls
 
         protected override void OnItemsReset(IEnumerable<ControlBase> oldItems, IEnumerable<ControlBase> newItems)
         {
-            base.OnItemsReset(oldItems, newItems);
+            List<ControlBase> oldItemsList = oldItems.ToList();
+            List<ControlBase> newItemsList = newItems.ToList();
 
-            oldItems.ForEach(i => i.Parent = null);
-            newItems.ForEach(i => i.Parent = _owner);
+            base.OnItemsReset(oldItemsList, newItemsList);
 
-            OnControlsReset(new ControlsResetEventArgs(oldItems, newItems));
+            oldItemsList.ForEach(i => i.Parent = null);
+            newItemsList.ForEach(i => i.Parent = _owner);
+
+            OnControlsReset(new ControlsResetEventArgs(oldItemsList, newItemsList));
         }
 
         protected virtual void OnControlsReset(ControlsResetEventArgs e)
@@ -83,7 +85,10 @@ namespace MorseCode.CsJs.UI.Controls
             _control = control;
         }
 
-        public ControlBase Control { get { return _control; } }
+        public ControlBase Control
+        {
+            get { return _control; }
+        }
     }
 
     public class ControlRemovedEventArgs : EventArgs
@@ -95,7 +100,10 @@ namespace MorseCode.CsJs.UI.Controls
             _control = control;
         }
 
-        public ControlBase Control { get { return _control; } }
+        public ControlBase Control
+        {
+            get { return _control; }
+        }
     }
 
     public class ControlsResetEventArgs : EventArgs
@@ -109,7 +117,14 @@ namespace MorseCode.CsJs.UI.Controls
             _newControls = newControls;
         }
 
-        public IEnumerable<ControlBase> OldControls { get { return _oldControls; } }
-        public IEnumerable<ControlBase> NewControls { get { return _newControls; } }
+        public IEnumerable<ControlBase> OldControls
+        {
+            get { return _oldControls; }
+        }
+
+        public IEnumerable<ControlBase> NewControls
+        {
+            get { return _newControls; }
+        }
     }
 }

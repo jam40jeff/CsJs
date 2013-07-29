@@ -11,6 +11,16 @@ namespace MorseCode.CsJs.Common.Observable
             get { return GetValue(); }
         }
 
+        public TReturn ExecuteWithPropertyType<TReturn>(IReadablePropertyWithPropertyTypeCallback<TReturn> callback)
+        {
+            return callback.Callback(this);
+        }
+
+        object IReadableProperty.Value
+        {
+            get { return Value; }
+        }
+
         protected T GetValue()
         {
             return _value;

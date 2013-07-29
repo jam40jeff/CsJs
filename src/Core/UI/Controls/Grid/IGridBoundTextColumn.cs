@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MorseCode.CsJs.UI.Controls.Grid
+﻿namespace MorseCode.CsJs.UI.Controls.Grid
 {
     public interface IGridBoundTextColumn : IGridBoundColumn
     {

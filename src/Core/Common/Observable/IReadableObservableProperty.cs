@@ -1,6 +1,10 @@
 namespace MorseCode.CsJs.Common.Observable
 {
-    public interface IReadableObservableProperty<out T> : IReadableProperty<T>, IObservable
+    public interface IReadableObservableProperty : IReadableProperty, IObservable
+    {
+    }
+
+    public interface IReadableObservableProperty<out T> : IReadableObservableProperty, IReadableProperty<T>
     {
     }
 }

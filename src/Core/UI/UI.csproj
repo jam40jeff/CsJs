@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="ApplicationBase.cs" />
     <Compile Include="Binding.cs" />
+    <Compile Include="CanvasContextExtensionMethods.cs" />
     <Compile Include="Controls\Button.cs" />
     <Compile Include="Controls\CheckBox.cs" />
     <Compile Include="Controls\CompositeControlBase.cs" />

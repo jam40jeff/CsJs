@@ -39,6 +39,13 @@
     <AssemblyOriginatorKeyFile>..\MorseCode.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AssociatedTypeCallbackBase.cs" />
+    <Compile Include="Data\EnumerableSortExpressionUtility.cs" />
+    <Compile Include="Data\ISortExpression.cs" />
+    <Compile Include="Data\SortDirection.cs" />
+    <Compile Include="Data\SortExpression.cs" />
+    <Compile Include="Data\SortExpressionFactory.cs" />
+    <Compile Include="EnumerableExtensionMethods.cs" />
     <Compile Include="InvalidOperationException.cs" />
     <Compile Include="ITimer.cs" />
     <Compile Include="ITimerFactory.cs" />
@@ -66,6 +73,7 @@
     <Compile Include="StringUtility.cs" />
     <Compile Include="TimerFactory.cs" />
     <Compile Include="UnhandledEnumValueExceptionFactory.cs" />
+    <Compile Include="VoidType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\MorseCode.snk">

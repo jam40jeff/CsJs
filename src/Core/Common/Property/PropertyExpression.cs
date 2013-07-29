@@ -18,6 +18,11 @@ namespace MorseCode.CsJs.Common.Property
             get { return _propertyName; }
         }
 
+        object IPropertyExpression<T>.GetProperty(T item)
+        {
+            return GetProperty(item);
+        }
+
         public TProperty GetProperty(T item)
         {
             return _getProperty(item);

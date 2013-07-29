@@ -39,6 +39,11 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel
             CurrentViewModelInternal.Value = new GridPageViewModel(this);
         }
 
+        public void NavigateToQueryableGridPage()
+        {
+            CurrentViewModelInternal.Value = new QueryableGridPageViewModel(this);
+        }
+
         public void NavigateToCalculatorsAndStopwatchPage()
         {
             CurrentViewModelInternal.Value = new CalculatorsAndStopwatchPageViewModel(this);

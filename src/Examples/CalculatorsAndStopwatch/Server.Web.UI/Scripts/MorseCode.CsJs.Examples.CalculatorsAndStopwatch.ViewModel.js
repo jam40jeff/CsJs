@@ -449,6 +449,9 @@
 		navigateToGridPage: function() {
 			this.currentViewModelInternal.set_value$2(new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_GridPageViewModel(this));
 		},
+		navigateToQueryableGridPage: function() {
+			this.currentViewModelInternal.set_value$2(new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_QueryableGridPageViewModel(this));
+		},
 		navigateToCalculatorsAndStopwatchPage: function() {
 			this.currentViewModelInternal.set_value$2(new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorsAndStopwatchPageViewModel(this));
 		}
@@ -639,8 +642,8 @@
 		this.$_applicationViewModel = applicationViewModel;
 		this.$_navigationViewModel = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_NavigationViewModel(this.$_applicationViewModel);
 		this.$_items = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableCollection$1, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem])]))(new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableCollection$1, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem]))());
-		var items = [new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 2, 'second', 'sdkgsdgh', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 3, 'third', 'weuirueifsd', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 4, 'fourth', 'ioerhivfni', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 5, 'fifth', 'zdiofernwiasu', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 12, 'second', 'sdkgsdgh', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 13, 'third', 'weuirueifsd', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 14, 'fourth', 'ioerhivfni', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 15, 'fifth', 'zdiofernwiasu', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 22, 'second', 'sdkgsdgh', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 23, 'third', 'weuirueifsd', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 24, 'fourth', 'ioerhivfni', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 25, 'fifth', 'zdiofernwiasu', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 32, 'second', 'sdkgsdgh', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 33, 'third', 'weuirueifsd', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 34, 'fourth', 'ioerhivfni', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 35, 'fifth', 'zdiofernwiasu', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 42, 'second', 'sdkgsdgh', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 43, 'third', 'weuirueifsd', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 44, 'fourth', 'ioerhivfni', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value(), 45, 'fifth', 'zdiofernwiasu', true)];
-		this.$_items.get_value().addRange(items);
+		var items = [new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value$1(), 2, 'second', 'sdkgsdgh', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value$1(), 3, 'third', 'weuirueifsd', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value$1(), 4, 'fourth', 'ioerhivfni', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value$1(), 5, 'fifth', 'zdiofernwiasu', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value$1(), 12, 'second', 'sdkgsdgh', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value$1(), 13, 'third', 'weuirueifsd', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value$1(), 14, 'fourth', 'ioerhivfni', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value$1(), 15, 'fifth', 'zdiofernwiasu', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value$1(), 22, 'second', 'sdkgsdgh', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value$1(), 23, 'third', 'weuirueifsd', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value$1(), 24, 'fourth', 'ioerhivfni', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value$1(), 25, 'fifth', 'zdiofernwiasu', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value$1(), 32, 'second', 'sdkgsdgh', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value$1(), 33, 'third', 'weuirueifsd', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value$1(), 34, 'fourth', 'ioerhivfni', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value$1(), 35, 'fifth', 'zdiofernwiasu', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value$1(), 42, 'second', 'sdkgsdgh', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value$1(), 43, 'third', 'weuirueifsd', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value$1(), 44, 'fourth', 'ioerhivfni', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items.get_value$1(), 45, 'fifth', 'zdiofernwiasu', true)];
+		this.$_items.get_value$1().addRange(items);
 	};
 	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_GridPageViewModel.prototype = {
 		get_navigationViewModel: function() {
@@ -668,7 +671,7 @@
 	};
 	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_NavigationViewModel.prototype = {
 		switchPages: function() {
-			var currentViewModelType = ss.getInstanceType(this.$_applicationViewModel.get_currentViewModel().get_value());
+			var currentViewModelType = ss.getInstanceType(this.$_applicationViewModel.get_currentViewModel().get_value$1());
 			if (ss.referenceEquals(currentViewModelType, $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorsAndStopwatchPageViewModel)) {
 				this.$_applicationViewModel.navigateToCalculatorPage();
 			}
@@ -679,6 +682,9 @@
 				this.$_applicationViewModel.navigateToGridPage();
 			}
 			else if (ss.referenceEquals(currentViewModelType, $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_GridPageViewModel)) {
+				this.$_applicationViewModel.navigateToQueryableGridPage();
+			}
+			else if (ss.referenceEquals(currentViewModelType, $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_QueryableGridPageViewModel)) {
 				this.$_applicationViewModel.navigateToCalculatorsAndStopwatchPage();
 			}
 		}
@@ -688,6 +694,46 @@
 	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_Operator = function() {
 	};
 	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_Operator.prototype = { Add: 0, Subtract: 1, Multiply: 2, Divide: 3 };
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.QueryableGridPageViewModel
+	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_QueryableGridPageViewModel = function(applicationViewModel) {
+		this.$_applicationViewModel = null;
+		this.$_navigationViewModel = null;
+		this.$_items = null;
+		this.$_queryableItems = null;
+		this.$_applicationViewModel = applicationViewModel;
+		this.$_navigationViewModel = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_NavigationViewModel(this.$_applicationViewModel);
+		this.$_items = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ObservableCollection$1, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem]))();
+		var items = [new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items, 2, 'second', 'sdkgsdgh', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items, 3, 'third', 'weuirueifsd', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items, 4, 'fourth', 'ioerhivfni', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items, 5, 'fifth', 'zdiofernwiasu', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items, 12, 'second', 'sdkgsdgh', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items, 13, 'third', 'weuirueifsd', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items, 14, 'fourth', 'ioerhivfni', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items, 15, 'fifth', 'zdiofernwiasu', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items, 22, 'second', 'sdkgsdgh', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items, 23, 'third', 'weuirueifsd', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items, 24, 'fourth', 'ioerhivfni', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items, 25, 'fifth', 'zdiofernwiasu', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items, 32, 'second', 'sdkgsdgh', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items, 33, 'third', 'weuirueifsd', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items, 34, 'fourth', 'ioerhivfni', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items, 35, 'fifth', 'zdiofernwiasu', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items, 42, 'second', 'sdkgsdgh', true), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items, 43, 'third', 'weuirueifsd', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items, 44, 'fourth', 'ioerhivfni', false), new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem(this.$_items, 45, 'fifth', 'zdiofernwiasu', true)];
+		this.$_items.addRange(items);
+		this.$_queryableItems = new (ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_QueryableGridPageViewModel$QueryableSampleItems]))(new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_QueryableGridPageViewModel$QueryableSampleItems(this));
+		this.$_queryableItems.get_value$1().execute();
+		this.$_items.add_changed(ss.mkdel(this, function(sender, args) {
+			this.$_queryableItems.get_value$1().execute();
+		}));
+	};
+	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_QueryableGridPageViewModel.prototype = {
+		get_navigationViewModel: function() {
+			return this.$_navigationViewModel;
+		},
+		get_queryableItems: function() {
+			return this.$_queryableItems;
+		}
+	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.QueryableGridPageViewModel.QueryableSampleItems
+	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_QueryableGridPageViewModel$QueryableSampleItems = function(parent) {
+		this.$_parent = null;
+		ss.makeGenericType(MorseCode.CsJs.ViewModel.Grid.QueryableData$1, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem]).call(this);
+		this.$_parent = parent;
+	};
+	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_QueryableGridPageViewModel$QueryableSampleItems.prototype = {
+		loadData: function() {
+			return MorseCode.CsJs.Common.Data.EnumerableSortExpressionUtility.apply$1($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem).call(null, this.$_parent.$_items, Enumerable.from(this.get_columnSortExpressions().get_value$1()).select(function(s) {
+				return s.get_sortExpression$1();
+			}));
+		}
+	};
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.RemoteCalculatorViewModel
 	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel = function() {
@@ -742,7 +788,7 @@
 						throw MorseCode.CsJs.Common.UnhandledEnumValueExceptionFactory.create($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_Operator).call(null, ss.Nullable.unbox(selectedOperator.get_value()));
 					}
 				}
-				method(MorseCode.CsJs.Common.FrameworkUtility.doubleTryParse(operand1.get_value()), MorseCode.CsJs.Common.FrameworkUtility.doubleTryParse(operand2.get_value()), this.get_simulateLatency().get_value(), function(o) {
+				method(MorseCode.CsJs.Common.FrameworkUtility.doubleTryParse(operand1.get_value()), MorseCode.CsJs.Common.FrameworkUtility.doubleTryParse(operand2.get_value()), this.get_simulateLatency().get_value$1(), function(o) {
 					setValue(MorseCode.CsJs.Common.FrameworkUtility.safeToString(o));
 				}, function(request, textStatus, error) {
 					setValue('Error: ' + error);
@@ -750,7 +796,7 @@
 			}
 		}), null);
 		this.$_resultToDisplay = ss.makeGenericType(MorseCode.CsJs.Common.Observable.CalculatedProperty$1, [String]).create$1(ss.makeGenericType(MorseCode.CsJs.Common.Observable.AsyncCalculatedProperty$1, [String]), ss.makeGenericType(MorseCode.CsJs.Common.Observable.IReadableObservableProperty$1, [Boolean])).call(null, this.$_result, this.$_result.get_isCalculating(), function(result, isCalculating) {
-			return (isCalculating.get_value() ? 'Calculating...' : result.get_value());
+			return (isCalculating.get_value$1() ? 'Calculating...' : result.get_value$1());
 		}, null);
 	};
 	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel.prototype = {
@@ -958,6 +1004,8 @@
 	ss.registerInterface(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.IWebServiceClientFactory', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_IWebServiceClientFactory);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.NavigationViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_NavigationViewModel);
 	ss.registerEnum(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.Operator', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_Operator);
+	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.QueryableGridPageViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_QueryableGridPageViewModel);
+	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.QueryableGridPageViewModel$QueryableSampleItems', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_QueryableGridPageViewModel$QueryableSampleItems, ss.makeGenericType(MorseCode.CsJs.ViewModel.Grid.QueryableData$1, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem]), [ss.makeGenericType(MorseCode.CsJs.ViewModel.Grid.IQueryableData$1, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem])]);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.RemoteCalculatorViewModel', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_RemoteCalculatorViewModel, $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_CalculatorViewModelBase, [$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_ICalculatorViewModel]);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItem);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItemCollectionItem, $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_ViewModel_SampleItem);

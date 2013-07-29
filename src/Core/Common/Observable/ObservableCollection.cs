@@ -9,6 +9,10 @@ namespace MorseCode.CsJs.Common.Observable
     {
         private readonly List<T> _items;
 
+        private int _bulkOperationCount;
+        private readonly List<T> _bulkOldItems = new List<T>();
+        private readonly List<Action> _queuedChangeEvents = new List<Action>();
+
         public ObservableCollection()
         {
             _items = new List<T>();
@@ -28,8 +32,7 @@ namespace MorseCode.CsJs.Common.Observable
         {
             OnBeforeChanged();
             _items.Insert(index, item);
-            OnItemAdded(item);
-            OnChanged();
+            OnItemAddedInternal(item);
         }
 
         public void RemoveAt(int index)
@@ -37,8 +40,7 @@ namespace MorseCode.CsJs.Common.Observable
             T item = _items[index];
             OnBeforeChanged();
             _items.RemoveAt(index);
-            OnItemRemoved(item);
-            OnChanged();
+            OnItemRemovedInternal(item);
         }
 
         public T this[int index]
@@ -52,8 +54,9 @@ namespace MorseCode.CsJs.Common.Observable
                 if (!ReferenceEquals(value, _items[index]))
                 {
                     OnBeforeChanged();
+                    T item = _items[index];
                     _items[index] = value;
-                    OnChanged();
+                    OnItemChangedInternal(item, value);
                 }
             }
         }
@@ -62,17 +65,16 @@ namespace MorseCode.CsJs.Common.Observable
         {
             OnBeforeChanged();
             _items.Add(item);
-            OnItemAdded(item);
-            OnChanged();
+            OnItemAddedInternal(item);
         }
 
         public void AddRange(IEnumerable<T> items)
         {
+            List<T> oldItems = _items.ToList();
             List<T> itemsToAdd = items.ToList();
             OnBeforeChanged();
             _items.AddRange(itemsToAdd);
-            itemsToAdd.ForEach(OnItemAdded);
-            OnChanged();
+            OnItemsResetInternal(oldItems, _items);
         }
 
         public void Clear()
@@ -80,8 +82,7 @@ namespace MorseCode.CsJs.Common.Observable
             List<T> oldItems = _items.ToList();
             OnBeforeChanged();
             _items.Clear();
-            OnItemsReset(oldItems, _items);
-            OnChanged();
+            OnItemsResetInternal(oldItems, _items);
         }
 
         public bool Contains(T item)
@@ -98,9 +99,40 @@ namespace MorseCode.CsJs.Common.Observable
         {
             OnBeforeChanged();
             bool removed = _items.Remove(item);
-            OnItemRemoved(item);
-            OnChanged();
+            OnItemRemovedInternal(item);
             return removed;
+        }
+
+        public void ExecuteWhileBatchingChangeEvents(Action action)
+        {
+            if (_bulkOperationCount == 0)
+            {
+                _bulkOldItems.AddRange(_items);
+            }
+
+            _bulkOperationCount++;
+
+            action();
+
+            _bulkOperationCount--;
+
+            if (_bulkOperationCount == 0)
+            {
+                List<T> oldItems = _bulkOldItems.ToList();
+
+                _bulkOldItems.Clear();
+
+                if (_queuedChangeEvents.Count == 1)
+                {
+                    _queuedChangeEvents[0]();
+                }
+                else if (_queuedChangeEvents.Count > 1)
+                {
+                    OnItemsResetInternal(oldItems, _items);
+                }
+
+                _queuedChangeEvents.Clear();
+            }
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -113,12 +145,64 @@ namespace MorseCode.CsJs.Common.Observable
             return GetEnumerator();
         }
 
+        private void FireChangeEvent(Action action)
+        {
+            if (_bulkOperationCount > 0)
+            {
+                _queuedChangeEvents.Add(action);
+            }
+            else
+            {
+                action();
+            }
+        }
+
+        private void OnItemAddedInternal(T item)
+        {
+            FireChangeEvent(() =>
+            {
+                OnItemAdded(item);
+                OnChanged();
+            });
+        }
+
         protected virtual void OnItemAdded(T item)
         {
         }
 
+        private void OnItemRemovedInternal(T item)
+        {
+            FireChangeEvent(() =>
+            {
+                OnItemRemoved(item);
+                OnChanged();
+            });
+        }
+
         protected virtual void OnItemRemoved(T item)
         {
+        }
+
+        private void OnItemChangedInternal(T oldItem, T newItem)
+        {
+            FireChangeEvent(() =>
+            {
+                OnItemsChanged(oldItem, newItem);
+                OnChanged();
+            });
+        }
+
+        protected virtual void OnItemsChanged(T oldItem, T newItem)
+        {
+        }
+
+        private void OnItemsResetInternal(IEnumerable<T> oldItems, IEnumerable<T> newItems)
+        {
+            FireChangeEvent(() =>
+            {
+                OnItemsReset(oldItems, newItems);
+                OnChanged();
+            });
         }
 
         protected virtual void OnItemsReset(IEnumerable<T> oldItems, IEnumerable<T> newItems)

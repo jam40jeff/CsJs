@@ -1,10 +1,42 @@
 ﻿(function() {
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.GridPage.SampleGridColumn
-	var $MorseCode_$CsJs_Examples_CalculatorsAndStopwatch_UI_GridPage$SampleGridColumn = function() {
-		ss.makeGenericType(MorseCode.CsJs.UI.Controls.Grid.GridColumnBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem]).call(this);
+	var $MorseCode_$CsJs_Examples_CalculatorsAndStopwatch_UI_GridPage$SampleGridColumn = function(uniqueName) {
+		ss.makeGenericType(MorseCode.CsJs.UI.Controls.Grid.GridColumnBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem]).call(this, uniqueName);
 	};
 	$MorseCode_$CsJs_Examples_CalculatorsAndStopwatch_UI_GridPage$SampleGridColumn.prototype = {
+		createControl: function(rowIndex, item) {
+			var panel = new MorseCode.CsJs.UI.Controls.Panel(function(c) {
+				var topPanel = new MorseCode.CsJs.UI.Controls.Panel(function(controls) {
+					var label = new MorseCode.CsJs.UI.Controls.Label();
+					label.bindText$1(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, ss.Int32).call(label, item, function(d) {
+						return d.get_id();
+					}, function(v) {
+						return 'Line one shows the ID: ' + v;
+					});
+					controls.add(label);
+				});
+				c.add(topPanel);
+				var bottomPanel = new MorseCode.CsJs.UI.Controls.Panel(function(controls1) {
+					var label1 = new MorseCode.CsJs.UI.Controls.Label();
+					label1.bindText$1(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, String).call(label1, item, function(d1) {
+						return d1.get_name();
+					}, function(v1) {
+						return 'Line two shows the name: ' + v1;
+					});
+					controls1.add(label1);
+				});
+				c.add(bottomPanel);
+			});
+			return panel;
+		}
+	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.QueryableGridPage.SampleGridColumn
+	var $MorseCode_$CsJs_Examples_CalculatorsAndStopwatch_UI_QueryableGridPage$SampleGridColumn = function(uniqueName) {
+		ss.makeGenericType(MorseCode.CsJs.UI.Controls.Grid.GridColumnBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem]).call(this, uniqueName);
+	};
+	$MorseCode_$CsJs_Examples_CalculatorsAndStopwatch_UI_QueryableGridPage$SampleGridColumn.prototype = {
 		createControl: function(rowIndex, item) {
 			var panel = new MorseCode.CsJs.UI.Controls.Panel(function(c) {
 				var topPanel = new MorseCode.CsJs.UI.Controls.Panel(function(controls) {
@@ -226,6 +258,12 @@
 			$t4.withBinding(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.GridPageViewModel).call($t4, function(p3, d3) {
 				p3.bindDataContext(d3);
 			});
+			var $t5 = pageRegistrationHelper.registerPage($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_QueryableGridPage).call(pageRegistrationHelper, function() {
+				return new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_QueryableGridPage();
+			});
+			$t5.withBinding(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.QueryableGridPageViewModel).call($t5, function(p4, d4) {
+				p4.bindDataContext(d4);
+			});
 		}
 	};
 	////////////////////////////////////////////////////////////////////////////////
@@ -337,7 +375,7 @@
 			this.$_navigationControl.bindDataContext(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.GridPageViewModel).call(this.$_navigationControl, dataContext, function(d) {
 				return d.get_navigationViewModel();
 			});
-			this.$_grid.bindData(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.GridPageViewModel, MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem).call(this.$_grid, dataContext, function(d1) {
+			this.$_grid.bindData$2(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.GridPageViewModel, MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem).call(this.$_grid, dataContext, new MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem(null, -1, null, null, false), function(d1) {
 				return d1.get_items();
 			}, function(d2) {
 				var $t34 = ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [Array]);
@@ -377,7 +415,7 @@
 				var $t22 = { ntype: 38, type: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, name: 'o' };
 				var $t23 = { typeDef: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, name: 'Boolean', type: 16, returnType: ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [Boolean]), getter: { typeDef: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, name: 'get_Boolean', type: 8, sname: 'get_boolean', returnType: ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [Boolean]), params: [] } };
 				var $t24 = { ntype: 10, type: ss.makeGenericType(MorseCode.CsJs.Common.Observable.IReadableObservableProperty$1, [Boolean]), operand: { ntype: 23, type: $t23.returnType, expression: $t22, member: $t23 } };
-				var $t26 = new $t25.$ctor1({ ntype: 18, type: Function, returnType: $t24.type, body: $t24, params: [$t22] });
+				var $t26 = new $t25.$ctor3('Boolean2', { ntype: 18, type: Function, returnType: $t24.type, body: $t24, params: [$t22] });
 				$t26.set_headerText('A Boolean Value With Custom Text');
 				$t26.set_displayMode(1);
 				$t26.set_trueText('Absolutely');
@@ -387,14 +425,14 @@
 				var $t27 = { ntype: 38, type: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, name: 'o' };
 				var $t28 = { typeDef: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, name: 'Boolean', type: 16, returnType: ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [Boolean]), getter: { typeDef: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, name: 'get_Boolean', type: 8, sname: 'get_boolean', returnType: ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [Boolean]), params: [] } };
 				var $t29 = { ntype: 10, type: ss.makeGenericType(MorseCode.CsJs.Common.Observable.IReadableObservableProperty$1, [Boolean]), operand: { ntype: 23, type: $t28.returnType, expression: $t27, member: $t28 } };
-				var $t31 = new $t30.$ctor1({ ntype: 18, type: Function, returnType: $t29.type, body: $t29, params: [$t27] });
+				var $t31 = new $t30.$ctor3('Boolean3', { ntype: 18, type: Function, returnType: $t29.type, body: $t29, params: [$t27] });
 				$t31.set_headerText('Boolean With Checkbox');
 				$t31.set_displayMode(0);
 				ss.add($t1, $t31);
-				var $t32 = new $MorseCode_$CsJs_Examples_CalculatorsAndStopwatch_UI_GridPage$SampleGridColumn();
+				var $t32 = new $MorseCode_$CsJs_Examples_CalculatorsAndStopwatch_UI_GridPage$SampleGridColumn('Sample');
 				$t32.set_headerText('Custom Column');
 				ss.add($t1, $t32);
-				var $t33 = new (ss.makeGenericType(MorseCode.CsJs.UI.Controls.Grid.GridButtonColumn$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem]))(function(item, button) {
+				var $t33 = new (ss.makeGenericType(MorseCode.CsJs.UI.Controls.Grid.GridButtonColumn$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem]))('Button', function(item, button) {
 					button.bindText$1(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem, ss.Int32).call(button, item, function(d21) {
 						return d21.get_id();
 					}, function(v1) {
@@ -426,6 +464,104 @@
 		bindControls: function(dataContext) {
 			this.$_switchButton.bindClickAction(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.NavigationViewModel).call(this.$_switchButton, dataContext, function(d) {
 				return ss.mkdel(d, d.switchPages);
+			});
+		}
+	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.QueryableGridPage
+	var $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_QueryableGridPage = function() {
+		this.$_navigationControl = null;
+		this.$_grid = null;
+		ss.makeGenericType(MorseCode.CsJs.UI.Controls.PageBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.QueryableGridPageViewModel]).call(this);
+	};
+	$MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_QueryableGridPage.prototype = {
+		get_title: function() {
+			return 'Grid';
+		},
+		createChildControls: function(controls) {
+			this.$_navigationControl = new $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_NavigationControl();
+			controls.add(this.$_navigationControl);
+			var panel = new MorseCode.CsJs.UI.Controls.Panel(ss.mkdel(this, function(c) {
+				this.$_grid = new MorseCode.CsJs.UI.Controls.Grid.Grid();
+				c.add(this.$_grid);
+			}));
+			panel.get_styles().addOrSet('padding', '15px');
+			panel.get_styles().addOrSet('background-color', 'rgb(255,255,192)');
+			controls.add(panel);
+		},
+		bindControls: function(dataContext) {
+			this.$_navigationControl.bindDataContext(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.QueryableGridPageViewModel).call(this.$_navigationControl, dataContext, function(d) {
+				return d.get_navigationViewModel();
+			});
+			this.$_grid.bindDataWithSorting$2(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.QueryableGridPageViewModel, MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem).call(this.$_grid, dataContext, new MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem(null, -1, null, null, false), function(d1) {
+				return d1.get_queryableItems();
+			}, function(d2) {
+				var $t34 = ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [Array]);
+				var $t1 = [];
+				var $t5 = ss.makeGenericType(MorseCode.CsJs.UI.Controls.Grid.GridBoundTextColumn$2, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, ss.Int32]);
+				var $t2 = { ntype: 38, type: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, name: 'o' };
+				var $t3 = { typeDef: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, name: 'Id', type: 16, returnType: ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [ss.Int32]), getter: { typeDef: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, name: 'get_Id', type: 8, sname: 'get_id', returnType: ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [ss.Int32]), params: [] } };
+				var $t4 = { ntype: 10, type: ss.makeGenericType(MorseCode.CsJs.Common.Observable.IReadableObservableProperty$1, [ss.Int32]), operand: { ntype: 23, type: $t3.returnType, expression: $t2, member: $t3 } };
+				var $t6 = new $t5.$ctor3({ ntype: 18, type: Function, returnType: $t4.type, body: $t4, params: [$t2] }, function(v) {
+					return 'ID #' + v;
+				});
+				$t6.set_headerText('ID');
+				ss.add($t1, $t6);
+				var $t10 = ss.makeGenericType(MorseCode.CsJs.UI.Controls.Grid.GridBoundTextColumn$2, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem, String]);
+				var $t7 = { ntype: 38, type: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem, name: 'o' };
+				var $t8 = { typeDef: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, name: 'Name', type: 16, returnType: ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [String]), getter: { typeDef: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, name: 'get_Name', type: 8, sname: 'get_name', returnType: ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [String]), params: [] } };
+				var $t9 = { ntype: 10, type: ss.makeGenericType(MorseCode.CsJs.Common.Observable.IReadableObservableProperty$1, [String]), operand: { ntype: 23, type: $t8.returnType, expression: $t7, member: $t8 } };
+				var $t11 = new $t10.$ctor1({ ntype: 18, type: Function, returnType: $t9.type, body: $t9, params: [$t7] });
+				$t11.set_headerText('Name');
+				ss.add($t1, $t11);
+				var $t15 = ss.makeGenericType(MorseCode.CsJs.UI.Controls.Grid.GridBoundTextColumn$2, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem, String]);
+				var $t12 = { ntype: 38, type: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem, name: 'o' };
+				var $t13 = { typeDef: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, name: 'Something', type: 16, returnType: ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [String]), getter: { typeDef: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, name: 'get_Something', type: 8, sname: 'get_something', returnType: ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [String]), params: [] } };
+				var $t14 = { ntype: 10, type: ss.makeGenericType(MorseCode.CsJs.Common.Observable.IReadableObservableProperty$1, [String]), operand: { ntype: 23, type: $t13.returnType, expression: $t12, member: $t13 } };
+				var $t16 = new $t15.$ctor1({ ntype: 18, type: Function, returnType: $t14.type, body: $t14, params: [$t12] });
+				$t16.set_headerText('Something Else');
+				ss.add($t1, $t16);
+				var $t20 = ss.makeGenericType(MorseCode.CsJs.UI.Controls.Grid.GridBoundBooleanColumn$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem]);
+				var $t17 = { ntype: 38, type: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem, name: 'o' };
+				var $t18 = { typeDef: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, name: 'Boolean', type: 16, returnType: ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [Boolean]), getter: { typeDef: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, name: 'get_Boolean', type: 8, sname: 'get_boolean', returnType: ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [Boolean]), params: [] } };
+				var $t19 = { ntype: 10, type: ss.makeGenericType(MorseCode.CsJs.Common.Observable.IReadableObservableProperty$1, [Boolean]), operand: { ntype: 23, type: $t18.returnType, expression: $t17, member: $t18 } };
+				var $t21 = new $t20.$ctor1({ ntype: 18, type: Function, returnType: $t19.type, body: $t19, params: [$t17] });
+				$t21.set_headerText('A Boolean Value!');
+				$t21.set_displayMode(1);
+				ss.add($t1, $t21);
+				var $t25 = ss.makeGenericType(MorseCode.CsJs.UI.Controls.Grid.GridBoundBooleanColumn$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem]);
+				var $t22 = { ntype: 38, type: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, name: 'o' };
+				var $t23 = { typeDef: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, name: 'Boolean', type: 16, returnType: ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [Boolean]), getter: { typeDef: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, name: 'get_Boolean', type: 8, sname: 'get_boolean', returnType: ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [Boolean]), params: [] } };
+				var $t24 = { ntype: 10, type: ss.makeGenericType(MorseCode.CsJs.Common.Observable.IReadableObservableProperty$1, [Boolean]), operand: { ntype: 23, type: $t23.returnType, expression: $t22, member: $t23 } };
+				var $t26 = new $t25.$ctor3('Boolean2', { ntype: 18, type: Function, returnType: $t24.type, body: $t24, params: [$t22] });
+				$t26.set_headerText('A Boolean Value With Custom Text');
+				$t26.set_displayMode(1);
+				$t26.set_trueText('Absolutely');
+				$t26.set_falseText('No Way');
+				ss.add($t1, $t26);
+				var $t30 = ss.makeGenericType(MorseCode.CsJs.UI.Controls.Grid.GridBoundBooleanColumn$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem]);
+				var $t27 = { ntype: 38, type: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem, name: 'o' };
+				var $t28 = { typeDef: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, name: 'Boolean', type: 16, returnType: ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [Boolean]), getter: { typeDef: MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem, name: 'get_Boolean', type: 8, sname: 'get_boolean', returnType: ss.makeGenericType(MorseCode.CsJs.Common.Observable.ReadOnlyProperty$1, [Boolean]), params: [] } };
+				var $t29 = { ntype: 10, type: ss.makeGenericType(MorseCode.CsJs.Common.Observable.IReadableObservableProperty$1, [Boolean]), operand: { ntype: 23, type: $t28.returnType, expression: $t27, member: $t28 } };
+				var $t31 = new $t30.$ctor3('Boolean3', { ntype: 18, type: Function, returnType: $t29.type, body: $t29, params: [$t27] });
+				$t31.set_headerText('Boolean With Checkbox');
+				$t31.set_displayMode(0);
+				ss.add($t1, $t31);
+				var $t32 = new $MorseCode_$CsJs_Examples_CalculatorsAndStopwatch_UI_QueryableGridPage$SampleGridColumn('Sample');
+				$t32.set_headerText('Custom Column');
+				ss.add($t1, $t32);
+				var $t33 = new (ss.makeGenericType(MorseCode.CsJs.UI.Controls.Grid.GridButtonColumn$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem]))('Button', function(item, button) {
+					button.bindText$1(MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItemCollectionItem, ss.Int32).call(button, item, function(d21) {
+						return d21.get_id();
+					}, function(v1) {
+						return 'Delete Row With ID ' + v1;
+					});
+				}, function(item1) {
+					return ss.mkdel(item1, item1.delete$1);
+				});
+				$t33.set_headerText('Delete');
+				ss.add($t1, $t33);
+				return new $t34($t1);
 			});
 		}
 	};
@@ -535,6 +671,7 @@
 		}
 	};
 	ss.registerClass(null, 'MorseCode.$CsJs.Examples.CalculatorsAndStopwatch.UI.GridPage$SampleGridColumn', $MorseCode_$CsJs_Examples_CalculatorsAndStopwatch_UI_GridPage$SampleGridColumn, ss.makeGenericType(MorseCode.CsJs.UI.Controls.Grid.GridColumnBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem]), [MorseCode.CsJs.UI.Controls.Grid.IGridColumn, ss.makeGenericType(MorseCode.CsJs.UI.Controls.Grid.IGridColumn$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem])]);
+	ss.registerClass(null, 'MorseCode.$CsJs.Examples.CalculatorsAndStopwatch.UI.QueryableGridPage$SampleGridColumn', $MorseCode_$CsJs_Examples_CalculatorsAndStopwatch_UI_QueryableGridPage$SampleGridColumn, ss.makeGenericType(MorseCode.CsJs.UI.Controls.Grid.GridColumnBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem]), [MorseCode.CsJs.UI.Controls.Grid.IGridColumn, ss.makeGenericType(MorseCode.CsJs.UI.Controls.Grid.IGridColumn$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.SampleItem])]);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.CalculatorControl', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorControl, ss.makeGenericType($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorControlBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.ICalculatorViewModel]), [ss.IDisposable, MorseCode.CsJs.UI.Controls.IControl, MorseCode.CsJs.UI.Controls.ICompositeControl]);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.CalculatorPage', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorPage, ss.makeGenericType(MorseCode.CsJs.UI.Controls.PageBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.CalculatorPageViewModel]), [ss.IDisposable, MorseCode.CsJs.UI.Controls.IControl, MorseCode.CsJs.UI.Controls.ICompositeControl, MorseCode.CsJs.UI.Controls.IPage]);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.CalculatorsAndStopwatchApplication', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorsAndStopwatchApplication, MorseCode.CsJs.UI.ApplicationBase, [MorseCode.CsJs.UI.IApplication]);
@@ -543,6 +680,7 @@
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.CalculatorsAndStopwatchWebServiceClientFactory', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_CalculatorsAndStopwatchWebServiceClientFactory, null, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.IWebServiceClientFactory]);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.GridPage', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_GridPage, ss.makeGenericType(MorseCode.CsJs.UI.Controls.PageBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.GridPageViewModel]), [ss.IDisposable, MorseCode.CsJs.UI.Controls.IControl, MorseCode.CsJs.UI.Controls.ICompositeControl, MorseCode.CsJs.UI.Controls.IPage]);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.NavigationControl', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_NavigationControl, ss.makeGenericType(MorseCode.CsJs.UI.Controls.PlaceHolderCompositeControlBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.NavigationViewModel]), [ss.IDisposable, MorseCode.CsJs.UI.Controls.IControl, MorseCode.CsJs.UI.Controls.ICompositeControl]);
+	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.QueryableGridPage', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_QueryableGridPage, ss.makeGenericType(MorseCode.CsJs.UI.Controls.PageBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.QueryableGridPageViewModel]), [ss.IDisposable, MorseCode.CsJs.UI.Controls.IControl, MorseCode.CsJs.UI.Controls.ICompositeControl, MorseCode.CsJs.UI.Controls.IPage]);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.StopwatchControl', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_StopwatchControl, ss.makeGenericType($MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_StopwatchControlBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchViewModel]), [ss.IDisposable, MorseCode.CsJs.UI.Controls.IControl, MorseCode.CsJs.UI.Controls.ICompositeControl]);
 	ss.registerClass(global, 'MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.StopwatchPage', $MorseCode_CsJs_Examples_CalculatorsAndStopwatch_UI_StopwatchPage, ss.makeGenericType(MorseCode.CsJs.UI.Controls.PageBase$1, [MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.StopwatchPageViewModel]), [ss.IDisposable, MorseCode.CsJs.UI.Controls.IControl, MorseCode.CsJs.UI.Controls.ICompositeControl, MorseCode.CsJs.UI.Controls.IPage]);
 })();

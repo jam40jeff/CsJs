@@ -1,5 +1,88 @@
 ﻿(function() {
 	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.Data.SortExpressionFactory.CreateSortExpressionCallback
+	var $MorseCode_$CsJs_Common_Data_SortExpressionFactory$1$CreateSortExpressionCallback = function(T) {
+		var $type = function(property, propertyExpression, sortDirection) {
+			this.$_propertyExpression = null;
+			this.$_sortDirection = 0;
+			ss.makeGenericType($MorseCode_CsJs_Common_Observable_ReadablePropertyWithPropertyTypeCallbackBase$1, [ss.makeGenericType($MorseCode_CsJs_Common_Data_ISortExpression$1, [T])]).call(this, property);
+			this.$_propertyExpression = propertyExpression;
+			this.$_sortDirection = sortDirection;
+		};
+		$type.prototype = {
+			execute: function(TProperty) {
+				return function(property) {
+					return new (ss.makeGenericType($MorseCode_CsJs_Common_Data_$SortExpression$2, [T, TProperty]))(this.$_propertyExpression, this.$_sortDirection);
+				};
+			}
+		};
+		ss.registerGenericClassInstance($type, $MorseCode_$CsJs_Common_Data_SortExpressionFactory$1$CreateSortExpressionCallback, [T], function() {
+			return ss.makeGenericType($MorseCode_CsJs_Common_Observable_ReadablePropertyWithPropertyTypeCallbackBase$1, [ss.makeGenericType($MorseCode_CsJs_Common_Data_ISortExpression$1, [T])]);
+		}, function() {
+			return [ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadablePropertyWithPropertyTypeCallback$1, [ss.makeGenericType($MorseCode_CsJs_Common_Data_ISortExpression$1, [T])])];
+		});
+		return $type;
+	};
+	ss.registerGenericClass(null, 'MorseCode.$CsJs.Common.Data.SortExpressionFactory$1$CreateSortExpressionCallback', $MorseCode_$CsJs_Common_Data_SortExpressionFactory$1$CreateSortExpressionCallback, 1);
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.AssociatedTypeCallbackBase
+	var $MorseCode_CsJs_Common_AssociatedTypeCallbackBase$1 = function(T) {
+		var $type = function(o) {
+			this.$_o = ss.getDefaultValue(T);
+			this.$_o = o;
+		};
+		$type.prototype = {
+			checkCallbackObject: function(TCallback) {
+				return function(o) {
+					if (!ss.referenceEquals(o, this.$_o)) {
+						throw new ss.Exception('Callback object must be the same reference as the original object.');
+					}
+				};
+			}
+		};
+		ss.registerGenericClassInstance($type, $MorseCode_CsJs_Common_AssociatedTypeCallbackBase$1, [T], function() {
+			return null;
+		}, function() {
+			return [];
+		});
+		return $type;
+	};
+	ss.registerGenericClass(global, 'MorseCode.CsJs.Common.AssociatedTypeCallbackBase$1', $MorseCode_CsJs_Common_AssociatedTypeCallbackBase$1, 1);
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.EnumerableExtensionMethods
+	var $MorseCode_CsJs_Common_EnumerableExtensionMethods = function() {
+	};
+	$MorseCode_CsJs_Common_EnumerableExtensionMethods.reset = function(T) {
+		return function(collection, items) {
+			if (ss.referenceEquals(collection, items)) {
+				return;
+			}
+			if (ss.isNullOrUndefined(collection)) {
+				return;
+			}
+			var action = function() {
+				ss.clear(collection);
+				var $t1 = ss.getEnumerator(items);
+				try {
+					while ($t1.moveNext()) {
+						var item = $t1.current();
+						ss.add(collection, item);
+					}
+				}
+				finally {
+					$t1.dispose();
+				}
+			};
+			var observableCollection = ss.safeCast(collection, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IObservableCollection$1, [T]));
+			if (ss.isValue(observableCollection)) {
+				observableCollection.executeWhileBatchingChangeEvents(action);
+			}
+			else {
+				action();
+			}
+		};
+	};
+	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Common.FrameworkUtility
 	var $MorseCode_CsJs_Common_FrameworkUtility = function() {
 	};
@@ -299,6 +382,185 @@
 		};
 	};
 	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.VoidType
+	var $MorseCode_CsJs_Common_VoidType = function() {
+	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.Data.SortExpression
+	var $MorseCode_CsJs_Common_Data_$SortExpression$2 = function(T, TProperty) {
+		var $type = function(property, sortDirection) {
+			this.$_property = null;
+			this.$_sortDirection = 0;
+			this.$_property = property;
+			this.$_sortDirection = sortDirection;
+		};
+		$type.prototype = {
+			get_property$2: function() {
+				return this.$_property;
+			},
+			get_property$1: function() {
+				return this.get_property$2();
+			},
+			get_property: function() {
+				return this.get_property$2();
+			},
+			get_sortDirection: function() {
+				return this.$_sortDirection;
+			},
+			executeWithPropertyType: function(TReturn) {
+				return function(callback) {
+					return callback.callback(TProperty).call(callback, this);
+				};
+			}
+		};
+		ss.registerGenericClassInstance($type, $MorseCode_CsJs_Common_Data_$SortExpression$2, [T, TProperty], function() {
+			return null;
+		}, function() {
+			return [$MorseCode_CsJs_Common_Data_ISortExpression, ss.makeGenericType($MorseCode_CsJs_Common_Data_ISortExpression$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Data_ISortExpression$2, [T, TProperty])];
+		});
+		return $type;
+	};
+	ss.registerGenericClass(null, 'MorseCode.CsJs.Common.Data.$SortExpression$2', $MorseCode_CsJs_Common_Data_$SortExpression$2, 2);
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.Data.EnumerableSortExpressionUtility
+	var $MorseCode_CsJs_Common_Data_EnumerableSortExpressionUtility = function() {
+	};
+	$MorseCode_CsJs_Common_Data_EnumerableSortExpressionUtility.apply$1 = function(T) {
+		return function(data, sortExpressions) {
+			if (ss.isNullOrUndefined(data) || ss.isNullOrUndefined(sortExpressions)) {
+				return data;
+			}
+			var orderedData = null;
+			var isFirst = true;
+			var $t1 = ss.getEnumerator(sortExpressions);
+			try {
+				while ($t1.moveNext()) {
+					var sortExpression = $t1.current();
+					var property = { $: sortExpression.get_property$1() };
+					if (!isFirst) {
+						orderedData = ((sortExpression.get_sortDirection() === 1) ? orderedData.thenByDescending(ss.mkdel({ property: property }, function(o) {
+							return this.property.$.getProperty$1(o).get_value();
+						})) : orderedData.thenBy(ss.mkdel({ property: property }, function(o1) {
+							return this.property.$.getProperty$1(o1).get_value();
+						})));
+					}
+					else {
+						// ReSharper disable PossibleMultipleEnumeration
+						orderedData = ((sortExpression.get_sortDirection() === 1) ? Enumerable.from(data).orderByDescending(ss.mkdel({ property: property }, function(o2) {
+							return this.property.$.getProperty$1(o2).get_value();
+						})) : Enumerable.from(data).orderBy(ss.mkdel({ property: property }, function(o3) {
+							return this.property.$.getProperty$1(o3).get_value();
+						})));
+						// ReSharper restore PossibleMultipleEnumeration
+						isFirst = false;
+					}
+				}
+			}
+			finally {
+				$t1.dispose();
+			}
+			// ReSharper disable PossibleMultipleEnumeration
+			return (isFirst ? data : orderedData);
+			// ReSharper restore PossibleMultipleEnumeration
+		};
+	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.Data.ISortExpression
+	var $MorseCode_CsJs_Common_Data_ISortExpression = function() {
+	};
+	$MorseCode_CsJs_Common_Data_ISortExpression.prototype = { get_property: null, get_sortDirection: null };
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.Data.ISortExpression
+	var $MorseCode_CsJs_Common_Data_ISortExpression$1 = function(T) {
+		var $type = function() {
+		};
+		$type.prototype = { get_property$1: null, executeWithPropertyType: null };
+		ss.registerGenericInterfaceInstance($type, $MorseCode_CsJs_Common_Data_ISortExpression$1, [T], function() {
+			return [$MorseCode_CsJs_Common_Data_ISortExpression];
+		});
+		return $type;
+	};
+	ss.registerGenericInterface(global, 'MorseCode.CsJs.Common.Data.ISortExpression$1', $MorseCode_CsJs_Common_Data_ISortExpression$1, 1);
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.Data.ISortExpression
+	var $MorseCode_CsJs_Common_Data_ISortExpression$2 = function(T, TProperty) {
+		var $type = function() {
+		};
+		$type.prototype = { get_property$2: null };
+		ss.registerGenericInterfaceInstance($type, $MorseCode_CsJs_Common_Data_ISortExpression$2, [T, TProperty], function() {
+			return [$MorseCode_CsJs_Common_Data_ISortExpression, ss.makeGenericType($MorseCode_CsJs_Common_Data_ISortExpression$1, [T])];
+		});
+		return $type;
+	};
+	ss.registerGenericInterface(global, 'MorseCode.CsJs.Common.Data.ISortExpression$2', $MorseCode_CsJs_Common_Data_ISortExpression$2, 2);
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.Data.ISortExpressionWithPropertyTypeCallback
+	var $MorseCode_CsJs_Common_Data_ISortExpressionWithPropertyTypeCallback$2 = function(T, TReturn) {
+		var $type = function() {
+		};
+		$type.prototype = { callback: null };
+		ss.registerGenericInterfaceInstance($type, $MorseCode_CsJs_Common_Data_ISortExpressionWithPropertyTypeCallback$2, [T, TReturn], function() {
+			return [];
+		});
+		return $type;
+	};
+	ss.registerGenericInterface(global, 'MorseCode.CsJs.Common.Data.ISortExpressionWithPropertyTypeCallback$2', $MorseCode_CsJs_Common_Data_ISortExpressionWithPropertyTypeCallback$2, 2);
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.Data.SortDirection
+	var $MorseCode_CsJs_Common_Data_SortDirection = function() {
+	};
+	$MorseCode_CsJs_Common_Data_SortDirection.prototype = { ascending: 0, descending: 1 };
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.Data.SortExpressionFactory
+	var $MorseCode_CsJs_Common_Data_SortExpressionFactory$1 = function(T) {
+		var $type = function() {
+		};
+		$type.createSortExpression$1 = function(TProperty) {
+			return function(propertyExpression, sortDirection) {
+				return $type.createSortExpression(TProperty).call(null, ss.makeGenericType($MorseCode_CsJs_Common_Property_PropertyExpressionFactory$1, [T]).createPropertyExpression(ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [TProperty])).call(null, propertyExpression), sortDirection);
+			};
+		};
+		$type.createSortExpression = function(TProperty) {
+			return function(propertyExpression, sortDirection) {
+				return new (ss.makeGenericType($MorseCode_CsJs_Common_Data_$SortExpression$2, [T, TProperty]))(propertyExpression, sortDirection);
+			};
+		};
+		$type.createSortExpression$2 = function(context, propertyExpression, sortDirection) {
+			var property = propertyExpression.getProperty$1(context);
+			return property.executeWithPropertyType(ss.makeGenericType($MorseCode_CsJs_Common_Data_ISortExpression$1, [T])).call(property, new (ss.makeGenericType($MorseCode_$CsJs_Common_Data_SortExpressionFactory$1$CreateSortExpressionCallback, [T]))(property, propertyExpression, sortDirection));
+		};
+		ss.registerGenericClassInstance($type, $MorseCode_CsJs_Common_Data_SortExpressionFactory$1, [T], function() {
+			return null;
+		}, function() {
+			return [];
+		});
+		return $type;
+	};
+	ss.registerGenericClass(global, 'MorseCode.CsJs.Common.Data.SortExpressionFactory$1', $MorseCode_CsJs_Common_Data_SortExpressionFactory$1, 1);
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.Data.SortExpressionWithPropertyTypeCallbackBase
+	var $MorseCode_CsJs_Common_Data_SortExpressionWithPropertyTypeCallbackBase$2 = function(T, TReturn) {
+		var $type = function(sortExpression) {
+			ss.makeGenericType($MorseCode_CsJs_Common_AssociatedTypeCallbackBase$1, [ss.makeGenericType($MorseCode_CsJs_Common_Data_ISortExpression$1, [T])]).call(this, sortExpression);
+		};
+		$type.prototype = {
+			callback: function(TProperty) {
+				return function(sortExpression) {
+					this.checkCallbackObject(ss.makeGenericType($MorseCode_CsJs_Common_Data_ISortExpression$2, [T, TProperty])).call(this, sortExpression);
+					return this.execute(TProperty).call(this, sortExpression);
+				};
+			},
+			execute: null
+		};
+		ss.registerGenericClassInstance($type, $MorseCode_CsJs_Common_Data_SortExpressionWithPropertyTypeCallbackBase$2, [T, TReturn], function() {
+			return ss.makeGenericType($MorseCode_CsJs_Common_AssociatedTypeCallbackBase$1, [ss.makeGenericType($MorseCode_CsJs_Common_Data_ISortExpression$1, [T])]);
+		}, function() {
+			return [ss.makeGenericType($MorseCode_CsJs_Common_Data_ISortExpressionWithPropertyTypeCallback$2, [T, TReturn])];
+		});
+		return $type;
+	};
+	ss.registerGenericClass(global, 'MorseCode.CsJs.Common.Data.SortExpressionWithPropertyTypeCallbackBase$2', $MorseCode_CsJs_Common_Data_SortExpressionWithPropertyTypeCallbackBase$2, 2);
+	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Common.Observable.AsyncCalculatedProperty
 	var $MorseCode_CsJs_Common_Observable_AsyncCalculatedProperty$1 = function(T) {
 		var $type = function(observables, calculatePropertyValue) {
@@ -365,7 +627,7 @@
 		ss.registerGenericClassInstance($type, $MorseCode_CsJs_Common_Observable_AsyncCalculatedProperty$1, [T], function() {
 			return ss.makeGenericType($MorseCode_CsJs_Common_Observable_ObservablePropertyBase$1, [T]);
 		}, function() {
-			return [ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), $MorseCode_CsJs_Common_Observable_IObservable, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, [T])];
+			return [$MorseCode_CsJs_Common_Observable_IReadableProperty, $MorseCode_CsJs_Common_Observable_IObservable, $MorseCode_CsJs_Common_Observable_IReadableObservableProperty, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, [T])];
 		});
 		return $type;
 	};
@@ -416,7 +678,7 @@
 		ss.registerGenericClassInstance($type, $MorseCode_CsJs_Common_Observable_CalculatedProperty$1, [T], function() {
 			return ss.makeGenericType($MorseCode_CsJs_Common_Observable_ObservablePropertyBase$1, [T]);
 		}, function() {
-			return [ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), $MorseCode_CsJs_Common_Observable_IObservable, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, [T])];
+			return [$MorseCode_CsJs_Common_Observable_IReadableProperty, $MorseCode_CsJs_Common_Observable_IObservable, $MorseCode_CsJs_Common_Observable_IReadableObservableProperty, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, [T])];
 		});
 		return $type;
 	};
@@ -431,6 +693,7 @@
 	var $MorseCode_CsJs_Common_Observable_IObservableCollection$1 = function(T) {
 		var $type = function() {
 		};
+		$type.prototype = { executeWhileBatchingChangeEvents: null };
 		ss.registerGenericInterfaceInstance($type, $MorseCode_CsJs_Common_Observable_IObservableCollection$1, [T], function() {
 			return [ss.IEnumerable, ss.IEnumerable, ss.ICollection, ss.IList, $MorseCode_CsJs_Common_Observable_IObservable];
 		});
@@ -443,7 +706,7 @@
 		var $type = function() {
 		};
 		ss.registerGenericInterfaceInstance($type, $MorseCode_CsJs_Common_Observable_IObservableProperty$1, [T], function() {
-			return [ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), $MorseCode_CsJs_Common_Observable_IObservable, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IWritableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IProperty$1, [T])];
+			return [$MorseCode_CsJs_Common_Observable_IReadableProperty, $MorseCode_CsJs_Common_Observable_IObservable, $MorseCode_CsJs_Common_Observable_IReadableObservableProperty, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IWritableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IProperty$1, [T])];
 		});
 		return $type;
 	};
@@ -453,43 +716,64 @@
 	var $MorseCode_CsJs_Common_Observable_IProperty$1 = function(T) {
 		var $type = function() {
 		};
-		$type.prototype = { get_value$1: null, set_value$1: null };
+		$type.prototype = { get_value$2: null, set_value$1: null };
 		ss.registerGenericInterfaceInstance($type, $MorseCode_CsJs_Common_Observable_IProperty$1, [T], function() {
-			return [ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IWritableProperty$1, [T])];
+			return [$MorseCode_CsJs_Common_Observable_IReadableProperty, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IWritableProperty$1, [T])];
 		});
 		return $type;
 	};
 	ss.registerGenericInterface(global, 'MorseCode.CsJs.Common.Observable.IProperty$1', $MorseCode_CsJs_Common_Observable_IProperty$1, 1);
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Common.Observable.IReadableObservableProperty
+	var $MorseCode_CsJs_Common_Observable_IReadableObservableProperty = function() {
+	};
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.Observable.IReadableObservableProperty
 	var $MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1 = function(T) {
 		var $type = function() {
 		};
 		ss.registerGenericInterfaceInstance($type, $MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, [T], function() {
-			return [ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), $MorseCode_CsJs_Common_Observable_IObservable];
+			return [$MorseCode_CsJs_Common_Observable_IReadableProperty, $MorseCode_CsJs_Common_Observable_IObservable, $MorseCode_CsJs_Common_Observable_IReadableObservableProperty, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T])];
 		});
 		return $type;
 	};
 	ss.registerGenericInterface(global, 'MorseCode.CsJs.Common.Observable.IReadableObservableProperty$1', $MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, 1);
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Common.Observable.IReadableProperty
+	var $MorseCode_CsJs_Common_Observable_IReadableProperty = function() {
+	};
+	$MorseCode_CsJs_Common_Observable_IReadableProperty.prototype = { get_value: null, executeWithPropertyType: null };
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.Observable.IReadableProperty
 	var $MorseCode_CsJs_Common_Observable_IReadableProperty$1 = function(T) {
 		var $type = function() {
 		};
-		$type.prototype = { get_value: null };
+		$type.prototype = { get_value$1: null };
 		ss.registerGenericInterfaceInstance($type, $MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T], function() {
-			return [];
+			return [$MorseCode_CsJs_Common_Observable_IReadableProperty];
 		});
 		return $type;
 	};
 	ss.registerGenericInterface(global, 'MorseCode.CsJs.Common.Observable.IReadableProperty$1', $MorseCode_CsJs_Common_Observable_IReadableProperty$1, 1);
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.Observable.IReadablePropertyWithPropertyTypeCallback
+	var $MorseCode_CsJs_Common_Observable_IReadablePropertyWithPropertyTypeCallback$1 = function(TReturn) {
+		var $type = function() {
+		};
+		$type.prototype = { callback: null };
+		ss.registerGenericInterfaceInstance($type, $MorseCode_CsJs_Common_Observable_IReadablePropertyWithPropertyTypeCallback$1, [TReturn], function() {
+			return [];
+		});
+		return $type;
+	};
+	ss.registerGenericInterface(global, 'MorseCode.CsJs.Common.Observable.IReadablePropertyWithPropertyTypeCallback$1', $MorseCode_CsJs_Common_Observable_IReadablePropertyWithPropertyTypeCallback$1, 1);
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Common.Observable.IReadOnlyProperty
 	var $MorseCode_CsJs_Common_Observable_IReadOnlyProperty$1 = function(T) {
 		var $type = function() {
 		};
 		ss.registerGenericInterfaceInstance($type, $MorseCode_CsJs_Common_Observable_IReadOnlyProperty$1, [T], function() {
-			return [ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), $MorseCode_CsJs_Common_Observable_IObservable, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, [T])];
+			return [$MorseCode_CsJs_Common_Observable_IReadableProperty, $MorseCode_CsJs_Common_Observable_IObservable, $MorseCode_CsJs_Common_Observable_IReadableObservableProperty, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, [T])];
 		});
 		return $type;
 	};
@@ -511,6 +795,9 @@
 	var $MorseCode_CsJs_Common_Observable_ObservableCollection$1 = function(T) {
 		var $type = function() {
 			this.$_items = null;
+			this.$_bulkOperationCount = 0;
+			this.$_bulkOldItems = [];
+			this.$_queuedChangeEvents = [];
 			this.$1$BeforeChangedField = null;
 			this.$1$ChangedField = null;
 			this.$_items = [];
@@ -522,15 +809,13 @@
 			insert: function(index, item) {
 				this.onBeforeChanged();
 				ss.insert(this.$_items, index, item);
-				this.onItemAdded(item);
-				this.onChanged();
+				this.$onItemAddedInternal(item);
 			},
 			removeAt: function(index) {
 				var item = this.$_items[index];
 				this.onBeforeChanged();
 				ss.removeAt(this.$_items, index);
-				this.onItemRemoved(item);
-				this.onChanged();
+				this.$onItemRemovedInternal(item);
 			},
 			get_item: function(index) {
 				return this.$_items[index];
@@ -538,29 +823,28 @@
 			set_item: function(index, value) {
 				if (!ss.referenceEquals(value, this.$_items[index])) {
 					this.onBeforeChanged();
+					var item = this.$_items[index];
 					this.$_items[index] = value;
-					this.onChanged();
+					this.$onItemChangedInternal(item, value);
 				}
 			},
 			add: function(item) {
 				this.onBeforeChanged();
 				ss.add(this.$_items, item);
-				this.onItemAdded(item);
-				this.onChanged();
+				this.$onItemAddedInternal(item);
 			},
 			addRange: function(items) {
+				var oldItems = Enumerable.from(this.$_items).toArray();
 				var itemsToAdd = Enumerable.from(items).toArray();
 				this.onBeforeChanged();
 				ss.arrayAddRange(this.$_items, itemsToAdd);
-				itemsToAdd.forEach(ss.mkdel(this, this.onItemAdded));
-				this.onChanged();
+				this.$onItemsResetInternal(oldItems, this.$_items);
 			},
 			clear: function() {
 				var oldItems = Enumerable.from(this.$_items).toArray();
 				this.onBeforeChanged();
 				ss.clear(this.$_items);
-				this.onItemsReset(oldItems, this.$_items);
-				this.onChanged();
+				this.$onItemsResetInternal(oldItems, this.$_items);
 			},
 			contains: function(item) {
 				return ss.contains(this.$_items, item);
@@ -571,16 +855,68 @@
 			remove: function(item) {
 				this.onBeforeChanged();
 				var removed = ss.remove(this.$_items, item);
-				this.onItemRemoved(item);
-				this.onChanged();
+				this.$onItemRemovedInternal(item);
 				return removed;
+			},
+			executeWhileBatchingChangeEvents: function(action) {
+				if (this.$_bulkOperationCount === 0) {
+					ss.arrayAddRange(this.$_bulkOldItems, this.$_items);
+				}
+				this.$_bulkOperationCount++;
+				action();
+				this.$_bulkOperationCount--;
+				if (this.$_bulkOperationCount === 0) {
+					var oldItems = Enumerable.from(this.$_bulkOldItems).toArray();
+					ss.clear(this.$_bulkOldItems);
+					if (this.$_queuedChangeEvents.length === 1) {
+						this.$_queuedChangeEvents[0]();
+					}
+					else if (this.$_queuedChangeEvents.length > 1) {
+						this.$onItemsResetInternal(oldItems, this.$_items);
+					}
+					ss.clear(this.$_queuedChangeEvents);
+				}
 			},
 			getEnumerator: function() {
 				return ss.getEnumerator(this.$_items);
 			},
+			$fireChangeEvent: function(action) {
+				if (this.$_bulkOperationCount > 0) {
+					ss.add(this.$_queuedChangeEvents, action);
+				}
+				else {
+					action();
+				}
+			},
+			$onItemAddedInternal: function(item) {
+				this.$fireChangeEvent(ss.mkdel(this, function() {
+					this.onItemAdded(item);
+					this.onChanged();
+				}));
+			},
 			onItemAdded: function(item) {
 			},
+			$onItemRemovedInternal: function(item) {
+				this.$fireChangeEvent(ss.mkdel(this, function() {
+					this.onItemRemoved(item);
+					this.onChanged();
+				}));
+			},
 			onItemRemoved: function(item) {
+			},
+			$onItemChangedInternal: function(oldItem, newItem) {
+				this.$fireChangeEvent(ss.mkdel(this, function() {
+					this.onItemsChanged(oldItem, newItem);
+					this.onChanged();
+				}));
+			},
+			onItemsChanged: function(oldItem, newItem) {
+			},
+			$onItemsResetInternal: function(oldItems, newItems) {
+				this.$fireChangeEvent(ss.mkdel(this, function() {
+					this.onItemsReset(oldItems, newItems);
+					this.onChanged();
+				}));
 			},
 			onItemsReset: function(oldItems, newItems) {
 			},
@@ -609,6 +945,9 @@
 		};
 		$type.$ctor1 = function(items) {
 			this.$_items = null;
+			this.$_bulkOperationCount = 0;
+			this.$_bulkOldItems = [];
+			this.$_queuedChangeEvents = [];
 			this.$1$BeforeChangedField = null;
 			this.$1$ChangedField = null;
 			this.$_items = ss.arrayFromEnumerable(items);
@@ -629,7 +968,7 @@
 			ss.makeGenericType($MorseCode_CsJs_Common_Observable_ObservablePropertyBase$1, [T]).call(this);
 		};
 		$type.prototype = {
-			get_value$1: function() {
+			get_value$2: function() {
 				return this.getValue();
 			},
 			set_value$1: function(value) {
@@ -637,6 +976,9 @@
 			},
 			set_value: function(value) {
 				this.setValue(value);
+			},
+			get_value$1: function() {
+				return this.getValue();
 			},
 			get_value: function() {
 				return this.getValue();
@@ -653,7 +995,7 @@
 		ss.registerGenericClassInstance($type, $MorseCode_CsJs_Common_Observable_ObservableProperty$1, [T], function() {
 			return ss.makeGenericType($MorseCode_CsJs_Common_Observable_ObservablePropertyBase$1, [T]);
 		}, function() {
-			return [ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), $MorseCode_CsJs_Common_Observable_IObservable, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IWritableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IObservableProperty$1, [T])];
+			return [$MorseCode_CsJs_Common_Observable_IReadableProperty, $MorseCode_CsJs_Common_Observable_IObservable, $MorseCode_CsJs_Common_Observable_IReadableObservableProperty, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IWritableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IObservableProperty$1, [T])];
 		});
 		return $type;
 	};
@@ -667,8 +1009,16 @@
 			this.$1$ChangedField = null;
 		};
 		$type.prototype = {
-			get_value: function() {
+			get_value$1: function() {
 				return this.getValue();
+			},
+			executeWithPropertyType: function(TReturn) {
+				return function(callback) {
+					return callback.callback(T).call(callback, this);
+				};
+			},
+			get_value: function() {
+				return this.get_value$1();
 			},
 			getValue: function() {
 				return this.$_value;
@@ -706,17 +1056,40 @@
 				}
 			},
 			toString: function() {
-				return (ss.referenceEquals(this.get_value(), null) ? null : this.get_value().toString());
+				return (ss.referenceEquals(this.get_value$1(), null) ? null : this.get_value$1().toString());
 			}
 		};
 		ss.registerGenericClassInstance($type, $MorseCode_CsJs_Common_Observable_ObservablePropertyBase$1, [T], function() {
 			return null;
 		}, function() {
-			return [ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), $MorseCode_CsJs_Common_Observable_IObservable, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, [T])];
+			return [$MorseCode_CsJs_Common_Observable_IReadableProperty, $MorseCode_CsJs_Common_Observable_IObservable, $MorseCode_CsJs_Common_Observable_IReadableObservableProperty, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, [T])];
 		});
 		return $type;
 	};
 	ss.registerGenericClass(global, 'MorseCode.CsJs.Common.Observable.ObservablePropertyBase$1', $MorseCode_CsJs_Common_Observable_ObservablePropertyBase$1, 1);
+	////////////////////////////////////////////////////////////////////////////////
+	// MorseCode.CsJs.Common.Observable.ReadablePropertyWithPropertyTypeCallbackBase
+	var $MorseCode_CsJs_Common_Observable_ReadablePropertyWithPropertyTypeCallbackBase$1 = function(TReturn) {
+		var $type = function(property) {
+			ss.makeGenericType($MorseCode_CsJs_Common_AssociatedTypeCallbackBase$1, [$MorseCode_CsJs_Common_Observable_IReadableProperty]).call(this, property);
+		};
+		$type.prototype = {
+			callback: function(TProperty) {
+				return function(property) {
+					this.checkCallbackObject(ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [TProperty])).call(this, property);
+					return this.execute(TProperty).call(this, property);
+				};
+			},
+			execute: null
+		};
+		ss.registerGenericClassInstance($type, $MorseCode_CsJs_Common_Observable_ReadablePropertyWithPropertyTypeCallbackBase$1, [TReturn], function() {
+			return ss.makeGenericType($MorseCode_CsJs_Common_AssociatedTypeCallbackBase$1, [$MorseCode_CsJs_Common_Observable_IReadableProperty]);
+		}, function() {
+			return [ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadablePropertyWithPropertyTypeCallback$1, [TReturn])];
+		});
+		return $type;
+	};
+	ss.registerGenericClass(global, 'MorseCode.CsJs.Common.Observable.ReadablePropertyWithPropertyTypeCallbackBase$1', $MorseCode_CsJs_Common_Observable_ReadablePropertyWithPropertyTypeCallbackBase$1, 1);
 	////////////////////////////////////////////////////////////////////////////////
 	// MorseCode.CsJs.Common.Observable.ReadOnlyProperty
 	var $MorseCode_CsJs_Common_Observable_ReadOnlyProperty$1 = function(T) {
@@ -727,7 +1100,7 @@
 		ss.registerGenericClassInstance($type, $MorseCode_CsJs_Common_Observable_ReadOnlyProperty$1, [T], function() {
 			return ss.makeGenericType($MorseCode_CsJs_Common_Observable_ObservablePropertyBase$1, [T]);
 		}, function() {
-			return [ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), $MorseCode_CsJs_Common_Observable_IObservable, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadOnlyProperty$1, [T])];
+			return [$MorseCode_CsJs_Common_Observable_IReadableProperty, $MorseCode_CsJs_Common_Observable_IObservable, $MorseCode_CsJs_Common_Observable_IReadableObservableProperty, ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadableObservableProperty$1, [T]), ss.makeGenericType($MorseCode_CsJs_Common_Observable_IReadOnlyProperty$1, [T])];
 		});
 		return $type;
 	};
@@ -742,6 +1115,7 @@
 	var $MorseCode_CsJs_Common_Property_IPropertyExpression$1 = function(T) {
 		var $type = function() {
 		};
+		$type.prototype = { getProperty: null };
 		ss.registerGenericInterfaceInstance($type, $MorseCode_CsJs_Common_Property_IPropertyExpression$1, [T], function() {
 			return [$MorseCode_CsJs_Common_Property_IPropertyExpression];
 		});
@@ -753,7 +1127,7 @@
 	var $MorseCode_CsJs_Common_Property_IPropertyExpression$2 = function(T, TProperty) {
 		var $type = function() {
 		};
-		$type.prototype = { getProperty: null };
+		$type.prototype = { getProperty$1: null };
 		ss.registerGenericInterfaceInstance($type, $MorseCode_CsJs_Common_Property_IPropertyExpression$2, [T, TProperty], function() {
 			return [$MorseCode_CsJs_Common_Property_IPropertyExpression, ss.makeGenericType($MorseCode_CsJs_Common_Property_IPropertyExpression$1, [T])];
 		});
@@ -774,6 +1148,9 @@
 				return this.$_propertyName;
 			},
 			getProperty: function(item) {
+				return this.getProperty$1(item);
+			},
+			getProperty$1: function(item) {
 				return this.$_getProperty(item);
 			}
 		};
@@ -831,6 +1208,7 @@
 		ss.Exception.call(this, message, innerException);
 	};
 	$System_NotImplementedException.$ctor1.prototype = $System_NotImplementedException.$ctor2.prototype = $System_NotImplementedException.prototype;
+	ss.registerClass(global, 'MorseCode.CsJs.Common.EnumerableExtensionMethods', $MorseCode_CsJs_Common_EnumerableExtensionMethods);
 	ss.registerClass(global, 'MorseCode.CsJs.Common.FrameworkUtility', $MorseCode_CsJs_Common_FrameworkUtility);
 	ss.registerInterface(global, 'MorseCode.CsJs.Common.ITimer', $MorseCode_CsJs_Common_ITimer);
 	ss.registerInterface(global, 'MorseCode.CsJs.Common.ITimerFactory', $MorseCode_CsJs_Common_ITimerFactory);
@@ -838,10 +1216,17 @@
 	ss.registerClass(global, 'MorseCode.CsJs.Common.TimerFactory', $MorseCode_CsJs_Common_TimerFactory);
 	ss.registerClass(global, 'MorseCode.CsJs.Common.UnhandledEnumValueException', $MorseCode_CsJs_Common_UnhandledEnumValueException, ss.Exception);
 	ss.registerClass(global, 'MorseCode.CsJs.Common.UnhandledEnumValueExceptionFactory', $MorseCode_CsJs_Common_UnhandledEnumValueExceptionFactory);
+	ss.registerClass(global, 'MorseCode.CsJs.Common.VoidType', $MorseCode_CsJs_Common_VoidType);
+	ss.registerClass(global, 'MorseCode.CsJs.Common.Data.EnumerableSortExpressionUtility', $MorseCode_CsJs_Common_Data_EnumerableSortExpressionUtility);
+	ss.registerInterface(global, 'MorseCode.CsJs.Common.Data.ISortExpression', $MorseCode_CsJs_Common_Data_ISortExpression);
+	ss.registerEnum(global, 'MorseCode.CsJs.Common.Data.SortDirection', $MorseCode_CsJs_Common_Data_SortDirection);
 	ss.registerInterface(global, 'MorseCode.CsJs.Common.Observable.IObservable', $MorseCode_CsJs_Common_Observable_IObservable);
+	ss.registerInterface(global, 'MorseCode.CsJs.Common.Observable.IReadableProperty', $MorseCode_CsJs_Common_Observable_IReadableProperty);
+	ss.registerInterface(global, 'MorseCode.CsJs.Common.Observable.IReadableObservableProperty', $MorseCode_CsJs_Common_Observable_IReadableObservableProperty, [$MorseCode_CsJs_Common_Observable_IReadableProperty, $MorseCode_CsJs_Common_Observable_IObservable]);
 	ss.registerInterface(global, 'MorseCode.CsJs.Common.Property.IPropertyExpression', $MorseCode_CsJs_Common_Property_IPropertyExpression);
 	ss.registerClass(global, 'System.InvalidOperationException', $System_InvalidOperationException, ss.Exception);
 	ss.registerClass(global, 'System.NotImplementedException', $System_NotImplementedException, ss.Exception);
 	$MorseCode_CsJs_Common_StringUtility.$keyString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
 	$MorseCode_CsJs_Common_TimerFactory.$_instance = null;
+	$MorseCode_CsJs_Common_VoidType.$value = new $MorseCode_CsJs_Common_VoidType();
 })();

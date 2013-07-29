@@ -224,6 +224,11 @@ namespace MorseCode.CsJs.UI.Controls
             _bindings.Add(binding);
         }
 
+		protected void RemoveBinding(IBinding binding)
+		{
+			_bindings.Remove(binding);
+		}
+
         protected void EnsureUnbound(IBinding binding)
         {
             if (binding != null)

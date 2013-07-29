@@ -42,6 +42,7 @@
     <Compile Include="CalculatorViewModel.cs" />
     <Compile Include="CalculatorViewModelBase.cs" />
     <Compile Include="CalculatorPageViewModel.cs" />
+    <Compile Include="QueryableGridPageViewModel.cs" />
     <Compile Include="GridPageViewModel.cs" />
     <Compile Include="ICalculatorViewModel.cs" />
     <Compile Include="IWebServiceClientFactory.cs" />

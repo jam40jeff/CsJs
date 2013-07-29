@@ -4,6 +4,7 @@ namespace MorseCode.CsJs.UI.Controls.Grid
 {
     public interface IGridColumn
     {
+        string UniqueName { get; set; }
         string HeaderText { get; set; }
     }
 

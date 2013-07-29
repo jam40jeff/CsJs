@@ -40,7 +40,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="ApplicationViewModelBase.cs" />
+    <Compile Include="Grid\ColumnSortExpressionFactory.cs" />
+    <Compile Include="Grid\IColumnSortExpression.cs" />
+    <Compile Include="Grid\IQueryableData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Grid\QueryableData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\MorseCode.snk">

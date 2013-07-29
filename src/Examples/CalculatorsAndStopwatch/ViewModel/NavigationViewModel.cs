@@ -28,6 +28,10 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel
             }
             else if (currentViewModelType == typeof(GridPageViewModel))
             {
+                _applicationViewModel.NavigateToQueryableGridPage();
+            }
+            else if (currentViewModelType == typeof(QueryableGridPageViewModel))
+            {
                 _applicationViewModel.NavigateToCalculatorsAndStopwatchPage();
             }
         }
