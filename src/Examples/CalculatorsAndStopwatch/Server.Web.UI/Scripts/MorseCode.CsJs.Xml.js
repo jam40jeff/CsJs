@@ -168,7 +168,8 @@
 			$MorseCode_CsJs_Xml_Schema_XmlSchemaParser.$findTargetSchemaNode(document, elementNode, schemaNode, rawTypeName, typeSchemaNode, typeReference);
 			if (typesByName.containsKey(typeReference.$)) {
 				existingType = typesByName.get_item(typeReference.$);
-			} else {
+			}
+			else {
 				addTypeByName = ss.mkdel({ typeReference: typeReference }, function(t) {
 					typesByName.add(this.typeReference.$, t);
 				});
@@ -176,7 +177,8 @@
 					var complexTypeNodes = $MorseCode_CsJs_Xml_XPath_XPath.evaluate$3(typeSchemaNode.$, "./xs:complexType[@name='" + typeReference.$.get_$name() + "']", $MorseCode_CsJs_Xml_Schema_XmlSchemaParser.$resolveNamespace);
 					if (complexTypeNodes.length === 1) {
 						complexTypeNode = complexTypeNodes[0];
-					} else {
+					}
+					else {
 						var simpleTypeNodes = $MorseCode_CsJs_Xml_XPath_XPath.evaluate$3(typeSchemaNode.$, "./xs:simpleType[@name='" + typeReference.$.get_$name() + "']", $MorseCode_CsJs_Xml_Schema_XmlSchemaParser.$resolveNamespace);
 						if (simpleTypeNodes.length === 1) {
 							simpleTypeNode = simpleTypeNodes[0];
@@ -184,12 +186,14 @@
 					}
 				}
 			}
-		} else {
+		}
+		else {
 			typeSchemaNode.$ = schemaNode;
 			var complexTypeNodes1 = $MorseCode_CsJs_Xml_XPath_XPath.evaluate$3(elementNode, './xs:complexType', $MorseCode_CsJs_Xml_Schema_XmlSchemaParser.$resolveNamespace);
 			if (complexTypeNodes1.length === 1) {
 				complexTypeNode = complexTypeNodes1[0];
-			} else {
+			}
+			else {
 				var simpleTypeNodes1 = $MorseCode_CsJs_Xml_XPath_XPath.evaluate$3(elementNode, './xs:simpleType', $MorseCode_CsJs_Xml_Schema_XmlSchemaParser.$resolveNamespace);
 				if (simpleTypeNodes1.length === 1) {
 					simpleTypeNode = simpleTypeNodes1[0];
@@ -204,7 +208,8 @@
 		if (ss.isValue(maxOccursAttribute)) {
 			if (maxOccursAttribute.nodeValue === 'unbounded') {
 				elementDefinition.set_isArray(true);
-			} else {
+			}
+			else {
 				var maxOccurs = MorseCode.CsJs.Common.FrameworkUtility.intTryParse(maxOccursAttribute.nodeValue);
 				if (ss.Nullable$1.ne(maxOccurs, null) && ss.Nullable$1.gt(maxOccurs, 0)) {
 					elementDefinition.set_isArray(true);
@@ -236,114 +241,92 @@
 		if (ss.isValue(rawTypeName)) {
 			var type;
 			switch (rawTypeName) {
-			case 'xs:anyType':
-				{
+				case 'xs:anyType': {
 					type = 0;
 					break;
 				}
-			case 'xs:anyURI':
-				{
+				case 'xs:anyURI': {
 					type = 1;
 					break;
 				}
-			case 'xs:base64Binary':
-				{
+				case 'xs:base64Binary': {
 					type = 2;
 					break;
 				}
-			case 'xs:boolean':
-				{
+				case 'xs:boolean': {
 					type = 3;
 					break;
 				}
-			case 'xs:byte':
-				{
+				case 'xs:byte': {
 					type = 4;
 					break;
 				}
-			case 'xs:dateTime':
-				{
+				case 'xs:dateTime': {
 					type = 5;
 					break;
 				}
-			case 'xs:decimal':
-				{
+				case 'xs:decimal': {
 					type = 6;
 					break;
 				}
-			case 'xs:double':
-				{
+				case 'xs:double': {
 					type = 7;
 					break;
 				}
-			case 'xs:float':
-				{
+				case 'xs:float': {
 					type = 8;
 					break;
 				}
-			case 'xs:int':
-				{
+				case 'xs:int': {
 					type = 9;
 					break;
 				}
-			case 'xs:long':
-				{
+				case 'xs:long': {
 					type = 10;
 					break;
 				}
-			case 'xs:QName':
-				{
+				case 'xs:QName': {
 					type = 11;
 					break;
 				}
-			case 'xs:short':
-				{
+				case 'xs:short': {
 					type = 12;
 					break;
 				}
-			case 'xs:string':
-				{
+				case 'xs:string': {
 					type = 13;
 					break;
 				}
-			case 'xs:unsignedByte':
-				{
+				case 'xs:unsignedByte': {
 					type = 14;
 					break;
 				}
-			case 'xs:unsignedInt':
-				{
+				case 'xs:unsignedInt': {
 					type = 15;
 					break;
 				}
-			case 'xs:unsignedLong':
-				{
+				case 'xs:unsignedLong': {
 					type = 16;
 					break;
 				}
-			case 'xs:unsignedShort':
-				{
+				case 'xs:unsignedShort': {
 					type = 17;
 					break;
 				}
-			case 'tns:char':
-				{
+				case 'tns:char': {
 					type = 18;
 					break;
 				}
-			case 'tns:duration':
-			case 'xs:duration':
-				{
+				case 'tns:duration':
+				case 'xs:duration': {
 					type = 19;
 					break;
 				}
-			case 'tns:guid':
-				{
+				case 'tns:guid': {
 					type = 20;
 					break;
 				}
-			default:
-				{
+				default: {
 					type = null;
 					break;
 				}
@@ -389,11 +372,13 @@
 			typeName = typeParts[1];
 			var targetSchemaNodes = $MorseCode_CsJs_Xml_XPath_XPath.evaluate$3(document, ".//xs:schema[@targetNamespace='" + typeTargetNamespace + "']", $MorseCode_CsJs_Xml_Schema_XmlSchemaParser.$resolveNamespace);
 			targetSchemaNode.$ = targetSchemaNodes[0];
-		} else if (typeParts.length === 1) {
+		}
+		else if (typeParts.length === 1) {
 			typeTargetNamespace = thisSchemaNode.attributes.getNamedItem('targetNamespace').nodeValue;
 			typeName = typeParts[0];
 			targetSchemaNode.$ = thisSchemaNode;
-		} else {
+		}
+		else {
 			throw new ss.InvalidOperationException('Could not find target schema node for type ' + rawTypeName + '.');
 		}
 		typeReference.$ = new $MorseCode_$CsJs_Xml_Schema_XmlSchemaParser$TypeReference(typeTargetNamespace, typeName);

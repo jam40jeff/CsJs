@@ -13,16 +13,16 @@
 			this.$_columnUniqueName = columnUniqueName;
 		};
 		ss.registerGenericClassInstance($type, $MorseCode_$CsJs_ViewModel_Grid_ColumnSortExpressionFactory$1$CreateColumnSortExpressionCallback, [T], {
-				execute: function(TProperty) {
-					return function(sortExpression) {
-						return new (ss.makeGenericType($MorseCode_CsJs_ViewModel_Grid_$ColumnSortExpression$2, [T, TProperty]))(this.$_columnUniqueName, sortExpression);
-					};
-				}
-			}, function() {
-				return ss.makeGenericType(MorseCode.CsJs.Common.Data.SortExpressionWithPropertyTypeCallbackBase$2, [T, ss.makeGenericType($MorseCode_CsJs_ViewModel_Grid_IColumnSortExpression$1, [T])]);
-			}, function() {
-				return [ss.makeGenericType(MorseCode.CsJs.Common.Data.ISortExpressionWithPropertyTypeCallback$2, [T, ss.makeGenericType($MorseCode_CsJs_ViewModel_Grid_IColumnSortExpression$1, [T])])];
-			});
+			execute: function(TProperty) {
+				return function(sortExpression) {
+					return new (ss.makeGenericType($MorseCode_CsJs_ViewModel_Grid_$ColumnSortExpression$2, [T, TProperty]))(this.$_columnUniqueName, sortExpression);
+				};
+			}
+		}, function() {
+			return ss.makeGenericType(MorseCode.CsJs.Common.Data.SortExpressionWithPropertyTypeCallbackBase$2, [T, ss.makeGenericType($MorseCode_CsJs_ViewModel_Grid_IColumnSortExpression$1, [T])]);
+		}, function() {
+			return [ss.makeGenericType(MorseCode.CsJs.Common.Data.ISortExpressionWithPropertyTypeCallback$2, [T, ss.makeGenericType($MorseCode_CsJs_ViewModel_Grid_IColumnSortExpression$1, [T])])];
+		});
 		return $type;
 	};
 	$MorseCode_$CsJs_ViewModel_Grid_ColumnSortExpressionFactory$1$CreateColumnSortExpressionCallback.__typeName = 'MorseCode.$CsJs.ViewModel.Grid.ColumnSortExpressionFactory$1$CreateColumnSortExpressionCallback';
@@ -44,23 +44,23 @@
 			this.$_sortExpression = sortExpression;
 		};
 		ss.registerGenericClassInstance($type, $MorseCode_CsJs_ViewModel_Grid_$ColumnSortExpression$2, [T, TProperty], {
-				get_columnUniqueName: function() {
-					return this.$_columnUniqueName;
-				},
-				get_sortExpression$2: function() {
-					return this.$_sortExpression;
-				},
-				get_sortExpression$1: function() {
-					return this.get_sortExpression$2();
-				},
-				get_sortExpression: function() {
-					return this.get_sortExpression$2();
-				}
-			}, function() {
-				return null;
-			}, function() {
-				return [$MorseCode_CsJs_ViewModel_Grid_IColumnSortExpression, ss.makeGenericType($MorseCode_CsJs_ViewModel_Grid_IColumnSortExpression$1, [T]), ss.makeGenericType($MorseCode_CsJs_ViewModel_Grid_IColumnSortExpression$2, [T, TProperty])];
-			});
+			get_columnUniqueName: function() {
+				return this.$_columnUniqueName;
+			},
+			get_sortExpression$2: function() {
+				return this.$_sortExpression;
+			},
+			get_sortExpression$1: function() {
+				return this.get_sortExpression$2();
+			},
+			get_sortExpression: function() {
+				return this.get_sortExpression$2();
+			}
+		}, function() {
+			return null;
+		}, function() {
+			return [$MorseCode_CsJs_ViewModel_Grid_IColumnSortExpression, ss.makeGenericType($MorseCode_CsJs_ViewModel_Grid_IColumnSortExpression$1, [T]), ss.makeGenericType($MorseCode_CsJs_ViewModel_Grid_IColumnSortExpression$2, [T, TProperty])];
+		});
 		return $type;
 	};
 	$MorseCode_CsJs_ViewModel_Grid_$ColumnSortExpression$2.__typeName = 'MorseCode.CsJs.ViewModel.Grid.$ColumnSortExpression$2';
@@ -165,25 +165,25 @@
 			}));
 		};
 		ss.registerGenericClassInstance($type, $MorseCode_CsJs_ViewModel_Grid_QueryableData$1, [T], {
-				loadData: null,
-				execute: function() {
-					var data = this.loadData();
-					this.$_data.get_value$1().clear();
-					if (ss.isValue(data)) {
-						this.$_data.get_value$1().addRange(data);
-					}
-				},
-				get_data: function() {
-					return this.$_data;
-				},
-				get_columnSortExpressions: function() {
-					return this.$_columnSortExpressions;
+			loadData: null,
+			execute: function() {
+				var data = this.loadData();
+				this.$_data.get_value$1().clear();
+				if (ss.isValue(data)) {
+					this.$_data.get_value$1().addRange(data);
 				}
-			}, function() {
-				return null;
-			}, function() {
-				return [ss.makeGenericType($MorseCode_CsJs_ViewModel_Grid_IQueryableData$1, [T])];
-			});
+			},
+			get_data: function() {
+				return this.$_data;
+			},
+			get_columnSortExpressions: function() {
+				return this.$_columnSortExpressions;
+			}
+		}, function() {
+			return null;
+		}, function() {
+			return [ss.makeGenericType($MorseCode_CsJs_ViewModel_Grid_IQueryableData$1, [T])];
+		});
 		return $type;
 	};
 	$MorseCode_CsJs_ViewModel_Grid_QueryableData$1.__typeName = 'MorseCode.CsJs.ViewModel.Grid.QueryableData$1';

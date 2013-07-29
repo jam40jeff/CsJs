@@ -164,7 +164,8 @@
 			if (parametersElementNameParts.length === 2) {
 				parametersElementNamespace = MorseCode.CsJs.Xml.XPath.XPath.evaluate$3(wsdl, './/wsdl:definitions/@xmlns:' + parametersElementNameParts[0], this.$getNamespaceResolver(null))[0].nodeValue;
 				parametersElementName = parametersElementNameParts[1];
-			} else {
+			}
+			else {
 				parametersElementNamespace = MorseCode.CsJs.Xml.XPath.XPath.evaluate$3(wsdl, './/wsdl:definitions/@targetNamespace', this.$getNamespaceResolver(null))[0].nodeValue;
 				parametersElementName = parametersElementNameParts[0];
 			}
@@ -187,62 +188,56 @@
 			var simpleTypeDefinition = ss.safeCast(elementDefinition.get_type(), MorseCode.CsJs.Xml.Schema.IXmlSchemaSimpleTypeDefinition);
 			if (ss.isValue(simpleTypeDefinition)) {
 				switch (simpleTypeDefinition.get_type()) {
-				case 0:
-					{
+					case 0: {
 						xml += $MorseCode_$CsJs_Net_SoapClient$SoapClientInvocator.$encodeString(value.toString());
 						break;
 					}
-				case 1:
-				case 20:
-				case 11:
-				case 13:
-				case 21:
-					{
+					case 1:
+					case 20:
+					case 11:
+					case 13:
+					case 21: {
 						$MorseCode_$CsJs_Net_SoapClient$SoapClientInvocator.$ensureScriptType(elementDefinition.get_name(), value, 'string');
 						xml += $MorseCode_$CsJs_Net_SoapClient$SoapClientInvocator.$encodeString(value);
 						break;
 					}
-				case 2:
-					{
+					case 2: {
 						var scriptType = typeof(value);
 						if (scriptType === 'string') {
 							xml += MorseCode.CsJs.Common.StringUtility.toBase64$1(value);
-						} else {
+						}
+						else {
 							$MorseCode_$CsJs_Net_SoapClient$SoapClientInvocator.$ensureJsType(elementDefinition.get_name(), value, 'Array');
 							xml += MorseCode.CsJs.Common.StringUtility.toBase64(value);
 						}
 						break;
 					}
-				case 3:
-					{
+					case 3: {
 						$MorseCode_$CsJs_Net_SoapClient$SoapClientInvocator.$ensureScriptType(elementDefinition.get_name(), value, 'boolean');
 						xml += value.toString();
 						break;
 					}
-				case 18:
-					{
+					case 18: {
 						$MorseCode_$CsJs_Net_SoapClient$SoapClientInvocator.$ensureScriptType(elementDefinition.get_name(), value, 'number');
 						xml += $MorseCode_$CsJs_Net_SoapClient$SoapClientInvocator.$encodeString(String.fromCharCode(value));
 						break;
 					}
-				case 4:
-				case 6:
-				case 7:
-				case 8:
-				case 9:
-				case 10:
-				case 12:
-				case 14:
-				case 15:
-				case 16:
-				case 17:
-					{
+					case 4:
+					case 6:
+					case 7:
+					case 8:
+					case 9:
+					case 10:
+					case 12:
+					case 14:
+					case 15:
+					case 16:
+					case 17: {
 						$MorseCode_$CsJs_Net_SoapClient$SoapClientInvocator.$ensureScriptType(elementDefinition.get_name(), value, 'number');
 						xml += value.toString();
 						break;
 					}
-				case 5:
-					{
+					case 5: {
 						if (!ss.isInstanceOfType(value, Date)) {
 							$MorseCode_$CsJs_Net_SoapClient$SoapClientInvocator.$throwTypeException(elementDefinition.get_name(), value, Date);
 						}
@@ -261,8 +256,7 @@
 						xml += year + '-' + month + '-' + date + 'T' + hours + ':' + minutes + ':' + seconds + '.' + milliseconds + timezone;
 						break;
 					}
-				case 19:
-					{
+					case 19: {
 						if (!ss.isInstanceOfType(value, ss.TimeSpan)) {
 							$MorseCode_$CsJs_Net_SoapClient$SoapClientInvocator.$throwTypeException(elementDefinition.get_name(), value, ss.TimeSpan);
 						}
@@ -276,12 +270,12 @@
 						xml += (durationIsNegative ? '-' : '') + durationDays + 'DT' + durationHours + 'H' + durationMinutes + 'M' + durationSeconds + '.' + ss.padLeftString(durationMilliseconds.toString(), 3, 48) + 'S';
 						break;
 					}
-				default:
-					{
+					default: {
 						throw MorseCode.CsJs.Common.UnhandledEnumValueExceptionFactory.create(MorseCode.CsJs.Xml.Schema.XmlBuiltInSimpleType).call(null, simpleTypeDefinition.get_type());
 					}
 				}
-			} else {
+			}
+			else {
 				var complexTypeDefinition = ss.safeCast(elementDefinition.get_type(), MorseCode.CsJs.Xml.Schema.IXmlSchemaComplexTypeDefinition);
 				if (ss.isNullOrUndefined(complexTypeDefinition)) {
 					throw new ss.NotSupportedException('Unknown type for element definition: ' + ss.getTypeFullName(ss.getInstanceType(elementDefinition)));
@@ -296,7 +290,8 @@
 						prefix = namespacePrefixes.$getPrefixAndColon(elementDefinition.get_elementNamespace());
 						xml += '<' + prefix + elementDefinition.get_name() + '>';
 						arrayElementDefinition = complexTypeDefinition.get_elements()[0];
-					} else {
+					}
+					else {
 						arrayElementDefinition = elementDefinition;
 					}
 					for (var $t1 = 0; $t1 < value.length; $t1++) {
@@ -332,7 +327,8 @@
 			if (parametersElementNameParts.length === 2) {
 				parametersElementNamespace = MorseCode.CsJs.Xml.XPath.XPath.evaluate$3(wsdl, './/wsdl:definitions/@xmlns:' + parametersElementNameParts[0], this.$getNamespaceResolver(null))[0].nodeValue;
 				parametersElementName = parametersElementNameParts[1];
-			} else {
+			}
+			else {
 				parametersElementNamespace = MorseCode.CsJs.Xml.XPath.XPath.evaluate$3(wsdl, './/wsdl:definitions/@targetNamespace', this.$getNamespaceResolver(null))[0].nodeValue;
 				parametersElementName = parametersElementNameParts[0];
 			}
@@ -375,80 +371,65 @@
 				}
 				var text = node.childNodes[0].nodeValue;
 				switch (simpleTypeDefinition.get_type()) {
-				case 0:
-				case 1:
-				case 20:
-				case 11:
-				case 13:
-				case 21:
-					{
+					case 0:
+					case 1:
+					case 20:
+					case 11:
+					case 13:
+					case 21: {
 						return $MorseCode_$CsJs_Net_SoapClient$SoapClientInvocator.$decodeString(text);
 					}
-				case 2:
-					{
+					case 2: {
 						return MorseCode.CsJs.Common.StringUtility.fromBase64ToByteArray(text);
 					}
-				case 3:
-					{
+					case 3: {
 						return text === 'true' || text === '1';
 					}
-				case 4:
-					{
+					case 4: {
 						return MorseCode.CsJs.Common.FrameworkUtility.byteTryParse(text);
 					}
-				case 18:
-					{
+					case 18: {
 						return $MorseCode_$CsJs_Net_SoapClient$SoapClientInvocator.$decodeString(text).charCodeAt(0);
 					}
-				case 6:
-					{
+					case 6: {
 						return MorseCode.CsJs.Common.FrameworkUtility.decimalTryParse(text);
 					}
-				case 7:
-					{
+					case 7: {
 						return MorseCode.CsJs.Common.FrameworkUtility.doubleTryParse(text);
 					}
-				case 8:
-					{
+					case 8: {
 						return MorseCode.CsJs.Common.FrameworkUtility.floatTryParse(text);
 					}
-				case 9:
-					{
+					case 9: {
 						return MorseCode.CsJs.Common.FrameworkUtility.intTryParse(text);
 					}
-				case 10:
-					{
+					case 10: {
 						return MorseCode.CsJs.Common.FrameworkUtility.longTryParse(text);
 					}
-				case 12:
-					{
+					case 12: {
 						return MorseCode.CsJs.Common.FrameworkUtility.shortTryParse(text);
 					}
-				case 14:
-					{
+					case 14: {
 						return MorseCode.CsJs.Common.FrameworkUtility.byteTryParse(text);
 					}
-				case 15:
-					{
+					case 15: {
 						return MorseCode.CsJs.Common.FrameworkUtility.intTryParse(text);
 					}
-				case 16:
-					{
+					case 16: {
 						return MorseCode.CsJs.Common.FrameworkUtility.longTryParse(text);
 					}
-				case 17:
-					{
+					case 17: {
 						return MorseCode.CsJs.Common.FrameworkUtility.shortTryParse(text);
 					}
-				case 5:
-					{
+					case 5: {
 						var bits = text.split(new RegExp('[-T:+]', 'g'));
 						var timeZoneStart;
 						var milliseconds;
 						if (bits.length === 9) {
 							timeZoneStart = 7;
 							milliseconds = ss.coalesce(MorseCode.CsJs.Common.FrameworkUtility.intTryParse(bits[6]), 0);
-						} else {
+						}
+						else {
 							timeZoneStart = 6;
 							milliseconds = 0;
 						}
@@ -461,8 +442,7 @@
 						dateTime.setMinutes(dateTime.getMinutes() - offsetMinutes - dateTime.getTimezoneOffset());
 						return new Date(dateTime.valueOf());
 					}
-				case 19:
-					{
+					case 19: {
 						var regex = new RegExp('([-+]?)P(([0-9]*)Y)?(([0-9]*)M)?(([0-9]*)D)?(T(([0-9]*)H)?(([0-9]*)M)?(([0-9.]*)S)?)?');
 						var match = regex.exec(text);
 						var durationIsNegative = match[1] === '-';
@@ -486,8 +466,7 @@
 						}
 						return new ss.TimeSpan(((((durationDays * 24 + durationHours) * 60 + durationMinutes) * 60 + durationSeconds) * 1000 + durationMilliseconds) * 10000);
 					}
-				default:
-					{
+					default: {
 						throw MorseCode.CsJs.Common.UnhandledEnumValueExceptionFactory.create(MorseCode.CsJs.Xml.Schema.XmlBuiltInSimpleType).call(null, simpleTypeDefinition.get_type());
 					}
 				}
