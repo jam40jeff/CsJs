@@ -44,7 +44,15 @@ The Control suite is where the framework shows its infancy.  Currently, there ar
 Building
 --------
 
-To build CsJs and run the sample solution, first build the VSIXExtension solution in the Tools folder in the Release configuration.  Then install the VSIX file in the ExtensionPackage\bin\Release folder.  Next, build the Core solution in Release configuration twice.  (The first build misses copying one of the ouput JavaScript files to the bin directory.  I am looking into why this happens and will correct it in the future.)  Finally, build the CalculatorsAndStopwatch solution in the Examples folder, and start the Server.Web.UI project.  In order to successfully browse the site, you may need to assign the Read & execute, List folder contents, and Read permissions to the Application Pool user and the IIS Web Site anonymous user.  Usually, assigning these permissions to the Users group will suffice.
+To build CsJs and run the sample solution, first build the VSIXExtension solution in the Tools folder in the Release configuration.  Then install the VSIX file in the ExtensionPackage\bin\Release folder.
+
+Next, build the Core solution in Release configuration twice.  (The first build misses copying one of the ouput JavaScript files to the bin directory.  I am looking into why this happens and will correct it soon.)
+
+Finally, build the CalculatorsAndStopwatch solution in the Examples folder, and start the Server.Web.UI project.
+
+In order to successfully browse the site, you may need to assign the Read & execute, List folder contents, and Read permissions to the Application Pool user and the IIS Web Site anonymous user.  Usually, assigning these permissions to the Users group will suffice.
+
+The sample application shows the functionality of the controls developed so far.  Switching pages (the button at the top) will allow you to see different portions of functionality in development, such as the grid control.  On the starting page, switching to Calculator 2 will cause the calculator to call through a web service to obtain its result rather than computing it on the client.  The Simulate Latency option will randomly sleep up to 5 seconds on the server to test the async functionality.  Setting this property to No showcases the speed with which web service calls may be made.
 
 Feedback
 --------
