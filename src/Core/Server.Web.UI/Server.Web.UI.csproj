@@ -51,6 +51,9 @@
       <Name>MorseCode.CsJs.UI</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="require.js" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(TargetDir)$(TargetName).*" "$(ProjectDir)..\..\..\bin\" /y</PostBuildEvent>

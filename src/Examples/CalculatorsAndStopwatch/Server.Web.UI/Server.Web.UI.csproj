@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -162,6 +162,26 @@
   </Target>
   -->
   <Target Name="AfterBuild">
+    <ItemGroup>
+      <FilesToDelete Include="$(ProjectDir)\Scripts\*" />
+    </ItemGroup>
+    <Delete Files="@(FilesToDelete)" />
     <Copy SourceFiles="%(Content.Identity)" DestinationFiles="%(Content.Link)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Condition="'%(Content.Link)' != ''" />
+    <ItemGroup>
+      <JQueryFile Include="$(ProjectDir)\Scripts\jquery-*.js" />
+    </ItemGroup>
+    <Copy SourceFiles="@(JQueryFile)" DestinationFiles="$(ProjectDir)\Scripts\jquery.js" OverwriteReadOnlyFiles="true"/>
+    <Delete Files="@(JQueryFile)" />
+    <ItemGroup>
+      <FilesToRename Include="$(ProjectDir)\Scripts\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(FilesToRename)" DestinationFiles="@(FilesToRename->'$(ProjectDir)\Scripts\temp\$([System.Text.RegularExpressions.RegEx]::Replace($([System.Text.RegularExpressions.RegEx]::Replace(%(Filename)%(Extension),'\.','$')),'\$js$','.js'))')" OverwriteReadOnlyFiles="true"/>
+    <Delete Files="@(FilesToRename)" />
+    <ItemGroup>
+      <TempFiles Include="$(ProjectDir)\Scripts\temp\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(TempFiles)" DestinationFiles="@(TempFiles->'$(ProjectDir)\Scripts\%(Filename)%(Extension)')" OverwriteReadOnlyFiles="true"/>
+    <Delete Files="@(TempFiles)" />
+    <RemoveDir Directories="$(ProjectDir)\Scripts\temp\" />
   </Target>
 </Project>

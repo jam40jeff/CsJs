@@ -7,18 +7,6 @@
         <title></title>
     </head>
     <body>
-        <script src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/jquery-1.10.2.js") %>" type="text/javascript"> </script>
-        <script src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/mscorlib.js") %>" type="text/javascript"> </script>
-        <script src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/linq.js") %>" type="text/javascript"> </script>
-        <script src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/MorseCode.CsJs.Common.js") + "?bypassCache=" + DateTime.Now.ToBinary() %>" type="text/javascript"> </script>
-        <script src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/MorseCode.CsJs.Net.js") + "?bypassCache=" + DateTime.Now.ToBinary() %>" type="text/javascript"> </script>
-        <script src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/MorseCode.CsJs.Xml.js") + "?bypassCache=" + DateTime.Now.ToBinary() %>" type="text/javascript"> </script>
-        <script src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/MorseCode.CsJs.ViewModel.js") + "?bypassCache=" + DateTime.Now.ToBinary() %>" type="text/javascript"> </script>
-        <script src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/MorseCode.CsJs.UI.js") + "?bypassCache=" + DateTime.Now.ToBinary() %>" type="text/javascript"> </script>
-        <script src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel.js") + "?bypassCache=" + DateTime.Now.ToBinary() %>" type="text/javascript"> </script>
-        <script src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI.js") + "?bypassCache=" + DateTime.Now.ToBinary() %>" type="text/javascript"> </script>
-        <script src="<%= VirtualPathUtility.ToAbsolute("~/Scripts/jquery.xpath.js") %>" type="text/javascript"> </script>
-
         <form runat="server">
         </form>
     </body>
