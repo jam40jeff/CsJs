@@ -26,11 +26,12 @@ namespace MorseCode.CsJs.Server.Web.UI
 
 			ClientScript.RegisterClientScriptResource(typeof(ApplicationPageBase<>), "MorseCode.CsJs.Server.Web.UI.require.js");
 
-			string require = typeof(T).Assembly.GetName().Name.Replace('.', '$');
+			string requireModule = typeof(T).Assembly.GetName().Name;
+			string requireInstance = requireModule.Replace('.', '$');
 			ClientScript.RegisterClientScriptBlock(typeof(ApplicationPageBase<T>), "Init", @"requirejs.config({ baseUrl: 'Scripts' });
 require(['jquery'], function($) {
 	$(function() {
-		require(['" +require+@"'], function ("+require+@") {
+		require(['" + requireModule + @"'], function (" + requireInstance + @") {
 			" + typeof(VirtualPathUtility).FullName + @".set_applicationRootPath('" + System.Web.VirtualPathUtility.ToAbsolute("~/").Replace("'", "\\'") + @"');
 			new " + typeof(T).FullName + @"().initialize();
 		});

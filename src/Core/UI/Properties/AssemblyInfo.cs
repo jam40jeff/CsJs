@@ -37,7 +37,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 [assembly: AsyncModule]
-[assembly: AdditionalDependency("MorseCode$CsJs$Common")]
-[assembly: AdditionalDependency("MorseCode$CsJs$ViewModel")]
-[assembly: AdditionalDependency("jquery")]
+[assembly: AdditionalDependency("MorseCode.CsJs.Common", "MorseCode$CsJs$Common")]
+[assembly: AdditionalDependency("MorseCode.CsJs.ViewModel", "MorseCode$CsJs$ViewModel")]
+[assembly: AdditionalDependency("jquery", "$")]
 [assembly: AdditionalDependency("linq")]

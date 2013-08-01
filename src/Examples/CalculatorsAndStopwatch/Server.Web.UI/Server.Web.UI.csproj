@@ -175,13 +175,13 @@
     <ItemGroup>
       <FilesToRename Include="$(ProjectDir)\Scripts\*" />
     </ItemGroup>
-    <Copy SourceFiles="@(FilesToRename)" DestinationFiles="@(FilesToRename->'$(ProjectDir)\Scripts\temp\$([System.Text.RegularExpressions.RegEx]::Replace($([System.Text.RegularExpressions.RegEx]::Replace(%(Filename)%(Extension),'\.','$')),'\$js$','.js'))')" OverwriteReadOnlyFiles="true"/>
+    <!-- <Copy SourceFiles="@(FilesToRename)" DestinationFiles="@(FilesToRename->'$(ProjectDir)\Scripts\temp\$([System.Text.RegularExpressions.RegEx]::Replace($([System.Text.RegularExpressions.RegEx]::Replace(%(Filename)%(Extension),'\.','$')),'\$js$','.js'))')" OverwriteReadOnlyFiles="true"/>
     <Delete Files="@(FilesToRename)" />
     <ItemGroup>
       <TempFiles Include="$(ProjectDir)\Scripts\temp\*" />
     </ItemGroup>
     <Copy SourceFiles="@(TempFiles)" DestinationFiles="@(TempFiles->'$(ProjectDir)\Scripts\%(Filename)%(Extension)')" OverwriteReadOnlyFiles="true"/>
     <Delete Files="@(TempFiles)" />
-    <RemoveDir Directories="$(ProjectDir)\Scripts\temp\" />
+    <RemoveDir Directories="$(ProjectDir)\Scripts\temp\" /> -->
   </Target>
 </Project>
