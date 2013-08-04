@@ -19,20 +19,8 @@ namespace MorseCode.CsJs.UI.Controls
 		private string _id;
 
 		private readonly List<Action> _postSkinActions = new List<Action>();
-		private CompositeControlBase _parent;
 
-		internal CompositeControlBase Parent
-		{
-			get { return _parent; }
-			set
-			{
-				if (_parent != null && value != null)
-				{
-					_parent.RemoveChildControl(this);
-				}
-				_parent = value;
-			}
-		}
+		internal ControlCollection Parent { get; set; }
 
 		internal void AddPostSkinAction<T>(Action<T> postSkinAction) where T : ControlBase
 		{

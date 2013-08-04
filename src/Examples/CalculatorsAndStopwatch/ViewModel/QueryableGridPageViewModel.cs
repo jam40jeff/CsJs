@@ -48,7 +48,8 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel
 			_items.AddRange(items);
 
 			_queryableItems = new ReadOnlyProperty<QueryableSampleItems>(new QueryableSampleItems(this));
-			_queryableItems.Value.Execute();
+			_queryableItems.Value.PagingInstruction.Value.PageSize.Value = 5;
+			//_queryableItems.Value.Execute();
 
 			_items.Changed += (sender, args) => _queryableItems.Value.Execute();
 		}
@@ -72,9 +73,10 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel
 				_parent = parent;
 			}
 
-			protected override IEnumerable<SampleItemCollectionItem> LoadData()
+			protected override IPagedResult<IEnumerable<SampleItemCollectionItem>> LoadData()
 			{
-				return EnumerableSortExpressionUtility.Apply(_parent._items, ColumnSortExpressions.Value.Select(s => s.SortExpression));
+				List<SampleItemCollectionItem> data = EnumerableSortExpressionUtility.Apply(_parent._items, ColumnSortExpressions.Value.Select(s => s.SortExpression)).ToList();
+				return new PagedResult<IEnumerable<SampleItemCollectionItem>>(EnumerablePagingInstructionUtility.Apply(data, PagingInstruction.Value), _parent._items.Count);
 			}
 		}
 	}

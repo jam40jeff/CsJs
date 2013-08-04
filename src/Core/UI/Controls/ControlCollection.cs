@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Html;
 using System.Linq;
 using MorseCode.CsJs.Common.Observable;
 
@@ -7,18 +8,24 @@ namespace MorseCode.CsJs.UI.Controls
 {
 	public class ControlCollection : ObservableCollection<ControlBase>
 	{
-		private readonly CompositeControlBase _owner;
+		private readonly Func<Element> _childElementContainer;
 
-		public ControlCollection(CompositeControlBase owner)
+		public ControlCollection(Func<Element> childElementContainer)
 		{
-			_owner = owner;
+			_childElementContainer = childElementContainer;
+		}
+
+		internal Element GetChildElementContainer()
+		{
+			return _childElementContainer();
 		}
 
 		protected override void OnItemAdded(ControlBase item)
 		{
 			base.OnItemAdded(item);
 
-			item.Parent = _owner;
+			item.Parent = this;
+			item.AddControlTo(GetChildElementContainer());
 
 			OnControlAdded(new ControlAddedEventArgs(item));
 		}
@@ -38,6 +45,7 @@ namespace MorseCode.CsJs.UI.Controls
 			base.OnItemRemoved(item);
 
 			item.Parent = null;
+			item.RemoveControlFrom(GetChildElementContainer());
 
 			OnControlRemoved(new ControlRemovedEventArgs(item));
 		}
@@ -59,8 +67,17 @@ namespace MorseCode.CsJs.UI.Controls
 
 			base.OnItemsReset(oldItemsList, newItemsList);
 
-			oldItemsList.ForEach(i => i.Parent = null);
-			newItemsList.ForEach(i => i.Parent = _owner);
+			Element childElementContainer = GetChildElementContainer();
+			oldItemsList.ForEach(i =>
+				{
+					i.Parent = null;
+					i.RemoveControlFrom(childElementContainer);
+				});
+			newItemsList.ForEach(i =>
+				{
+					i.Parent = this;
+					i.AddControlTo(childElementContainer);
+				});
 
 			OnControlsReset(new ControlsResetEventArgs(oldItemsList, newItemsList));
 		}

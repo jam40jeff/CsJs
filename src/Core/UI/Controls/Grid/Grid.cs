@@ -24,7 +24,9 @@ namespace MorseCode.CsJs.UI.Controls.Grid
 		private IBinding _columnsBinding;
 		private IBinding _dataBinding;
 
-		private readonly List<IBinding> _columnHeaderBindings = new List<IBinding>();
+		private readonly List<IBinding> _headerBindings = new List<IBinding>();
+		private readonly List<IBinding> _footerBindings = new List<IBinding>();
+		private ControlCollection _footerControls;
 
 		public class Parser : ControlParserBase<Grid>
 		{
@@ -53,47 +55,32 @@ namespace MorseCode.CsJs.UI.Controls.Grid
 			return new Element[] { _table };
 		}
 
-		public void BindData<TDataContext, T>(IReadableObservableProperty<TDataContext> dataContext, Func<TDataContext, IReadOnlyProperty<IEnumerable<T>>> getData, Func<TDataContext, IReadOnlyProperty<IEnumerable<IGridColumn<T>>>> getColumns) where T : new()
-		{
-			BindData(dataContext, new T(), getData, getColumns);
-		}
-
 		public void BindData<TDataContext, T>(IReadableObservableProperty<TDataContext> dataContext, T dummyItem, Func<TDataContext, IReadOnlyProperty<IEnumerable<T>>> getData, Func<TDataContext, IReadOnlyProperty<IEnumerable<IGridColumn<T>>>> getColumns)
 		{
-			BindDataInternal(dataContext, dummyItem, getData, getColumns, null);
-		}
-
-		public void BindData<TDataContext, T>(IReadableObservableProperty<TDataContext> dataContext, Func<TDataContext, IReadOnlyProperty<IQueryableData<T>>> getData, Func<TDataContext, IReadOnlyProperty<IEnumerable<IGridColumn<T>>>> getColumns) where T : new()
-		{
-			BindData(dataContext, new T(), getData, getColumns);
+			BindDataInternal(dataContext, dummyItem, getData, null, null, getColumns);
 		}
 
 		public void BindData<TDataContext, T>(IReadableObservableProperty<TDataContext> dataContext, T dummyItem, Func<TDataContext, IReadOnlyProperty<IQueryableData<T>>> getData, Func<TDataContext, IReadOnlyProperty<IEnumerable<IGridColumn<T>>>> getColumns)
 		{
-			BindDataInternal(dataContext, dummyItem, d => getData(d).Value.Data, getColumns, null);
+			BindDataInternal(dataContext, dummyItem, d => getData(d).Value.Data, null, null, getColumns);
 		}
 
-		public void BindDataWithSorting<TDataContext, T>(IReadableObservableProperty<TDataContext> dataContext, Func<TDataContext, IReadOnlyProperty<IEnumerable<T>>> getData, Func<TDataContext, IReadOnlyProperty<IEnumerable<IGridColumn<T>>>> getColumns, Func<TDataContext, IReadOnlyProperty<IObservableCollection<IColumnSortExpression<T>>>> getSortExpressions) where T : new()
+		public void BindDataWithSorting<TDataContext, T, TQueryableData>(IReadableObservableProperty<TDataContext> dataContext, T dummyItem, Func<TDataContext, IReadOnlyProperty<TQueryableData>> getData, Func<TDataContext, IReadOnlyProperty<IEnumerable<IGridColumn<T>>>> getColumns) where TQueryableData : class,IQueryableData<T>, ISortableData<T>
 		{
-			BindDataWithSorting(dataContext, new T(), getData, getColumns, getSortExpressions);
+			BindDataInternal(dataContext, dummyItem, d => getData(d).Value.Data, getData, null, getColumns);
 		}
 
-		public void BindDataWithSorting<TDataContext, T>(IReadableObservableProperty<TDataContext> dataContext, T dummyItem, Func<TDataContext, IReadOnlyProperty<IEnumerable<T>>> getData, Func<TDataContext, IReadOnlyProperty<IEnumerable<IGridColumn<T>>>> getColumns, Func<TDataContext, IReadOnlyProperty<IObservableCollection<IColumnSortExpression<T>>>> getSortExpressions)
+		public void BindDataWithPaging<TDataContext, T, TQueryableData>(IReadableObservableProperty<TDataContext> dataContext, T dummyItem, Func<TDataContext, IReadOnlyProperty<TQueryableData>> getData, Func<TDataContext, IReadOnlyProperty<IEnumerable<IGridColumn<T>>>> getColumns) where TQueryableData : class,IQueryableData<T>, IPageableData
 		{
-			BindDataInternal(dataContext, dummyItem, getData, getColumns, getSortExpressions);
+			BindDataInternal(dataContext, dummyItem, d => getData(d).Value.Data, null, getData, getColumns);
 		}
 
-		public void BindDataWithSorting<TDataContext, T>(IReadableObservableProperty<TDataContext> dataContext, Func<TDataContext, IReadOnlyProperty<IQueryableData<T>>> getData, Func<TDataContext, IReadOnlyProperty<IEnumerable<IGridColumn<T>>>> getColumns) where T : new()
+		public void BindDataWithSortingAndPaging<TDataContext, T, TQueryableData>(IReadableObservableProperty<TDataContext> dataContext, T dummyItem, Func<TDataContext, IReadOnlyProperty<TQueryableData>> getData, Func<TDataContext, IReadOnlyProperty<IEnumerable<IGridColumn<T>>>> getColumns) where TQueryableData : class,IQueryableData<T>, ISortableData<T>, IPageableData
 		{
-			BindDataWithSorting(dataContext, new T(), getData, getColumns);
+			BindDataInternal(dataContext, dummyItem, d => getData(d).Value.Data, getData, getData, getColumns);
 		}
 
-		public void BindDataWithSorting<TDataContext, T>(IReadableObservableProperty<TDataContext> dataContext, T dummyItem, Func<TDataContext, IReadOnlyProperty<IQueryableData<T>>> getData, Func<TDataContext, IReadOnlyProperty<IEnumerable<IGridColumn<T>>>> getColumns)
-		{
-			BindDataInternal(dataContext, dummyItem, d => getData(d).Value.Data, getColumns, d => getData(d).Value.ColumnSortExpressions);
-		}
-
-		private void BindDataInternal<TDataContext, T>(IReadableObservableProperty<TDataContext> dataContext, T dummyItem, Func<TDataContext, IReadOnlyProperty<IEnumerable<T>>> getData, Func<TDataContext, IReadOnlyProperty<IEnumerable<IGridColumn<T>>>> getColumns, Func<TDataContext, IReadOnlyProperty<IObservableCollection<IColumnSortExpression<T>>>> getSortExpressions)
+		private void BindDataInternal<TDataContext, T>(IReadableObservableProperty<TDataContext> dataContext, T dummyItem, Func<TDataContext, IReadOnlyProperty<IEnumerable<T>>> getData, Func<TDataContext, IReadOnlyProperty<ISortableData<T>>> getSortableData, Func<TDataContext, IReadOnlyProperty<IPageableData>> getPageableData, Func<TDataContext, IReadOnlyProperty<IEnumerable<IGridColumn<T>>>> getColumns)
 		{
 			EnsureUnbound(_columnsBinding);
 			EnsureUnbound(_dataBinding);
@@ -103,11 +90,11 @@ namespace MorseCode.CsJs.UI.Controls.Grid
 
 			Action<TDataContext> dataBindHeader = d =>
 				{
-					foreach (IBinding columnHeaderBinding in _columnHeaderBindings)
+					foreach (IBinding headerBinding in _headerBindings)
 					{
-						RemoveBinding(columnHeaderBinding);
+						RemoveBinding(headerBinding);
 					}
-					_columnHeaderBindings.Clear();
+					_headerBindings.Clear();
 
 					Element tableHeader = Document.CreateElement("thead");
 					TableRowElement headerRow = (TableRowElement)Document.CreateElement("tr");
@@ -139,7 +126,7 @@ namespace MorseCode.CsJs.UI.Controls.Grid
 						if (boundColumn != null)
 						{
 							jQueryObject headerCellJQueryObject = jQuery.FromElement(headerCell);
-							if (getSortExpressions != null)
+							if (getSortableData != null)
 							{
 								headerTextSpan.Style.Cursor = "pointer";
 
@@ -157,7 +144,7 @@ namespace MorseCode.CsJs.UI.Controls.Grid
 
 								SortDirection? sortDirection = null;
 
-								Action setSortExpression = () => getSortExpressions(d).Value.Reset(new[] { ColumnSortExpressionFactory<T>.CreateSortExpression(boundColumn.UniqueName, dummyItem, boundColumn.PropertyExpression, sortDirection == SortDirection.Ascending ? SortDirection.Descending : SortDirection.Ascending) });
+								Action setSortExpression = () => getSortableData(d).Value.ColumnSortExpressions.Value.Reset(new[] { ColumnSortExpressionFactory<T>.CreateSortExpression(boundColumn.UniqueName, dummyItem, boundColumn.PropertyExpression, sortDirection == SortDirection.Ascending ? SortDirection.Descending : SortDirection.Ascending) });
 								headerCellJQueryObject.Click(e => setSortExpression());
 								canvasJQueryObject.Click(e => setSortExpression());
 
@@ -167,7 +154,7 @@ namespace MorseCode.CsJs.UI.Controls.Grid
 										Action updateControl = () =>
 											{
 												Action clear = () => context.ClearRect(0, 0, 8, 8);
-												IColumnSortExpression<T> columnSortExpression = getSortExpressions(d2).Value.FirstOrDefault(s => s.ColumnUniqueName == boundColumn.UniqueName);
+												IColumnSortExpression<T> columnSortExpression = getSortableData(d2).Value.ColumnSortExpressions.Value.FirstOrDefault(s => s.ColumnUniqueName == boundColumn.UniqueName);
 												if (columnSortExpression == null)
 												{
 													if (sortDirection != null)
@@ -214,16 +201,97 @@ namespace MorseCode.CsJs.UI.Controls.Grid
 												}
 											};
 										updateControlSortIndicatorEventHandler = (sender, args) => updateControl();
-										getSortExpressions(d2).Value.Changed += updateControlSortIndicatorEventHandler;
+										getSortableData(d2).Value.ColumnSortExpressions.Value.Changed += updateControlSortIndicatorEventHandler;
 										updateControl();
-									}, d2 => getSortExpressions(d2).Value.Changed -= updateControlSortIndicatorEventHandler);
+									}, d2 => getSortableData(d2).Value.ColumnSortExpressions.Value.Changed -= updateControlSortIndicatorEventHandler);
 								AddBinding(sortIndicatorBinding);
-								_columnHeaderBindings.Add(sortIndicatorBinding);
+								_headerBindings.Add(sortIndicatorBinding);
 							}
 						}
 					}
 					_table.ReplaceChild(tableHeader, _header);
 					_header = tableHeader;
+				};
+
+			Action<TDataContext> dataBindFooter = d =>
+				{
+					foreach (IBinding footerBinding in _footerBindings)
+					{
+						RemoveBinding(footerBinding);
+					}
+					_footerBindings.Clear();
+
+					if (_footerControls != null)
+					{
+						_footerControls.ForEach(c => c.Dispose());
+						_footerControls = null;
+					}
+
+					if (getPageableData != null)
+					{
+						Element tableFooter = Document.CreateElement("tfoot");
+						TableRowElement footerRow = (TableRowElement)Document.CreateElement("tr");
+						tableFooter.AppendChild(footerRow);
+						if (columns.Count > 0)
+						{
+							TableCellElement footerCell = (TableCellElement)Document.CreateElement("td");
+							footerCell.ColSpan = columns.Count;
+							footerRow.AppendChild(footerCell);
+
+							_footerControls = new ControlCollection(() => footerCell);
+
+							Button firstButton = new Button();
+							firstButton.SetText("<<");
+							firstButton.BindClickAction(dataContext, d2 => () => getPageableData(d2).Value.PagingInstruction.Value.PageIndex.Value = 0);
+							firstButton.BindEnabled(dataContext, d2 => getPageableData(d2).Value.CanMovePrevious);
+							_footerControls.Add(firstButton);
+
+							Button previousButton = new Button();
+							previousButton.SetText("<");
+							previousButton.BindClickAction(dataContext, d2 => () => getPageableData(d2).Value.PagingInstruction.Value.PageIndex.Value--);
+							previousButton.BindEnabled(dataContext, d2 => getPageableData(d2).Value.CanMovePrevious);
+							_footerControls.Add(previousButton);
+
+							Button nextButton = new Button();
+							nextButton.SetText(">");
+							nextButton.BindClickAction(dataContext, d2 => () => getPageableData(d2).Value.PagingInstruction.Value.PageIndex.Value++);
+							nextButton.BindEnabled(dataContext, d2 => getPageableData(d2).Value.CanMoveNext);
+							_footerControls.Add(nextButton);
+
+							Button lastButton = new Button();
+							lastButton.SetText(">>");
+							lastButton.BindClickAction(dataContext, d2 => () => getPageableData(d2).Value.PagingInstruction.Value.PageIndex.Value = getPageableData(d2).Value.TotalPages.Value - 1);
+							lastButton.BindEnabled(dataContext, d2 => getPageableData(d2).Value.CanMoveNext);
+							_footerControls.Add(lastButton);
+
+							Label pageIndexPrefixLabel = new Label();
+							pageIndexPrefixLabel.Styles.AddOrSet("margin-left", "15px");
+							pageIndexPrefixLabel.SetText("Page: ");
+							_footerControls.Add(pageIndexPrefixLabel);
+
+							Label pageIndexLabel = new Label();
+							pageIndexLabel.BindText(dataContext, d2 => getPageableData(d2).Value.PagingInstruction.Value.PageIndex, o => (o + 1).ToString());
+							_footerControls.Add(pageIndexLabel);
+
+							Label totalPagesPrefixLabel = new Label();
+							totalPagesPrefixLabel.SetText(" of ");
+							_footerControls.Add(totalPagesPrefixLabel);
+
+							Label totalPagesLabel = new Label();
+							totalPagesLabel.BindText(dataContext, d2 => getPageableData(d2).Value.TotalPages, o => o.ToString());
+							_footerControls.Add(totalPagesLabel);
+						}
+						_table.ReplaceChild(tableFooter, _footer);
+						_footer = tableFooter;
+					}
+					else
+					{
+						if (_footer != null)
+						{
+							_table.RemoveChild(_footer);
+							_footer = null;
+						}
+					}
 				};
 
 			Action dataBindItems = () =>
@@ -271,6 +339,7 @@ namespace MorseCode.CsJs.UI.Controls.Grid
 					columns.Clear();
 					columns.AddRange(newColumns);
 					dataBindHeader(d);
+					dataBindFooter(d);
 					dataBindItems();
 				};
 
@@ -278,53 +347,53 @@ namespace MorseCode.CsJs.UI.Controls.Grid
 			_columnsBinding = CreateOneWayBinding(
 				dataContext,
 				d =>
+				{
+					IEnumerable<IGridColumn<T>> thisColumns = getColumns(d).Value;
+					Action updateControl = () => setColumns(d, thisColumns);
+					updateControlColumnsEventHandler = (sender, args) => updateControl();
+					IObservableCollection<IGridColumn<T>> observableColumns = thisColumns as IObservableCollection<IGridColumn<T>>;
+					if (observableColumns != null)
 					{
-						IEnumerable<IGridColumn<T>> thisColumns = getColumns(d).Value;
-						Action updateControl = () => setColumns(d, thisColumns);
-						updateControlColumnsEventHandler = (sender, args) => updateControl();
-						IObservableCollection<IGridColumn<T>> observableColumns = thisColumns as IObservableCollection<IGridColumn<T>>;
-						if (observableColumns != null)
-						{
-							observableColumns.Changed += updateControlColumnsEventHandler;
-						}
-						updateControl();
-					},
+						observableColumns.Changed += updateControlColumnsEventHandler;
+					}
+					updateControl();
+				},
 				d =>
+				{
+					IEnumerable<IGridColumn<T>> thisColumns = getColumns(d).Value;
+					IObservableCollection<IGridColumn<T>> observableColumns = thisColumns as IObservableCollection<IGridColumn<T>>;
+					if (observableColumns != null)
 					{
-						IEnumerable<IGridColumn<T>> thisColumns = getColumns(d).Value;
-						IObservableCollection<IGridColumn<T>> observableColumns = thisColumns as IObservableCollection<IGridColumn<T>>;
-						if (observableColumns != null)
-						{
-							observableColumns.Changed -= updateControlColumnsEventHandler;
-						}
-					});
+						observableColumns.Changed -= updateControlColumnsEventHandler;
+					}
+				});
 			AddBinding(_columnsBinding);
 
 			EventHandler updateControlDataEventHandler = null;
 			_dataBinding = CreateOneWayBinding(
 				dataContext,
 				d =>
+				{
+					IEnumerable<T> thisItems = getData(d).Value;
+					Action updateControl = () => setItems(thisItems);
+					updateControlDataEventHandler = (sender, args) => updateControl();
+					IObservableCollection<T> observableItems = thisItems as IObservableCollection<T>;
+					if (observableItems != null)
 					{
-						IEnumerable<T> thisItems = getData(d).Value;
-						Action updateControl = () => setItems(thisItems);
-						updateControlDataEventHandler = (sender, args) => updateControl();
-						IObservableCollection<T> observableItems = thisItems as IObservableCollection<T>;
-						if (observableItems != null)
-						{
-							//TODO: optimize
-							observableItems.Changed += updateControlDataEventHandler;
-						}
-						updateControl();
-					},
+						//TODO: optimize
+						observableItems.Changed += updateControlDataEventHandler;
+					}
+					updateControl();
+				},
 				d =>
+				{
+					IEnumerable<T> thisItems = getData(d).Value;
+					IObservableCollection<T> observableItems = thisItems as IObservableCollection<T>;
+					if (observableItems != null)
 					{
-						IEnumerable<T> thisItems = getData(d).Value;
-						IObservableCollection<T> observableItems = thisItems as IObservableCollection<T>;
-						if (observableItems != null)
-						{
-							observableItems.Changed -= updateControlDataEventHandler;
-						}
-					});
+						observableItems.Changed -= updateControlDataEventHandler;
+					}
+				});
 			AddBinding(_dataBinding);
 		}
 	}

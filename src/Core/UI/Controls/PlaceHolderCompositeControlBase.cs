@@ -18,7 +18,7 @@ namespace MorseCode.CsJs.UI.Controls
 
 		protected override sealed Element GetChildElementContainer()
 		{
-			_lastContainer = Parent == null ? _tempElement : Parent.GetChildElementContainerInternal();
+			_lastContainer = Parent == null ? _tempElement : Parent.GetChildElementContainer();
 			return _lastContainer;
 		}
 

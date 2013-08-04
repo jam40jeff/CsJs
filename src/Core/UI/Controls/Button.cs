@@ -16,6 +16,7 @@ namespace MorseCode.CsJs.UI.Controls
 		private IBinding _clickActionBinding;
 		private IBinding _textBinding;
 		private IBinding _visibleBinding;
+		private IBinding _enabledBinding;
 
 		protected override void CreateElements()
 		{
@@ -45,8 +46,30 @@ namespace MorseCode.CsJs.UI.Controls
 
 		private bool Visible
 		{
-			get { return _buttonJQuery.Is(":visible"); }
-			set { _button.Style.Display = value ? string.Empty : "none"; }
+			get
+			{
+				EnsureElementsCreated();
+				return _buttonJQuery.Is(":visible");
+			}
+			set
+			{
+				EnsureElementsCreated();
+				_button.Style.Display = value ? string.Empty : "none";
+			}
+		}
+
+		private bool Enabled
+		{
+			get
+			{
+				EnsureElementsCreated();
+				return !_button.Disabled;
+			}
+			set
+			{
+				EnsureElementsCreated();
+				_button.Disabled = !value;
+			}
 		}
 
 		private event EventHandler Click;
@@ -122,6 +145,24 @@ namespace MorseCode.CsJs.UI.Controls
 					},
 				d => getVisibleProperty(d).Changed -= updateControlEventHandler);
 			AddBinding(_visibleBinding);
+		}
+
+		public void BindEnabled<T>(IReadableObservableProperty<T> dataContext, Func<T, IReadableObservableProperty<bool>> getEnabledProperty)
+		{
+			EnsureUnbound(_enabledBinding);
+
+			EventHandler updateControlEventHandler = null;
+			_enabledBinding = CreateOneWayBinding(
+				dataContext,
+				d =>
+					{
+						Action updateControl = () => Enabled = getEnabledProperty(d).Value;
+						updateControlEventHandler = (sender, args) => updateControl();
+						getEnabledProperty(d).Changed += updateControlEventHandler;
+						updateControl();
+					},
+				d => getEnabledProperty(d).Changed -= updateControlEventHandler);
+			AddBinding(_enabledBinding);
 		}
 
 		public class Parser : ControlParserBase<Button>

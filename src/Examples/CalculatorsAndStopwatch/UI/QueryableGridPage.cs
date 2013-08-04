@@ -35,7 +35,7 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
 		{
 			_navigationControl.BindDataContext(dataContext, d => d.NavigationViewModel);
 
-			_grid.BindDataWithSorting(dataContext, new SampleItemCollectionItem(null, -1, null, null, false), d => d.QueryableItems, d => new ReadOnlyProperty<List<IGridColumn<SampleItemCollectionItem>>>(new List<IGridColumn<SampleItemCollectionItem>>
+			_grid.BindDataWithSortingAndPaging(dataContext, new SampleItemCollectionItem(null, -1, null, null, false), d => d.QueryableItems, d => new ReadOnlyProperty<List<IGridColumn<SampleItemCollectionItem>>>(new List<IGridColumn<SampleItemCollectionItem>>
 				{
 					new GridBoundTextColumn<SampleItem, int>(o => o.Id, v => "ID #" + v) { HeaderText = "ID" },
 					new GridBoundTextColumn<SampleItem, string>(o => o.Name) { HeaderText = "Name" },

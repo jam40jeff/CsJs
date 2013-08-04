@@ -40,8 +40,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssociatedTypeCallbackBase.cs" />
+    <Compile Include="Data\EnumerablePagingInstructionUtility.cs" />
     <Compile Include="Data\EnumerableSortExpressionUtility.cs" />
+    <Compile Include="Data\IPagedResult.cs" />
+    <Compile Include="Data\IPagingInstruction.cs" />
     <Compile Include="Data\ISortExpression.cs" />
+    <Compile Include="Data\PagedResult.cs" />
+    <Compile Include="Data\PagingInstruction.cs" />
     <Compile Include="Data\SortDirection.cs" />
     <Compile Include="Data\SortExpression.cs" />
     <Compile Include="Data\SortExpressionFactory.cs" />

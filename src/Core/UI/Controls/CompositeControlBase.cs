@@ -12,37 +12,12 @@ namespace MorseCode.CsJs.UI.Controls
 
 		protected CompositeControlBase()
 		{
-			_controls = new ControlCollection(this);
-			_controls.ControlAdded += (sender, args) => ChangeControl(args.Control, true);
-			_controls.ControlRemoved += (sender, args) => ChangeControl(args.Control, false);
-			_controls.ControlsReset += (sender, args) =>
-				{
-					args.OldControls.ForEach(c => ChangeControl(c, false));
-					args.NewControls.ForEach(c => ChangeControl(c, true));
-				};
-		}
-
-		private void ChangeControl(ControlBase control, bool add)
-		{
-			Element container = GetChildElementContainerInternal();
-			if (add)
-			{
-				control.AddControlTo(container);
-			}
-			else
-			{
-				control.RemoveControlFrom(container);
-			}
+			_controls = new ControlCollection(GetChildElementContainerInternal);
 		}
 
 		protected IEnumerable<IControl> Controls
 		{
 			get { return _controls; }
-		}
-
-		internal void RemoveChildControl(ControlBase control)
-		{
-			_controls.Remove(control);
 		}
 
 		public override void AddControlTo(Element container)
