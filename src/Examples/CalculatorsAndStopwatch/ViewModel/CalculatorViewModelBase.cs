@@ -117,6 +117,10 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel
 		}
 
 		public abstract IReadableObservableProperty<string> Result { get; }
+
+		public abstract ObservableProperty<bool> UseResultDelay { get; }
+
+		public abstract IReadableObservableProperty<int> NumberOfWebServiceRequestsSent { get; }
 	}
 
 	[PreserveMemberCase]

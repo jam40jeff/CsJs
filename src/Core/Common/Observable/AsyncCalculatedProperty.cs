@@ -6,7 +6,7 @@ namespace MorseCode.CsJs.Common.Observable
 	public class AsyncCalculatedProperty<T> : ObservablePropertyBase<T>
 	{
 		private readonly Random _random = new Random();
-		private readonly Queue<int> _requestIds = new Queue<int>();
+		private readonly List<int> _requestIds = new List<int>();
 		private readonly ObservableProperty<bool> _isCalculating = new ObservableProperty<bool>(false);
 
 		private AsyncCalculatedProperty(IEnumerable<IObservable> observables, Action<Action<T>> calculatePropertyValue)
@@ -16,25 +16,70 @@ namespace MorseCode.CsJs.Common.Observable
 			{
 				observable.Changed += (sender, args) => update();
 			}
-			CalculatePropertyValueAsync(calculatePropertyValue, SetInitialValue);
+			CalculatePropertyValueAsyncWithoutDelay(calculatePropertyValue, SetInitialValue);
 		}
+
+		public TimeSpan Delay { get; set; }
 
 		private void CalculatePropertyValueAsync(Action<Action<T>> calculatePropertyValue, Action<T> setValue)
 		{
-			int n = _random.Next(int.MaxValue);
-			_requestIds.Enqueue(n);
+			if (Delay > TimeSpan.Zero)
+			{
+				CalculatePropertyValueAsyncWithDelay(calculatePropertyValue, setValue, Delay);
+			}
+			else
+			{
+				CalculatePropertyValueAsyncWithoutDelay(calculatePropertyValue, setValue);
+			}
+		}
+
+		private void CalculatePropertyValueAsyncWithDelay(Action<Action<T>> calculatePropertyValue, Action<T> setValue, TimeSpan delay)
+		{
 			_isCalculating.Value = true;
-			calculatePropertyValue(v =>
-				{
-					if (_requestIds.Contains(n))
+			int requestId = AddRequestId();
+			ITimer timer = TimerFactory.Instance.CreateTimer(() => CalculatePropertyValueAsyncCallback(calculatePropertyValue, setValue, requestId), Script.Reinterpret<int>(Math.Round(delay.TotalMilliseconds)), false);
+			timer.Start();
+		}
+
+		private void CalculatePropertyValueAsyncWithoutDelay(Action<Action<T>> calculatePropertyValue, Action<T> setValue)
+		{
+			_isCalculating.Value = true;
+			int requestId = AddRequestId();
+			CalculatePropertyValueAsyncCallback(calculatePropertyValue, setValue, requestId);
+		}
+
+		private int AddRequestId()
+		{
+			int requestId = _random.Next(int.MaxValue);
+			_requestIds.Add(requestId);
+			return requestId;
+		}
+
+		private void CalculatePropertyValueAsyncCallback(Action<Action<T>> calculatePropertyValue, Action<T> setValue, int requestId)
+		{
+			if (_requestIds.IndexOf(requestId) == _requestIds.Count - 1)
+			{
+				calculatePropertyValue(v =>
 					{
-						while (_requestIds.Dequeue() != n)
+						if (_requestIds.Contains(requestId))
 						{
+							while (_requestIds.Count > 0)
+							{
+								if (_requestIds[0] != requestId)
+								{
+									_requestIds.RemoveAt(0);
+								}
+								else
+								{
+									_requestIds.RemoveAt(0);
+									break;
+								}
+							}
+							setValue(v);
+							_isCalculating.Value = _requestIds.Count > 0;
 						}
-						setValue(v);
-						_isCalculating.Value = _requestIds.Count > 0;
-					}
-				});
+					});
+			}
 		}
 
 		public IReadableObservableProperty<bool> IsCalculating

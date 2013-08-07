@@ -6,11 +6,15 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel
 {
 	public class CalculatorViewModel : CalculatorViewModelBase
 	{
+		private readonly ReadOnlyProperty<int> _numberOfWebServiceRequestsSent;
+		private readonly ObservableProperty<bool> _useResultDelay;
 		private readonly CalculatedProperty<string> _result;
 
 		public CalculatorViewModel()
 			: base(false)
 		{
+			_useResultDelay = new ObservableProperty<bool>();
+			_numberOfWebServiceRequestsSent = new ReadOnlyProperty<int>(0);
 			_result = CalculatedProperty<string>.Create(Operand1, Operand2, SelectedOperator,
 			                                            (operand1, operand2, selectedOperator) =>
 				                                            {
@@ -47,6 +51,16 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel
 		public override IReadableObservableProperty<string> Result
 		{
 			get { return _result; }
+		}
+
+		public override ObservableProperty<bool> UseResultDelay
+		{
+			get { return _useResultDelay; }
+		}
+
+		public override IReadableObservableProperty<int> NumberOfWebServiceRequestsSent
+		{
+			get { return _numberOfWebServiceRequestsSent; }
 		}
 	}
 }

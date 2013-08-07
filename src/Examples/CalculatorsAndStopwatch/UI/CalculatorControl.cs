@@ -20,6 +20,8 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
 			_simulateLatencyPanel.BindVisible(dataContext, d => d.SupportsAsync);
 			_simulateLatencyPanel.UseSlideVisibilityTransition = true;
 			_simulateLatency.BindItemsAndSelection(dataContext, d => d.SimulateLatencyItems, d => d.SimulateLatencySelection, o => o ? "Yes" : "No", o => o ? "Yes" : "No");
+			_useResultDelay.BindChecked(dataContext, d => d.UseResultDelay);
+			_numberOfWebServiceRequestsSent.BindText(dataContext, d => d.NumberOfWebServiceRequestsSent, o => o.ToString());
 			_function.BindItemsAndSelection(dataContext, d => d.Operators, d => d.SelectedOperator, o => o.EnumToString(), o => o.EnumToString());
 			_operand1.BindUpdateTextBindingWhileChanging(dataContext, d => d.UpdateInRealTime);
 			_operand1.BindText(dataContext, d => d.Operand1, true);

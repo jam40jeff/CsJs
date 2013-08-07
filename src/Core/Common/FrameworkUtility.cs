@@ -184,7 +184,7 @@ namespace MorseCode.CsJs.Common
 
 		#endregion TryParse
 
-		[InlineCode("debugger;")]
+		[InlineCode("debugger")]
 		public static void Debugger()
 		{
 		}

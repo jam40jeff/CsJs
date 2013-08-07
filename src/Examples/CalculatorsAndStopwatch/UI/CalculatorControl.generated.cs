@@ -5,6 +5,8 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
 		protected global::MorseCode.CsJs.UI.Controls.DropDown @_updateInRealTime { get { return FindControl<global::MorseCode.CsJs.UI.Controls.DropDown>("_updateInRealTime"); } }
 		protected global::MorseCode.CsJs.UI.Controls.Panel @_simulateLatencyPanel { get { return FindControl<global::MorseCode.CsJs.UI.Controls.Panel>("_simulateLatencyPanel"); } }
 		protected global::MorseCode.CsJs.UI.Controls.DropDown @_simulateLatency { get { return FindControl<global::MorseCode.CsJs.UI.Controls.DropDown>("_simulateLatency"); } }
+		protected global::MorseCode.CsJs.UI.Controls.CheckBox @_useResultDelay { get { return FindControl<global::MorseCode.CsJs.UI.Controls.CheckBox>("_useResultDelay"); } }
+		protected global::MorseCode.CsJs.UI.Controls.Label @_numberOfWebServiceRequestsSent { get { return FindControl<global::MorseCode.CsJs.UI.Controls.Label>("_numberOfWebServiceRequestsSent"); } }
 		protected global::MorseCode.CsJs.UI.Controls.DropDown @_function { get { return FindControl<global::MorseCode.CsJs.UI.Controls.DropDown>("_function"); } }
 		protected global::MorseCode.CsJs.UI.Controls.TextBox @_operand1 { get { return FindControl<global::MorseCode.CsJs.UI.Controls.TextBox>("_operand1"); } }
 		protected global::MorseCode.CsJs.UI.Controls.Label @_operator { get { return FindControl<global::MorseCode.CsJs.UI.Controls.Label>("_operator"); } }
@@ -27,6 +29,10 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.UI
   <control type=""MorseCode.CsJs.UI.Controls.Panel"" controlid=""_simulateLatencyPanel"" style=""padding: 15px; background-color: rgb(192,192,255);"">
     <control type=""MorseCode.CsJs.UI.Controls.Label"" text=""Simulate Latency: "" />
     <control type=""MorseCode.CsJs.UI.Controls.DropDown"" controlid=""_simulateLatency"" />
+    <control type=""MorseCode.CsJs.UI.Controls.CheckBox"" controlid=""_useResultDelay"" style=""margin-left: 25px;"" />
+    <control type=""MorseCode.CsJs.UI.Controls.Label"" text="" Use Result Delay"" />
+    <control type=""MorseCode.CsJs.UI.Controls.Label"" text=""Number Of Web Service Requests Sent: "" style=""padding-left: 25px;"" />
+    <control type=""MorseCode.CsJs.UI.Controls.Label"" controlid=""_numberOfWebServiceRequestsSent"" />
   </control>
   <control type=""MorseCode.CsJs.UI.Controls.Panel"" style=""padding: 15px; background-color: rgb(128,128,128);"">
     <control type=""MorseCode.CsJs.UI.Controls.DropDown"" controlid=""_function"" skincategory=""Lighter"" />

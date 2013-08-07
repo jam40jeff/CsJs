@@ -16,7 +16,7 @@ namespace MorseCode.CsJs.Net
 		private string _username;
 		private string _password;
 		private string _url;
-		private TimeSpan _timeout = new TimeSpan(0, 1, 0);
+		private TimeSpan _timeout = TimeSpan.FromMinutes(1);
 
 		public void Invoke(string method, IDictionary<string, object> parameters, Action<object> successCallback, Action<jQueryXmlHttpRequest, string, string> errorCallback)
 		{

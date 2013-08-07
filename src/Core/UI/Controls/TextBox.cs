@@ -21,8 +21,9 @@ namespace MorseCode.CsJs.UI.Controls
 		{
 			_input = (InputElement)Document.CreateElement("input");
 			_input.Type = "text";
-			jQuery.FromElement(_input).Keyup(e => OnTextChanging());
-			jQuery.FromElement(_input).Change(e => OnTextChanged());
+			jQueryObject inputJQueryObject = jQuery.FromElement(_input);
+			inputJQueryObject.Keyup(e => OnTextChanging());
+			inputJQueryObject.Change(e => OnTextChanged());
 		}
 
 		protected override IEnumerable<Element> GetRootElements()
@@ -222,7 +223,7 @@ namespace MorseCode.CsJs.UI.Controls
 			{
 				base.ParseAttributeAfterSkin(name, value, childControlsById, addPostSkinAction);
 
-				if (name.ToLower() == "Updatetextbindingwhilechanging")
+				if (name.ToLower() == "updatetextbindingwhilechanging")
 				{
 					addPostSkinAction(control => control.SetUpdateTextBindingWhileChanging(value != null && value.ToLower() == "true"));
 				}

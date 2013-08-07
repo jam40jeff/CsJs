@@ -8,6 +8,8 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel
 		ObservableProperty<bool?> UpdateInRealTimeSelection { get; }
 		CalculatedProperty<bool> UpdateInRealTime { get; }
 		IReadableObservableProperty<bool> SupportsAsync { get; }
+		ObservableProperty<bool> UseResultDelay { get; }
+		IReadableObservableProperty<int> NumberOfWebServiceRequestsSent { get; }
 		ObservableCollection<bool> SimulateLatencyItems { get; }
 		ObservableProperty<bool?> SimulateLatencySelection { get; }
 		CalculatedProperty<bool> SimulateLatency { get; }

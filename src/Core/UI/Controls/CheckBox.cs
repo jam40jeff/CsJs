@@ -1,26 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Html;
+using System.Xml;
 using MorseCode.CsJs.Common.Observable;
+using jQueryApi;
 
 namespace MorseCode.CsJs.UI.Controls
 {
+	[ControlParser(typeof(Parser))]
 	public class CheckBox : ControlBase
 	{
-		private CheckBoxElement _checkBox;
+		private CheckBoxElement _input;
+
+		private readonly Styles _styles = new Styles();
 
 		private IBinding _checkedBinding;
 		private IBinding _enabledBinding;
 
 		protected override void CreateElements()
 		{
-			_checkBox = (CheckBoxElement)Document.CreateElement("input");
-			_checkBox.Type = "checkbox";
+			_input = (CheckBoxElement)Document.CreateElement("input");
+			_input.Type = "checkbox";
+			jQueryObject inputJQueryObject = jQuery.FromElement(_input);
+			inputJQueryObject.Change(e => OnCheckedChanged());
+			_styles.AttachToElement(_input);
 		}
 
 		protected override IEnumerable<Element> GetRootElements()
 		{
-			return new[] { _checkBox };
+			return new[] { _input };
 		}
 
 		private bool Checked
@@ -28,14 +36,14 @@ namespace MorseCode.CsJs.UI.Controls
 			get
 			{
 				EnsureElementsCreated();
-				return _checkBox.Checked;
+				return _input.Checked;
 			}
 			set
 			{
 				EnsureElementsCreated();
-				if (_checkBox.Checked != value)
+				if (_input.Checked != value)
 				{
-					_checkBox.Checked = value;
+					_input.Checked = value;
 					OnCheckedChanged();
 				}
 			}
@@ -56,12 +64,12 @@ namespace MorseCode.CsJs.UI.Controls
 			get
 			{
 				EnsureElementsCreated();
-				return !_checkBox.Disabled;
+				return !_input.Disabled;
 			}
 			set
 			{
 				EnsureElementsCreated();
-				_checkBox.Disabled = !value;
+				_input.Disabled = !value;
 			}
 		}
 
@@ -144,6 +152,29 @@ namespace MorseCode.CsJs.UI.Controls
 					},
 				d => getEnabledProperty(d).Changed -= updateControlEventHandler);
 			AddBinding(_enabledBinding);
+		}
+
+		public Styles Styles
+		{
+			get { return _styles; }
+		}
+
+		public class Parser : ControlParserBase<CheckBox>
+		{
+			protected override CheckBox CreateControl(XmlNode node, Dictionary<string, ControlBase> childControlsById)
+			{
+				return new CheckBox();
+			}
+
+			protected override void ParseAttributeAfterSkin(string name, string value, Dictionary<string, ControlBase> childControlsById, Action<Action<CheckBox>> addPostSkinAction)
+			{
+				base.ParseAttributeAfterSkin(name, value, childControlsById, addPostSkinAction);
+
+				if (name.ToLower() == "style")
+				{
+					addPostSkinAction(control => control.Styles.ParseStyleString(value));
+				}
+			}
 		}
 	}
 }

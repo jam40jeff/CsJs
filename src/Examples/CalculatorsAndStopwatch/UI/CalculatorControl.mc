@@ -6,6 +6,10 @@
   <control type="MorseCode.CsJs.UI.Controls.Panel" controlid="_simulateLatencyPanel" style="padding: 15px; background-color: rgb(192,192,255);">
     <control type="MorseCode.CsJs.UI.Controls.Label" text="Simulate Latency: " />
     <control type="MorseCode.CsJs.UI.Controls.DropDown" controlid="_simulateLatency" />
+    <control type="MorseCode.CsJs.UI.Controls.CheckBox" controlid="_useResultDelay" style="margin-left: 25px;" />
+    <control type="MorseCode.CsJs.UI.Controls.Label" text=" Use Result Delay" />
+    <control type="MorseCode.CsJs.UI.Controls.Label" text="Number Of Web Service Requests Sent: " style="padding-left: 25px;" />
+    <control type="MorseCode.CsJs.UI.Controls.Label" controlid="_numberOfWebServiceRequestsSent" />
   </control>
   <control type="MorseCode.CsJs.UI.Controls.Panel" style="padding: 15px; background-color: rgb(128,128,128);">
     <control type="MorseCode.CsJs.UI.Controls.DropDown" controlid="_function" skincategory="Lighter" />

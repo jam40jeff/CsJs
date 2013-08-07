@@ -8,12 +8,17 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel
 {
 	public class RemoteCalculatorViewModel : CalculatorViewModelBase
 	{
+		private readonly ObservableProperty<bool> _useResultDelay;
+		private readonly ObservableProperty<int> _numberOfWebServiceRequestsSent;
 		private readonly AsyncCalculatedProperty<string> _result;
 		private readonly CalculatedProperty<string> _resultToDisplay;
 
 		public RemoteCalculatorViewModel()
 			: base(true)
 		{
+			_useResultDelay = new ObservableProperty<bool>();
+			_useResultDelay.Changed += (sender, args) => _result.Delay = TimeSpan.FromSeconds(_useResultDelay.Value ? 0.5 : 0);
+			_numberOfWebServiceRequestsSent = new ObservableProperty<int>();
 			_result = AsyncCalculatedProperty<string>.Create(Operand1, Operand2, SelectedOperator,
 			                                                 (operand1, operand2, selectedOperator, setValue) =>
 				                                                 {
@@ -63,6 +68,7 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel
 							                                                 default:
 								                                                 throw UnhandledEnumValueExceptionFactory.Create(selectedOperator.Value.Value);
 						                                                 }
+						                                                 _numberOfWebServiceRequestsSent.Value++;
 						                                                 method(FrameworkUtility.DoubleTryParse(operand1.Value), FrameworkUtility.DoubleTryParse(operand2.Value), SimulateLatency.Value, o => setValue(o.SafeToString()), (request, textStatus, error) => setValue("Error: " + error));
 					                                                 }
 				                                                 });
@@ -72,6 +78,16 @@ namespace MorseCode.CsJs.Examples.CalculatorsAndStopwatch.ViewModel
 		public override IReadableObservableProperty<string> Result
 		{
 			get { return _resultToDisplay; }
+		}
+
+		public override ObservableProperty<bool> UseResultDelay
+		{
+			get { return _useResultDelay; }
+		}
+
+		public override IReadableObservableProperty<int> NumberOfWebServiceRequestsSent
+		{
+			get { return _numberOfWebServiceRequestsSent; }
 		}
 	}
 }
